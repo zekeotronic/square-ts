@@ -577,7 +577,7 @@ interface CatalogObject {
   updated_at? : string;
   version? : number;
   is_deleted? : boolean;
-  custom_attribute_values? : Map<string, CatalogCustomAttributeValue>[]: 
+  custom_attribute_values? : Map<string, CatalogCustomAttributeValue>[];
   catalog_v1_ids? : CatalogV1Id[];
   present_at_all_locations? : boolean;
   present_at_location_ids? : string[];
