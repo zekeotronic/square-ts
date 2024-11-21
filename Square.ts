@@ -1,5 +1,15 @@
 import type { ListPaymentsQueryParams, CreatePaymentBody, CancelPaymentBody, UpdatePaymentBody, ListPaymentRefundsQueryParams, RefundPaymentBody } from "./interfaces.ts";
 
+  /**
+   * @module
+   *
+   * This module contains functions to to interact with Square API.
+   *
++  * @example
++  * ```ts
++  * import Square from "jsr:@shnoice/square";
++  * ```
+   */
 class Square {
 
   accessToken : string;
