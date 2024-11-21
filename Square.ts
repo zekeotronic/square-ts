@@ -5,10 +5,10 @@ import type { ListPaymentsQueryParams, CreatePaymentBody, CancelPaymentBody, Upd
    *
    * This module contains functions to to interact with Square API.
    *
-+  * @example
-+  * ```ts
-+  * import Square from "jsr:@shnoice/square";
-+  * ```
+   * @example
+   * ```ts
+   * import Square from "jsr:@shnoice/square";
+   * ```
    */
 class Square {
 
