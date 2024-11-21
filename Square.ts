@@ -1,4 +1,4 @@
-import { ListPaymentsQueryParams, CreatePaymentBody, CancelPaymentBody, UpdatePaymentBody, ListPaymentRefundsQueryParams, RefundPaymentBody } from "./interfaces.ts";
+import type { ListPaymentsQueryParams, CreatePaymentBody, CancelPaymentBody, UpdatePaymentBody, ListPaymentRefundsQueryParams, RefundPaymentBody } from "./interfaces.ts";
 
 class Square {
 
