@@ -117,6 +117,17 @@ interface ProcessingFee {
   amount_money? : Money;
 }
 
+interface DestinationDetailsCashRefundDetails {
+  seller_supplied_money : Money;
+  change_back_money? : Money;
+}
+
+interface DestinationDetailsExternalRefundDetails {
+  type : string;
+  source : string;
+  source_id? : string;
+}
+
 export interface ListPaymentsQueryParams {
   begin_time? : string;
   end_time? : string;
@@ -168,7 +179,7 @@ export interface UpdatePaymentBody {
   idempotency_key : string;
 };
 
-export interface ListRefundsQueryParams {
+export interface ListPaymentRefundsQueryParams {
   begin_time? : string;
   end_time? : string;
   sort_order? : string;
@@ -178,3 +189,18 @@ export interface ListRefundsQueryParams {
   source_type? : string;
   limit? : number;
 };
+
+export interface RefundPaymentBody {
+  idempotency_key : string;
+  amount_money : Money;
+  app_fee_money? : Money;
+  payment_id : string;
+  destination_id : string;
+  unlinked : boolean;
+  location_id? : boolean;
+  customer_id? : string;
+  reason? : string;
+  team_member_id? : string;
+  cash_details? : DestinationDetailsCashRefundDetails;
+  external_details? : DestinationDetailsExternalRefundDetails;
+}

@@ -1,4 +1,4 @@
-import { ListPaymentsQueryParams, CreatePaymentBody, CancelPaymentBody, UpdatePaymentBody, ListRefundsQueryParams } from "./interfaces.ts";
+import { ListPaymentsQueryParams, CreatePaymentBody, CancelPaymentBody, UpdatePaymentBody, ListPaymentRefundsQueryParams, RefundPaymentBody } from "./interfaces.ts";
 
 class Square {
 
@@ -153,7 +153,7 @@ class Square {
     }
   }
 
-  public async listRefunds(params? : ListRefundsQueryParams) : Promise<string> {
+  public async listPaymentRefunds(params? : ListPaymentRefundsQueryParams) : Promise<string> {
     try {
       if (params) {
         const paramsString = this.makeParamsString(params);
@@ -176,6 +176,39 @@ class Square {
       console.log(error);
       return "Error";
       
+    }
+  }
+
+  public async refundPayment(body : RefundPaymentBody) : Promise<string> {
+    try {
+      const response = await fetch(this.refundsBaseURL, {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(body)
+      });
+      return await response.json();
+      
+    } catch (error) {
+      console.log(error);
+      return "Error";
+    }
+  }
+
+  public async getPaymentRefund(refundID : string) : Promise<string> {
+    try {
+      const response = await fetch(`${this.refundsBaseURL}/${refundID}`, {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+          "Content-Type": "application/json"
+        },
+      });
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+      return "Error";
     }
   }
 }
