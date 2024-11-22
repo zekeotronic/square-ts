@@ -2430,7 +2430,9 @@ interface OrderUpdatedObject {
 };
 
 
-
+interface PaginationCursor {
+  order_value? : string;
+};
 
 interface Payment {
   id? : string;
@@ -2449,7 +2451,108 @@ interface Payment {
   delayed_until? : string;
   source_type? : string;
   card_details? : CardPaymentDetails;
-}
+  cash_details? : CashPaymentDetails;
+  bank_account_details? : BankAccountPaymentDetails;
+  external_details? : ExternalPaymentDetails;
+  wallet_details? : DigitalWalletDetails;
+  buy_now_pay_later_details? : BuyNowPayLaterDetails;
+  square_account_details? : SquareAccountDetails;
+  location_id? : string;
+  order_id? : string;
+  reference_id? : string;
+  customer_id? : string;
+  team_member_id? : string;
+  refund_ids? : string[];
+  risk_evaluation? : RiskEvaluation;
+  terminal_checkout_id? : string;
+  buyer_email_address? : string;
+  billing_address? : Address;
+  shipping_address? : Address;
+  note? : string;
+  statement_description_identifier? : string;
+  capabilities? : string[];
+  receipt_number? : string;
+  receipt_url? : string;
+  device_details? : DeviceDetails;
+  application_details? : ApplicationDetails;
+  is_offline_payment? : boolean;
+  offline_payment_details? : OfflinePaymentDetails;
+  version_token? : string;
+};
+
+interface PaymentBalanceActivityAppFeeRefundDetails {
+  payment_id? : string;
+  refund_id? : string;
+  location_id? : string;
+};
+
+interface PaymentBalanceActivityAppFeeRevenueDetail {
+  payment_id? : string;
+  location_id? : string;
+};
+
+interface PaymentBalanceActivityAutomaticSavingsDetail {
+  payment_id? : string;
+  payout_id? : string;
+};
+
+interface PaymentBalanceActivityAutomaticSavingsReversedDetail {
+  payment_id? : string;
+  payout_id? : string;
+};
+
+interface PaymentBalanceActivityChargeDetails {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivityDepositFeeDetail {
+  payout_id? : string;
+};
+
+interface PaymentBalanceActivityDepositFeeReversedDetail {
+  payout_id? : string;
+};
+
+interface PaymentBalanceActivityDisputeDetail {
+  payment_id? : string;
+  dispute_id? : string;
+};
+
+interface PaymentBalanceActivityFeeDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivityFreeProcessingDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivityHoldAdjustmentDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivityOpenDisputeDetail {
+  payment_id? : string;
+  dispute_id? : string;
+};
+
+interface PaymentBalanceActivityOtherAdjustmentDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivityOtherDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivityRefundDetail {
+  payment_id? : string;
+  refund_id? : string;
+};
+
+interface PaymentBalanceActivityReleaseAdjustmentDetail {
+  payment_id? : string;
+};
+
+
 
 interface ProcessingFee {
   effective_at? : string;
