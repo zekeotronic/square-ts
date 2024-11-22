@@ -2167,7 +2167,34 @@ interface OrderFulfillmentUpdatedUpdate {
 };
 
 interface OrderLineItem {
-  
+  uid? : string;
+  name? : string;
+  quantity : string;
+  quantity_unit? : OrderQuantityUnit;
+  note? : string;
+  catalog_object_id? : string;
+  catalog_version? : number;
+  variation_name? : string;
+  item_type? : string;
+  metadata? : Map<string, string>;
+  modifiers? : OrderLineItemModifier[];
+  applied_taxes? : OrderLineItemAppliedTax[];
+  applied_discounts? : OrderLineItemAppliedDiscount[];
+  applied_service_charges? : OrderLineItemAppliedServiceCharge[];
+  base_price_money? : Money;
+  variation_total_price_money? : Money;
+  gross_sales_money? : Money;
+  total_tax_money? : Money;
+  total_discount_money? : Money;
+  total_money? : Money;
+  pricing_blocklists? : OrderLineItemPricingBlocklists;
+  total_service_charge_money? : Money;
+};
+
+interface OrderLineItemAppliedDiscount {
+  uid? : string;
+  discount_uid : string;
+  applied_money? : string;
 };
 
 interface OrderSource {
