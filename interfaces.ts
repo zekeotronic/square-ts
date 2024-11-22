@@ -2194,23 +2194,243 @@ interface OrderLineItem {
 interface OrderLineItemAppliedDiscount {
   uid? : string;
   discount_uid : string;
-  applied_money? : string;
+  applied_money? : Money;
+};
+
+interface OrderLineItemAppliedServiceCharge {
+  uid? : string;
+  service_charge_uid : string;
+  applied_money? : Money;
+};
+
+interface OrderLineItemAppliedTax {
+  uid? : string;
+  tax_uid : string;
+  applied_money? : Money;
+};
+
+interface OrderLineItemDiscount {
+  uid? : string;
+  catalog_object_id? : string;
+  catalog_version? : number;
+  name? : string;
+  type? : string;
+  percentage? : string;
+  amount_money? : Money;
+  applied_money? : Money;
+  metadata? : Map<string, string>;
+  scope? : string;
+  reward_ids? : string[];
+  pricing_rule_id? : string;
+};
+
+interface OrderLineItemModifier {
+  uid? : string;
+  catalog_object_id? : string;
+  catalog_version? : number;
+  name? : string;
+  quantity? : string;
+  base_price_money? : Money;
+  total_price_money? : Money;
+  metadata? : Map<string, string>;
+};
+
+interface OrderLineItemPricingBlocklists {
+  blocked_discounts? : OrderLineItemPricingBlocklistsBlockedDiscount[];
+  blocked_taxes? : OrderLineItemPricingBlocklistsBlockedTax[];
+};
+
+interface OrderLineItemPricingBlocklistsBlockedDiscount {
+  uid? : string;
+  discount_uid? : string;
+  discount_catalog_object_id? : string;
+};
+
+interface OrderLineItemPricingBlocklistsBlockedTax {
+  uid? : string;
+  tax_uid? : string;
+  tax_catalog_object_id? : string;
+};
+
+interface OrderLineItemTax {
+  uid? : string;
+  catalog_object_id? : string;
+  catalog_version? : number;
+  name? : string;
+  type? : string;
+  percentage? : string;
+  metadata? : Map<string, string>;
+  applied_money? : Money;
+  scope? : string;
+  auto_applied? : boolean;
+};
+
+interface OrderMoneyAmounts {
+  total_money? : Money;
+  tax_money? : Money;
+  discount_money? : Money;
+  tip_money? : Money;
+  service_charge_money? : Money;
+};
+
+interface OrderPricingOptions {
+  auto_apply_discounts? : boolean;
+  auto_apply_taxes? : boolean;
+};
+
+interface OrderQuantityUnit {
+  measurement_unit? : MeasurementUnit;
+  precision? : number;
+  catalog_object_id? : string;
+  catalog_version? : number;
+};
+
+interface OrderReturn {
+  uid? : string;
+  source_order_id? : string;
+  return_line_items? : OrderReturnLineItem[];
+  return_service_charges? : OrderReturnServiceCharge[];
+  return_taxes? : OrderReturnTax[];
+  return_discounts? : OrderReturnDiscount[];
+  return_tips? : OrderReturnTip[];
+  rounding_adjustment? : OrderRoundingAdjustment;
+  return_amounts? : OrderMoneyAmounts;
+};
+
+interface OrderReturnDiscount {
+  uid? : string;
+  source_discount_uid? : string;
+  catalog_object_id? : string;
+  catalog_version? : number;
+  name? : string;
+  type? : string;
+  percentage? : string;
+  amount_money? : Money;
+  applied_money? : Money;
+  scope? : string;
+};
+
+interface OrderReturnLineItem {
+  uid? : string;
+  source_line_item_uid? : string;
+  name? : string;
+  quantity : string;
+  quantity_unit? : OrderQuantityUnit;
+  note? : string;
+  catalog_object_id? : string;
+  catalog_version? : number;
+  variation_name? : string;
+  item_type? : string;
+  return_modifiers? : OrderReturnLineItemModifier[];
+  applied_taxes? : OrderLineItemAppliedTax[];
+  applied_discounts? : OrderLineItemAppliedDiscount[];
+  base_price_money? : Money;
+  variation_total_price_money? : Money;
+  gross_return_money? : Money;
+  total_tax_money? : Money;
+  total_discount_money? : Money;
+  total_money? : Money;
+  applied_service_charges? : OrderLineItemAppliedServiceCharge[];
+  total_service_charge_money? : Money;
+};
+
+interface OrderReturnLineItemModifier {
+  uid? : string;
+  source_modifier_uid? : string;
+  catalog_object_id? : string;
+  catalog_version? : number;
+  name? : string;
+  base_price_money? : Money;
+  total_price_money? : Money;
+  quantity? : string;
+};
+
+interface OrderReturnServiceCharge {
+  uid? : string;
+  source_service_charge_uid? : string;
+  name? : string;
+  catalog_object_id? : string;
+  catalog_version? : number;
+  percentage? : string;
+  amount_money? : Money;
+  applied_money? : Money;
+  total_money? : Money;
+  total_tax_money? : Money;
+  calculation_phase? : string;
+  taxable? : boolean;
+  applied_taxes? : OrderLineItemAppliedTax[];
+  treatment_type? : string;
+  scope? : string;
+};
+
+interface OrderReturnTax {
+  uid? : string;
+  source_tax_uid? : string;
+  catalog_object_id? : string;
+  catalog_version? : number;
+  name? : string;
+  type? : string;
+  percentage? : string;
+  applied_money? : Money;
+  scope? : string;
+};
+
+interface OrderReturnTip {
+  uid? : string;
+  applied_money? : Money;
+  source_tender_uid? : string;
+  source_tender_id? : string;
+};
+
+interface OrderReward {
+  id : string;
+  reward_tier_id : string;
+};
+
+interface OrderRoundingAdjustment {
+  uid? : string;
+  name? : string;
+  amount_money? : Money;
+};
+
+interface OrderServiceCharge {
+  uid? : string;
+  name? : string;
+  catalog_object_id? : string;
+  catalog_version? : number;
+  percentage? : string;
+  amount_money? : Money;
+  applied_money? : Money;
+  total_money? : Money;
+  total_tax_money? : Money;
+  calculation_phase? : string;
+  taxable? : boolean;
+  applied_taxes? : OrderLineItemAppliedTax[];
+  metadata? : string;
+  type? : string;
+  treatment_type? : string;
+  scope? : string;
 };
 
 interface OrderSource {
   name : string;
 };
 
-interface OrderLineItem {
-  uid? : string;
-  name? : string;
-  quantity : string;
-  quantity_unit? : OrderQuantityUnit;
+interface OrderUpdated {
+  order_id? : string;
+  version? : number;
+  location_id? : string;
+  state? : string;
+  created_at? : string;
+  updated_at? : string;
 };
 
-interface OrderQuantityUnit {
-  measurement_unit? : MeasurementUnit;
+interface OrderUpdatedObject {
+  order_updated? : OrderUpdated;
 };
+
+
+
 
 interface Payment {
   id? : string;
