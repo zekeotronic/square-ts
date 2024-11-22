@@ -537,7 +537,7 @@ interface CatalogItemVariation {
   stockable? : boolean;
   image_ids? : string[];
   team_member_ids? : string[];
-  stockable_conversion? : CatalogStockConversionBeta;
+  stockable_conversion? : CatalogStockConversion;
 };
 
 interface CatalogMeasurementUnit {
@@ -951,12 +951,137 @@ interface Customer {
   tax_ids? : CustomerTaxIds;
 };
 
-interface CustomerDetails {
-  customer_initiated : boolean;
-  seller_keyed_in : boolean;
+interface CustomerAddressFilter {
+  postal_code? : CustomerTextFilter;
+  country? : string;
 };
 
+interface CustomerCreatedEventEventContext {
+  merge? : CustomerCreatedEventEventContextMerge;
+};
 
+interface CustomerCreatedEventEventContextMerge {
+  from_customer_ids? : string[];
+  to_customer_id? : string;
+};
+
+interface CustomerCreationSourceFilter {
+  values? : string[];
+  rule? : string;
+};
+
+interface CustomerCustomAttributeFilter {
+  key : string;
+  filter? : CustomerCustomAttributeFilterValue;
+  updated_at? : TimeRange;
+};
+
+interface CustomerCustomAttributeFilterValue {
+  email? : CustomerTextFilter;
+  phone? : CustomerTextFilter;
+  text? : CustomerTextFilter;
+  selection? : FilterValue;
+  date? : TimeRange;
+  number? : FloatNumberRange;
+  boolean? : boolean;
+  address? : CustomerAddressFilter;
+};
+
+interface CustomerCustomAttributeFilters {
+  filters? : CustomerCustomAttributeFilter[];
+};
+
+interface CustomerDeletedEventEventContext {
+  merge? : CustomerDeletedEventEventContextMerge;
+};
+
+interface CustomerDeletedEventEventContextMerge {
+  from_customer_ids? : string[];
+  to_customer_id? : string;
+};
+
+interface CustomerDetails {
+  customer_initiated? : boolean;
+  seller_keyed_in? : boolean;
+};
+
+interface CustomerFilter {
+  creation_source? : CustomerCreationSourceFilter;
+  created_at? : TimeRange;
+  updated_at? : TimeRange;
+  email_address? : CustomerTextFilter;
+  phone_number? : CustomerTextFilter;
+  reference_id? : CustomerTextFilter;
+  group_ids? : FilterValue;
+  custom_attribute? : CustomerCustomAttributeFilters;
+  segment_ids? : FilterValue;
+};
+
+interface CustomerGroup {
+  id? : string;
+  name : string;
+  created_at? : string;
+  updated_at? : string;
+};
+
+interface CustomerPreferences {
+  email_unsubscribed? : boolean;
+};
+
+interface CustomerQuery {
+  filter? : CustomerFilter;
+  sort? : CustomerSort;
+};
+
+interface CustomerSegment {
+  id? : string;
+  name : string;
+  created_at? : string;
+  updated_at? : string;
+};
+
+interface CustomerSort {
+  field? : string;
+  order? : string;
+};
+
+interface CustomerTaxIds {
+  eu_vat? : string;
+};
+
+interface CustomerTextFilter {
+  exact? : string;
+  fuzzy? : string;
+};
+
+interface DataCollectionOptions {
+  title : string;
+  body : string;
+  input_type : string;
+  collected_data? : CollectedData;
+};
+
+interface DateRange {
+  start_at? : string;
+  end_at? : string;
+};
+
+interface Destination {
+  type? : string;
+  id? : string;
+};
+
+interface DestinationDetails {
+  card_details? : DestinationDetailsCardRefundDetails;
+  cash_details? : DestinationDetailsCashRefundDetails;
+  external_details? : DestinationDetailsExternalRefundDetails;
+};
+
+interface DestinationDetailsCardRefundDetails {
+  card? : Card;
+  entry_method? : string;
+  auth_result_code? : string;
+};
 
 interface DestinationDetailsCashRefundDetails {
   seller_supplied_money : Money;
@@ -969,13 +1094,176 @@ interface DestinationDetailsExternalRefundDetails {
   source_id? : string;
 }
 
+interface Device {
+  id? : string;
+  attributes : DeviceAttributes;
+  components? : Component[];
+  status? : DeviceStatus;
+};
+
+interface DeviceAttributes {
+  type : string;
+  manufacturer : string;
+  model? : string;
+  name? : string;
+  manufacturers_id? : string;
+  updated_at? : string;
+  version? : string;
+  merchant_token? : string;
+};
+
+interface DeviceCheckoutOptions {
+  device_id : string;
+  skip_receipt_screen? : boolean;
+  collect_signature? : boolean;
+  tip_settings? : TipSettings;
+  show_itemized_cart? : boolean;
+};
+
+interface DeviceCode {
+  id? : string;
+  name? : string;
+  code? : string;
+  device_id? : string;
+  product_type : string;
+  location_id? : string;
+  status? : string;
+  pair_by? : string;
+  created_at? : string;
+  status_changed_at? : string;
+  paired_at? : string;
+};
+
+// interface DeviceComponentDetails {};
+
+interface DeviceComponentDetailsApplicationDetails {
+  application_type? : string;
+  version? : string;
+  session_location? : string;
+  device_code_id? : string;
+};
+
+interface DeviceComponentDetailsBatteryDetails {
+  visible_percent? : number;
+};
+
+interface DeviceComponentDetailsCardReaderDetails {
+  version? : string;
+};
+
+interface DeviceComponentDetailsEthernetDetails {
+  active? : boolean;
+  ip_address_v4? : string;
+};
+
+interface DeviceComponentDetailsMeasurement {
+  value? : number;
+};
+
+interface DeviceComponentDetailsNetworkInterfaceDetails {
+  ip_address_v4? : string;
+};
+
+interface DeviceComponentDetailsWiFiDetails {
+  active? : boolean;
+  ssid? : string;
+  ip_address_v4? : string;
+  secure_connection? : string;
+  signal_strength? : DeviceComponentDetailsMeasurement;
+};
+
+interface DeviceDetails {
+  device_id? : string;
+  device_installation_id? : string;
+  device_name? : string;
+};
+
+interface DeviceMetadata {
+  battery_percentage? : string;
+  charging_state? : string;
+  location_id? : string;
+  merchant_id? : string;
+  network_connection_type? : string;
+  payment_region? : string;
+  serial_number? : string;
+  os_version? : string;
+  app_version? : string;
+  wifi_network_name? : string;
+  wifi_network_strength? : string;
+  ip_address? : string;
+};
+
+interface DeviceStatus {
+  category? : string;
+};
+
+interface DigitalWalletDetails {
+  status? : string;
+  brand? : string;
+  cash_app_details? : CashAppDetails;
+};
+
+interface Dispute {
+  id? : string;
+  amount_money? : Money;
+  reason? : string;
+  state? : string;
+  due_at? : string;
+  disputed_payment? : DisputedPayment;
+  card_brand? : string;
+  created_at? : string;
+  updated_at? : string;
+  brand_dispute_id? : string;
+  reported_at? : string;
+  version? : number;
+  location_id? : string;
+};
+
+interface DisputeEvidence {
+  id? : string;
+  dispute_id? : string;
+  evidence_file? : DisputeEvidenceFile;
+  evidence_text? : string;
+  uploaded_at? : string;
+  evidence_type? : string;
+};
+
+interface DisputeEvidenceFile {
+  filename? : string;
+  filetype? : string;
+};
+
+interface DisputedPayment {
+  payment_id? : string;
+};
 
 interface Error {
-  categorty : string;
+  category : string;
   code : string;
   detail? : string;
   field? : string;
 }
+
+interface Event {
+  merchant_id? : string;
+  location_id? : string;
+  type? : string;
+  event_id? : string;
+  created_at? : string;
+  data? : EventData;
+};
+
+interface EventMetadata {
+  event_id? : string;
+  api_version? : string;
+};
+
+interface EventTypeMetadata {
+  event_type? : string;
+  api_version_introduced? : string;
+  release_status? : string;
+};
+
 interface ExternalPaymentDetails {
   type : string;
   source : string;
@@ -983,10 +1271,730 @@ interface ExternalPaymentDetails {
   source_fee_money? : Money;
 };
 
+interface FilterValue {
+  all? : string[];
+  any? : string[];
+  none? : string[];
+};
 
+interface FloatNumberRange {
+  start_at? : string;
+  end_at? : string;
+};
+
+interface Fulfillment {
+  uid? : string;
+  type? : string;
+  state? : string;
+  line_item_application? : string;
+  entries? : FulfillmentFulfillmentEntry[];
+  metadata? : Map<string, string>;
+  pickup_details? : FulfillmentPickupDetails;
+  shipment_details? : FulfillmentShipmentDetails;
+  delivery_details? : FulfillmentDeliveryDetails;
+};
+
+interface FulfillmentDeliveryDetails {
+  recipient? : FulfillmentRecipient;
+  schedule_type? : string;
+  placed_at? : string;
+  deliver_at? : string;
+  prep_time_duration? : string;
+  delivery_window_duration? : string;
+  note? : string;
+  completed_at? : string;
+  in_progress_at? : string;
+  rejected_at? : string;
+  ready_at? : string;
+  delivered_at? : string;
+  canceled_at? : string;
+  cancel_reason? : string;
+  courier_pickup_at? : string;
+  courier_pickup_window_duration? : string;
+  is_no_contact_delivery? : boolean;
+  dropoff_notes? : string;
+  courier_provider_name? : string;
+  courier_support_phone_number? : string;
+  square_delivery_id? : string;
+  external_delivery_id? : string;
+  managed_delivery? : boolean;
+};
+
+interface FulfillmentFulfillmentEntry {
+  uid : string;
+  line_item_uid : string;
+  quantity : string;
+  metadata : Map<string, string>;
+};
+
+interface FulfillmentPickupDetails {
+  recipient? : FulfillmentRecipient;
+  expires_at? : string;
+  auto_complete_duration? : string;
+  schedule_type? : string;
+  pickup_at? : string;
+  pickup_window_duration? : string;
+  prep_time_duration? : string;
+  note? : string;
+  placed_at? : string;
+  accepted_at? : string;
+  rejected_at? : string;
+  ready_at? : string;
+  expired_at? : string;
+  picked_up_at? : string;
+  canceled_at? : string;
+  cancel_reason? : string;
+  is_curbside_pickup? : boolean;
+  curbside_pickup_details? : FulfillmentPickupDetailsCurbsidePickupDetails;
+};
+
+interface FulfillmentPickupDetailsCurbsidePickupDetails {
+  curbside_details? : string;
+  buyer_arrived_at? : string;
+};
+
+interface FulfillmentRecipient {
+  customer_id? : string;
+  display_name? : string;
+  email_address? : string;
+  phone_number? : string;
+  address? : Address;
+};
+
+interface FulfillmentShipmentDetails {
+  recipient? : FulfillmentRecipient;
+  carrier? : string;
+  shipping_note? : string;
+  shipping_type? : string;
+  tracking_number? : string;
+  tracking_url? : string;
+  placed_at? : string;
+  in_progress_at? : string;
+  packaged_at? : string;
+  expected_shipped_at? : string;
+  shipped_at? : string;
+  canceled_at? : string;
+  cancel_reason? : string;
+  failed_at? : string;
+  failure_reason? : string;
+};
+
+interface GiftCardActivity {
+  id? : string;
+  type : string;
+  gan_source? : string;
+  state? : string;
+  balance_money? : Money;
+  gan? : string;
+  created_at? : string;
+  customer_ids? : string[];
+};
+
+interface GiftCardActivity {
+  id? : string;
+  type : string;
+  location_id : string;
+  created_at? : string;
+  gift_card_id? : string;
+  gift_card_gan? : string;
+  gift_card_balance_money? : Money;
+  load_activity_details? : GiftCardActivityLoad;
+  activate_activity_details? : GiftCardActivityActivate;
+  redeem_activity_details? : GiftCardActivityRedeem;
+  clear_balance_activity_details? : GiftCardActivityClearBalance;
+  deactivate_activity_details? : GiftCardActivityDeactivate;
+  adjust_increment_activity_details? : GiftCardActivityAdjustIncrement;
+  adjust_decrement_activity_details? : GiftCardActivityAdjustDecrement;
+  refund_activity_details? : GiftCardActivityRefund;
+  unlinked_activity_refund_activity_details? : GiftCardActivityUnlinkedActivityRefund;
+  import_activity_details? : GiftCardActivityImport;
+  block_activity_details? : GiftCardActivityBlock;
+  unblock_activity_details? : GiftCardActivityUnblock;
+  import_reversal_activity_details? : GiftCardActivityImportReversal;
+  transfer_balance_to_activity_details? : GiftCardActivityTransferBalanceTo;
+  transfer_balance_from_activity_details? : GiftCardActivityTransferBalanceFrom;
+};
+
+interface GiftCardActivityActivate {
+  amount_money? : Money;
+  order_id? : string;
+  line_item_uid? : string;
+  reference_id? : string;
+  buyer_payment_instrument_ids? : string[];
+};
+
+interface GiftCardActivityAdjustDecrement {
+  amount_money : Money;
+  reason : string;
+};
+
+interface GiftCardActivityAdjustIncrement {
+  amount_money : Money;
+  reason : string;
+};
+
+interface GiftCardActivityBlock {
+  reason : string;
+};
+
+interface GiftCardActivityClearBalance {
+  reason : string;
+};
+
+interface GiftCardActivityDeactivate {
+  reason : string;
+};
+
+interface GiftCardActivityImport {
+  amount_money : Money;
+};
+
+interface GiftCardActivityImportReversal {
+  amount_money : Money;
+};
+
+interface GiftCardActivityLoad {
+  amount_money? : Money;
+  order_id? : string;
+  line_item_uid? : string;
+  reference_id? : string;
+  buyer_payment_instrument_ids? : string[];
+};
+
+interface GiftCardActivityRedeem {
+  amount_money : Money;
+  payment_id? : string;
+  reference_id? : string;
+  status? : string;
+};
+
+interface GiftCardActivityRefund {
+  redeem_activity_id? : string;
+  amount_money? : Money;
+  reference_id? : string;
+  payment_id? : string;
+};
+
+interface GiftCardActivityTransferBalanceFrom {
+  transfer_to_gift_card_id : string;
+  amount_money : Money;
+};
+
+interface GiftCardActivityTransferBalanceTo {
+  transfer_from_gift_card_id : string;
+  amount_money : Money;
+};
+
+interface GiftCardActivityUnblock {
+  reason : string;
+};
+
+interface GiftCardActivityUnlinkedActivityRefund {
+  amount_money : Money;
+  reference_id? : string;
+  payment_id? : string;
+};
+
+interface InventoryAdjustment {
+  id? : string;
+  reference_id? : string;
+  from_state? : string;
+  to_state? : string;
+  location_id? : string;
+  catalog_object_id? : string;
+  catalog_object_type? : string;
+  quantity? : string;
+  total_price_money? : Money;
+  occurred_at? : string;
+  created_at? : string;
+  source ? : SourceApplication;
+  employee_id? : string;
+  team_member_id? : string;
+  transaction_id? : string;
+  refund_id? : string;
+  purchase_order_id? : string;
+  goods_receipt_id? : string;
+  adjustment_group? : InventoryAdjustmentGroup;
+};
+
+interface InventoryAdjustmentGroup {
+  id? : string;
+  root_adjustment_id? : string;
+  from_state? : string;
+  to_state? : string;
+};
+
+interface InventoryChange {
+  type? : string;
+  physical_count? : InventoryPhysicalCount;
+  adjustment? : InventoryAdjustment;
+  transfer? : InventoryTransfer;
+  measurement_unit? : CatalogMeasurementUnit;
+  measurement_unit_id? : string;
+};
+
+interface InventoryCount {
+  catalog_object_id? : string;
+  catalog_object_type? : string;
+  state? : string;
+  location_id? : string;
+  quantity? : string;
+  calculated_at? : string;
+  is_estimated? : boolean;
+};
+
+interface InventoryPhysicalCount {
+  id? : string;
+  reference_id? : string;
+  catalog_object_id? : string;
+  catalog_object_type? : string;
+  state? : string;
+  location_id? : string;
+  quantity? : string;
+  source? : SourceApplication;
+  employee_id? : string;
+  team_member_id? : string;
+  occurred_at? : string;
+  created_at? : string;
+};
+
+interface InventoryTransfer {
+  id? : string;
+  reference_id? : string;
+  state? : string;
+  from_location_id? : string;
+  to_location_id? : string;
+  catalog_object_id? : string;
+  catalog_object_type? : string;
+  quantity? : string;
+  occurred_at? : string;
+  created_at? : string;
+  source? : SourceApplication;
+  employee_id? : string;
+  team_member_id? : string;
+};
+
+interface Invoice {
+  id? : string;
+  version? : number;
+  location_id? : string;
+  order_id? : string;
+  primary_recipient? : InvoiceRecipient;
+  payment_requests? : InvoicePaymentRequest[];
+  delivery_method? : string;
+  invoice_number? : string;
+  title? : string;
+  description? : string;
+  scheduled_at? : string;
+  public_url? : string;
+  next_payment_amount_money? : Money;
+  status? : string;
+  timezone? : string;
+  created_at? : string;
+  updated_at? : string;
+  accepted_payment_methods? : InvoiceAcceptedPaymentMethods;
+  custom_fields? : InvoiceCustomField[];
+  subscription_id? : string;
+  sale_or_service_date? : string;
+  payment_conditions? : string;
+  store_payment_method_enabled? : boolean;
+  attachments? : InvoiceAttachment[];
+};
+
+interface InvoiceAcceptedPaymentMethods {
+  card? : boolean;
+  square_gift_card? : boolean;
+  bank_account? : boolean;
+  buy_now_pay_later? : boolean;
+  cash_app_pay? : boolean;
+};
+
+interface InvoiceAttachment {
+  id? : string;
+  filename? : string;
+  description? : string;
+  filesize? : number;
+  hash? : string;
+  mime_type? : string;
+  uploaded_at? : string;
+};
+
+interface InvoiceCustomField {
+  label? : string;
+  value? : string;
+  placement? : string;
+};
+
+interface InvoiceFilter {
+  location_ids : string[];
+  customer_ids? : string[];
+};
+
+interface InvoicePaymentReminder {
+  uid? : string;
+  relative_scheduled_days? : number;
+  message? : string;
+  status? : string;
+  sent_at? : string;
+};
+
+
+interface InvoiceQuery {
+  filter : InvoiceFilter;
+  sort? : InvoiceSort;
+};
+
+interface InvoiceRecipient {
+  customer_id? : string;
+  given_name? : string;
+  family_name? : string;
+  email_address? : string;
+  address? : Address;
+  phone_number? : string;
+  company_name? : string;
+  tax_ids? : InvoiceRecipientTaxIds;
+};
+
+interface InvoiceRecipientTaxIds {
+  eu_vat? : string;
+};
+
+interface InvoiceSort {
+  field : string;
+  order? : string;
+};
+
+interface ItemVariationLocationOverrides {
+  location_id? : string;
+  price_money? : Money;
+  pricing_type? : string;
+  track_inventory? : boolean;
+  inventory_alert_type? : string;
+  inventory_alert_threshold? : number;
+  sold_out? : boolean;
+  sold_out_valid_until? : string;
+};
+
+interface JobAssignment {
+  job_title : string;
+  pay_type : string;
+  hourly_rate? : Money;
+  annual_rate? : Money;
+  weekly_hours? : number;
+};
+
+interface Location {
+  id? : string;
+  name? : string;
+  address? : Address;
+  timezone? : string;
+  capabilities? : string[];
+  status? : string;
+  created_at? : string;
+  merchant_id? : string;
+  country? : string;
+  language_code? : string;
+  currency? : string;
+  phone_number? : string;
+  business_name? : string;
+  type? : string;
+  website_url? : string;
+  business_hours? : BusinessHours;
+  business_email? : string;
+  description? : string;
+  twitter_username? : string;
+  instagram_username? : string;
+  facebook_url? : string;
+  coordinates? : Coordinates;
+  logo_url? : string;
+  pos_background_url? : string;
+  mcc? : string;
+  full_format_logo_url? : string;
+  tax_ids? : TaxIds;
+};
+
+interface LocationBookingProfile {
+  location_id? : string;
+  booking_site_url? : string;
+  online_booking_enabled? : boolean;
+};
+
+interface LoyaltyAccount {
+  id? : string;
+  program_id : string;
+  balance? : number;
+  lifetime_points? : number;
+  customer_id? : string;
+  enrolled_at? : string;
+  created_at? : string;
+  updated_at? : string;
+  mapping? : LoyaltyAccountMapping;
+  expiring_point_deadlines? : LoyaltyAccountExpiringPointDeadline[];
+};
+
+interface LoyaltyAccountExpiringPointDeadline {
+  points : number;
+  expires_at : string;
+};
+
+interface LoyaltyAccountMapping {
+  id? : string;
+  created_at? : string;
+  phone_number? : string;
+};
+
+interface LoyaltyEvent {
+  id? : string;
+  type? : string;
+  created_at? : string;
+  accumulate_points? : LoyaltyEventAccumulatePoints;
+  create_reward? : LoyaltyEventCreateReward;
+  redeem_reward? : LoyaltyEventRedeemReward;
+  delete_reward? : LoyaltyEventDeleteReward;
+  adjust_points? : LoyaltyEventAdjustPoints;
+  loyalty_account_id : string;
+  location_id? : string;
+  source : string;
+  expire_points? : LoyaltyEventExpirePoints;
+  other_event? : LoyaltyEventOther;
+  accumulate_promotion_points? : LoyaltyEventAccumulatePromotionPoints;
+};
+
+interface LoyaltyEventAccumulatePoints {
+  loyalty_program_id? : string;
+  points? : number;
+  order_id? : string;
+};
+
+interface LoyaltyEventAccumulatePromotionPoints {
+  loyalty_program_id? : string;
+  loyalty_promotion_id? : string;
+  points? : number;
+  order_id? : string;
+};
+
+interface LoyaltyEventAdjustPoints {
+  loyalty_program_id? : string;
+  points : number;
+  reason? : string;
+};
+
+interface LoyaltyEventCreateReward {
+  loyalty_program_id? : string;
+  reward_id? : string;
+  points? : number;
+};
+
+interface LoyaltyEventDateTimeFilter {
+  created_at : TimeRange;
+};
+
+interface LoyaltyEventDeleteReward {
+  loyalty_program_id? : string;
+  reward_id? : string;
+  points? : number;
+};
+
+interface LoyaltyEventExpirePoints {
+  loyalty_program_id? : string;
+  points : number;
+};
+
+interface LoyaltyEventFilter {
+  loyalty_account_filter? : LoyaltyEventLoyaltyAccountFilter;
+  type_filter? : LoyaltyEventTypeFilter;
+  date_time_filter? : LoyaltyEventDateTimeFilter;
+  location_filter? : LoyaltyEventLocationFilter;
+  order_filter? : LoyaltyEventOrderFilter;
+};
+
+interface LoyaltyEventLocationFilter {
+  location_ids : string[];
+};
+
+interface LoyaltyEventLoyaltyAccountFilter {
+  loyalty_account_id : string;
+};
+
+interface LoyaltyEventOrderFilter {
+  order_id : string;
+};
+
+interface LoyaltyEventOther {
+  loyalty_program_id? : string;
+  points : number;
+};
+
+interface LoyaltyEventQuery {
+  filter? : LoyaltyEventFilter;
+};
+
+interface LoyaltyEventRedeemReward {
+  loyalty_program_id? : string;
+  reward_id? : string;
+  order_id? : string;
+};
+
+interface LoyaltyEventTypeFilter {
+  types : string[];
+};
+
+interface LoyaltyProgram {
+  id? : string;
+  status? : string;
+  reward_tiers? : LoyaltyProgramRewardTier[];
+  expiration_policy? : LoyaltyProgramExpirationPolicy;
+  terminology? : LoyaltyProgramTerminology;
+  location_ids? : string[];
+  created_at? : string;
+  updated_at? : string;
+  accrual_rules? : LoyaltyProgramAccrualRule[];
+};
+
+interface LoyaltyProgramAccrualRule {
+  accrual_type : string;
+  points? : number;
+  visit_data? : LoyaltyProgramAccrualRuleVisitData;
+  spend_data? : LoyaltyProgramAccrualRuleSpendData;
+  item_variation_data? : LoyaltyProgramAccrualRuleItemVariationData;
+  category_data? : LoyaltyProgramAccrualRuleCategoryData;
+};
+
+interface LoyaltyProgramAccrualRuleCategoryData {
+  category_id : string;
+};
+
+interface LoyaltyProgramAccrualRuleItemVariationData {
+  item_variation_id : string;
+};
+
+interface LoyaltyProgramAccrualRuleSpendData {
+  amount_money : Money
+  excluded_category_ids? : string[]
+  excluded_item_variation_ids? : string[]
+  tax_mode : string
+};
+
+interface LoyaltyProgramAccrualRuleVisitData {
+  minimum_amount_money? : Money;
+  tax_mode : string;
+};
+
+interface LoyaltyProgramExpirationPolicy {
+  expiration_duration : string;
+};
+
+interface LoyaltyProgramRewardTier {
+  id? : string
+  points : number;
+  name? : string;
+  created_at? : string;
+  pricing_rule_reference : CatalogObjectReference;
+};
+
+interface LoyaltyProgramTerminology {
+  one : string;
+  other : string;
+};
+
+interface LoyaltyPromotion {
+  id? : string;
+  name : string;
+  incentive : LoyaltyPromotionIncentive;
+  available_time : LoyaltyPromotionAvailableTimeData;
+  trigger_limit? : LoyaltyPromotionTriggerLimit;
+  status? : string;
+  created_at? : string;
+  canceled_at? : string;
+  updated_at? : string;
+  loyalty_program_id? : string;
+  minimum_spend_amount_money? : Money;
+  qualifying_item_variation_ids? : string[];
+  qualifying_category_ids? : string[];
+};
+
+interface LoyaltyPromotionAvailableTimeData {
+  start_date? : string;
+  end_date? : string;
+  time_periods : string[];
+};
+
+interface LoyaltyPromotionIncentive {
+  type : string;
+  points_multiplier_data? : LoyaltyPromotionIncentivePointsMultiplierData;
+  points_addition_data? : LoyaltyPromotionIncentivePointsAdditionData;
+};
+
+interface LoyaltyPromotionIncentivePointsAdditionData {
+  points_addition : number;
+};
+
+interface LoyaltyPromotionIncentivePointsMultiplierData {
+  multiplier? : string;
+};
+
+interface LoyaltyPromotionTriggerLimit {
+  times : number;
+  interval? : string;
+};
+
+interface LoyaltyReward {
+  id? : string;
+  status? : string;
+  loyalty_account_id : string;
+  reward_tier_id : string;
+  points? : number;
+  order_id? : string;
+  created_at? : string;
+  updated_at? : string;
+  redeemed_at? : string;
+};
+
+interface MeasurementUnit {
+  custom_unit? : MeasurementUnitCustom;
+  area_unit? : string;
+  length_unit? : string;
+  volume_unit? : string;
+  weight_unit? : string;
+  generic_unit? : string;
+  time_unit? : string;
+  type? : string;
+};
+
+interface MeasurementUnitCustom {
+  name : string;
+  abbreviation : string;
+};
+
+interface Merchant {
+  id? : string;
+  business_name? : string;
+  country : string;
+  language_code? : string;
+  currency? : string;
+  status? : string;
+  main_location_id? : string;
+  created_at? : string;
+};
+
+interface ModifierLocationOverrides {
+  location_id? : string;
+  price_money? : Money;
+  sold_out? : boolean;
+};
+
+interface Money {
+  amount? : number;
+  currency? : string;
+}
+
+interface OauthAuthorizationRevokedEventRevocationObject {
+  revoked_at? : string;
+  revoker_type? : string;
+};
 
 interface OfflinePaymentDetails {
-  client_created_at : string;
+  client_created_at? : string;
 };
 
 interface Order {
@@ -996,7 +2004,171 @@ interface Order {
   source? : OrderSource;
   customer_id? : string;
   line_items? : OrderLineItem[];
-}
+  taxes? : OrderLineItemTax[];
+  discounts? : OrderLineItemDiscount[];
+  service_charges? : OrderServiceCharge[];
+  fulfillments? : Fulfillment[];
+  returns? : OrderReturn[];
+  return_amounts? : OrderMoneyAmounts;
+  net_amounts? : OrderMoneyAmounts;
+  rounding_adjustment? : OrderRoundingAdjustment;
+  tenders? : Tender[];
+  refunds? : Refund[];
+  metadata? : Map<string, string>;
+  created_at? : string;
+  updated_at? : string;
+  closed_at? : string;
+  state? : string;
+  version? : number;
+  total_money? : Money;
+  total_tax_money? : Money;
+  total_discount_money? : Money;
+  total_tip_money? : Money;
+  total_service_charge_money? : Money;
+  ticket_name? : string;
+  pricing_options? : OrderPricingOptions;
+  rewards? : OrderReward[];
+  net_amount_due_money? : Money;
+};
+
+interface OrderCreated {
+  order_id? : string;
+  version? : number;
+  location_id? : string;
+  state? : string;
+  created_at? : string;
+};
+
+interface OrderCreatedObject {
+  order_created? : OrderCreated;
+};
+
+interface OrderEntry {
+  order_id? : string;
+  version? : number;
+  location_id? : string;
+};
+
+interface OrderFulfillment {
+  uid? : string;
+  type? : string;
+  state? : string;
+  line_item_application? : string;
+  entries? : OrderFulfillmentFulfillmentEntry[];
+  metadata? : Map<string, string>;
+  pickup_details? : OrderFulfillmentPickupDetails;
+  shipment_details? : OrderFulfillmentShipmentDetails;
+  delivery_details? : OrderFulfillmentDeliveryDetails;
+};
+
+interface OrderFulfillmentDeliveryDetails {
+  recipient? : OrderFulfillmentRecipient;
+  schedule_type? : string;
+  placed_at? : string;
+  deliver_at? : string;
+  prep_time_duration? : string;
+  delivery_window_duration? : string;
+  note? : string;
+  completed_at? : string;
+  in_progress_at? : string;
+  rejected_at? : string;
+  ready_at? : string;
+  delivered_at? : string;
+  canceled_at? : string;
+  cancel_reason? : string;
+  courier_pickup_at? : string;
+  courier_pickup_window_duration? : string;
+  is_no_contact_delivery? : boolean;
+  dropoff_notes? : string;
+  courier_provider_name? : string;
+  courier_support_phone_number? : string;
+  square_delivery_id? : string;
+  external_delivery_id? : string;
+  managed_delivery? : boolean;
+};
+
+interface OrderFulfillmentFulfillmentEntry {
+  uid? : string;
+  line_item_uid : string;
+  quantity : string;
+  metadata? : Map<string, string>;
+};
+
+interface OrderFulfillmentPickupDetails {
+  recipient? : OrderFulfillmentRecipient;
+  expires_at? : string;
+  auto_complete_duration? : string;
+  schedule_type? : string;
+  pickup_at? : string;
+  pickup_window_duration? : string;
+  prep_time_duration? : string;
+  note? : string;
+  placed_at? : string;
+  accepted_at? : string;
+  rejected_at? : string;
+  ready_at? : string;
+  expired_at? : string;
+  picked_up_at? : string;
+  canceled_at? : string;
+  cancel_reason? : string;
+  is_curbside_pickup? : boolean;
+  curbside_pickup_details? : OrderFulfillmentPickupDetailsCurbsidePickupDetails;
+};
+
+interface OrderFulfillmentPickupDetailsCurbsidePickupDetails {
+  curbside_details? : string;
+  buyer_arrived_at? : string;
+};
+
+interface OrderFulfillmentRecipient {
+  customer_id? : string;
+  display_name? : string;
+  email_address? : string;
+  phone_number? : string;
+  address? : Address;
+};
+
+interface OrderFulfillmentShipmentDetails {
+  recipient? : OrderFulfillmentRecipient;
+  carrier? : string;
+  shipping_note? : string;
+  shipping_type? : string;
+  tracking_number? : string;
+  tracking_url? : string;
+  placed_at? : string;
+  in_progress_at? : string;
+  packaged_at? : string;
+  expected_shipped_at? : string;
+  shipped_at? : string;
+  canceled_at? : string;
+  cancel_reason? : string;
+  failed_at? : string;
+  failure_reason? : string;
+};
+
+interface OrderFulfillmentUpdated {
+  order_id? : string;
+  version? : number;
+  location_id? : string;
+  state? : string;
+  created_at? : string;
+  updated_at? : string;
+  fulfillment_update? : OrderFulfillmentUpdatedUpdate[];
+};
+
+interface OrderFulfillmentUpdatedObject {
+  order_fulfillment_updated? : OrderFulfillmentUpdated;
+};
+
+interface OrderFulfillmentUpdatedUpdate {
+  fulfillment_uid? : string;
+  old_state? : string;
+  new_state? : string;
+};
+
+interface OrderLineItem {
+  
+};
 
 interface OrderSource {
   name : string;
@@ -1051,14 +2223,7 @@ interface QuickPay {
 
 
 
-interface MeasurementUnit {
 
-};
-
-interface Money {
-  amount : number;
-  currency : string;
-}
 
 export interface ListPaymentsQueryParams {
   begin_time? : string;
