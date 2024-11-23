@@ -2888,6 +2888,55 @@ interface TipSettings {
   tip_percentages? : string[];
   smart_tipping? : boolean;
 };
+interface Vendor {
+  id? : string;
+  created_at? : string;
+  updated_at? : string;
+  name? : string;
+  address? : Address;
+  contacts? : VendorContact[];
+  account_number? : string;
+  note? : string;
+  version? : number;
+  status? : string;
+};
+interface VendorContact {
+  id? : string;
+  name? : string;
+  email_address? : string;
+  phone_number? : string;
+  removed? : boolean;
+  ordinal : number;
+};
+interface WageSetting {
+  team_member_id? : string;
+  job_assignments? : JobAssignment[];
+  is_overtime_exempt? : boolean;
+  version? : number;
+  created_at? : string;
+  updated_at? : string;
+};
+interface WebhookSubscription {
+  id? : string;
+  name? : string;
+  enabled? : boolean;
+  event_types? : string[];
+  notification_url? : string;
+  api_version? : string;
+  signature_key? : string;
+  created_at? : string;
+  updated_at? : string;
+};
+interface WorkweekConfig {
+  id? : string;
+  start_of_week : string;
+  start_of_day_local_time : string;
+  version? : number;
+  created_at? : string;
+  updated_at? : string;
+};
+
+
 
 // Request Body Interfaces
 export interface CancelPaymentBody {
