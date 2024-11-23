@@ -2713,12 +2713,18 @@ interface ProcessingFee {
   effective_at? : string;
   type? : string;
   amount_money? : Money;
-}
+};
 
+interface QrCodeOptions {
+  title : string;
+  body : string;
+  barcode_contents : string;
+};
 
-
-
-
+interface QuantityRatio {
+  quantity? : number;
+  quantity_denominator? : number;
+};
 
 interface QuickPay {
   name : string;
