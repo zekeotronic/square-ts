@@ -2731,10 +2731,33 @@ interface QuickPay {
   price_money : Money;
   location_id : string;
 };
+interface Range {
+  min? : string;
+  max? : string;
+};
 
+interface ReceiptOptions {
+  payment_id : string; 
+  print_only? : boolean; 
+  is_duplicate? : boolean; 
+};
 
+interface Refund {
+  id : string;
+  location_id : string;
+  transaction_id? : string;
+  tender_id : string;
+  created_at? : string;
+  reason : string;
+  amount_money : Money;
+  status : string;
+  processing_fee_money? : Money;
+};
 
-
+interface RiskEvaluation {
+  created_at? : string;
+  risk_level? : string;
+};
 
 export interface ListPaymentsQueryParams {
   begin_time? : string;
