@@ -3,14 +3,12 @@ interface ACHDetails {
   account_number_suffix? : string;
   account_type? : string;
 };
-
 interface AcceptedPaymentMethods{
   apple_pay? : boolean;
   google_pay? : boolean;
   cash_app_pay? : boolean;
   afterpay_clearpay? : boolean;
 };
-
 interface Address {
   address_line_1 : string;
   address_line_2? : string;
@@ -27,16 +25,13 @@ interface Address {
   first_name? : string;
   last_name? : string;
 };
-
 interface AfterpayDetails {
   email_address? : string;
 };
-
 interface ApplicationDetails {
   square_product? : string;
   application_id? : string;
 };
-
 interface AppointmentSegment {
   duration_minutes? : number;
   service_variation_id? : string;
@@ -46,13 +41,11 @@ interface AppointmentSegment {
   any_team_member? : boolean;
   resource_ids? : string[];
 };
-
 interface Availability {
   start_at? : string;
   location_id? : string;
   appointment_segments? : AppointmentSegment[];
 };
-
 interface BankAccount {
   id : string;
   account_number_suffix : string;
@@ -72,7 +65,6 @@ interface BankAccount {
   version? : number;
   bank_name? : string;
 };
-
 interface BankAccountPaymentDetails {
   bank_name? : string;
   transfer_type? : string;
@@ -83,7 +75,6 @@ interface BankAccountPaymentDetails {
   ach_details : ACHDetails;
   errors : Error[];
 };
-
 interface Booking {
   id? : string;
   version? : number;
@@ -103,13 +94,11 @@ interface Booking {
   source? : string;
   address? : Address;
 };
-
 interface BookingCreatorDetails {
   creator_type? : string;
   team_member_id? : string;
   customer_id? : string;
 };
-
 interface Break {
   id? : string;
   start_at : string;
@@ -119,7 +108,6 @@ interface Break {
   expected_duration : string;
   is_paid : boolean;
 };
-
 interface BreakType {
   id? : string;
   location_id : string;
@@ -130,7 +118,6 @@ interface BreakType {
   created_at? : string;
   updated_at? : string;
 };
-
 interface BulkCreateCustomerData {
   given_name? : string;
   family_name? : string;
@@ -144,12 +131,10 @@ interface BulkCreateCustomerData {
   birthday? : string;
   tax_ids? : CustomerTaxIds;
 };
-
 interface BulkDeleteOrderCustomAttributesRequestDeleteCustomAttribute {
   key? : string;
   order_id : string;
 };
-
 interface BulkUpdateCustomerData {
   given_name? : string;
   family_name? : string;
@@ -164,13 +149,11 @@ interface BulkUpdateCustomerData {
   tax_ids? : CustomerTaxIds;
   version? : number;
 };
-
 interface BulkUpsertOrderCustomAttributesRequestUpsertCustomAttribute {
   custom_attribute : CustomAttribute;
   idempotency_key? : string;
   order_id : string;
 };
-
 interface BusinessAppointmentSettings {
   location_types? : string[];
   alignment_time? : string;
@@ -186,7 +169,6 @@ interface BusinessAppointmentSettings {
   cancellation_policy_text? : string;
   skip_booking_flow_staff_selection? : boolean;
 };
-
 interface BusinessBookingProfile {
   seller_id? : string;
   created_at? : string;
@@ -197,23 +179,19 @@ interface BusinessBookingProfile {
   business_appointment_settings? : BusinessAppointmentSettings;
   support_seller_level_writes? : boolean;
 };
-
 interface BusinessHours {
   periods? : BusinessHoursPeriod[];
 };
-
 interface BusinessHoursPeriod {
   day_of_week? : string;
   start_local_time? : string;
   end_local_time? : string;
 };
-
 interface BuyNowPayLaterDetails {
   brand? : string;
   afterpay_details? : AfterpayDetails;
   clearpay_details? : ClearpayDetails;
 };
-
 interface Card {
   id? : string;
   card_brand? : string;
@@ -232,8 +210,7 @@ interface Card {
   bin? : string;
   version? : number;
   card_co_brand? : string;
-}
-
+};
 interface CardForgottenEventCard {
   id? : string;
   customer_id? : string;
@@ -242,7 +219,6 @@ interface CardForgottenEventCard {
   version? : number;
   merchant_id? : string;
 };
-
 interface CardPaymentDetails {
   status? : string;
   card? : Card;
@@ -259,25 +235,21 @@ interface CardPaymentDetails {
   card_payment_timeline? : CardPaymentTimeline;
   refund_requires_card_presence? : boolean;
   errors? : Error[];
-}
-
+};
 interface CardPaymentTimeline {
   authorized_at? : string;
   captured_at? : string;
   voided_at? : string;
-}
-
+};
 interface CashAppDetails {
   buyer_full_name? : string;
   buyer_country_code? : string;
   buyer_cashtag? : string;
 };
-
 interface CashDrawerDevice {
   id? : string;
   name? : string;
 };
-
 interface CashDrawerShift {
   id? : string;
   state? : string;
@@ -301,7 +273,6 @@ interface CashDrawerShift {
   ending_team_member_id? : string;
   closing_team_member_id? : string;
 };
-
 interface CashDrawerShiftEvent {
   id? : string;
   event_type? : string;
@@ -310,7 +281,6 @@ interface CashDrawerShiftEvent {
   description? : string;
   team_member_id? : string;
 };
-
 interface CashDrawerShiftSummary {
   id? : string;
   state? : string;
@@ -325,18 +295,15 @@ interface CashDrawerShiftSummary {
   updated_at? : string;
   location_id? : string;
 };
-
 interface CashPaymentDetails {
   buyer_supplied_money : Money;
   change_back_money? : Money;
 };
-
 interface CatalogAvailabilityPeriod {
   start_local_time? : string;
   end_local_time? : string;
   day_of_week? : string;
-}
-
+};
 interface CatalogCategory {
   name? : string;
   image_ids? : string[];
@@ -350,7 +317,6 @@ interface CatalogCategory {
   ecom_seo_data? : CatalogEcomSeoData;
   path_to_root? : CategoryPathToRootNode[];
 };
-
 interface CatalogCustomAttributeDefinition {
   type : string;
   name : string;
@@ -365,25 +331,20 @@ interface CatalogCustomAttributeDefinition {
   custom_attribute_usage_count? : number;
   key? : string;
 };
-
 interface CatalogCustomAttributeDefinitionNumberConfig {
   precision? :number;
 };
-
 interface CatalogCustomAttributeDefinitionSelectionConfig {
   max_allowed_selections? : number;
   allowed_selections? : CatalogCustomAttributeDefinitionSelectionConfigCustomAttributeSelection[]
 };
-
 interface CatalogCustomAttributeDefinitionSelectionConfigCustomAttributeSelection {
   uid? : string;
   name : string;
 };
-
 interface CatalogCustomAttributeDefinitionStringConfig {
   enforce_uniqueness? : boolean;
 };
-
 interface CatalogCustomAttributeValue {
   name? : string;
   string_value? : string;
@@ -394,7 +355,6 @@ interface CatalogCustomAttributeValue {
   selection_uid_values? : string[];
   key? : string;
 };
-
 interface CatalogDiscount {
   name? : string;
   discount_type? : string;
@@ -405,25 +365,21 @@ interface CatalogDiscount {
   modify_tax_basis? : string;
   maximum_amount_money? : Money;
 };
-
 interface CatalogEcomSeoData {
   page_title? : string;
   page_description? : string;
   permalink? : string;
 };
-
 interface CatalogIdMapping {
   client_object_id? : string;
   object_id? : string;
 }; 
-
 interface CatalogImage {
   name? : string;
   url? : string;
   caption? : string;
   photo_studio_order_id? : string;
 };
-
 interface CatalogInfoResponseLimits {
   batch_upsert_max_objects_per_batch? : number;
   batch_upsert_max_total_objects? : number;
@@ -437,7 +393,6 @@ interface CatalogInfoResponseLimits {
   update_item_modifier_lists_max_modifier_lists_to_enable? : number;
   update_item_modifier_lists_max_modifier_lists_to_disable? : number;
 };
-
 interface CatalogItem {
   name? : string;
   abbreviation? : string;
@@ -463,25 +418,21 @@ interface CatalogItem {
   food_and_beverage_details? : CatalogItemFoodAndBeverageDetails;
   reporting_category? : CatalogObjectCategory;
 };
-
 interface CatalogItemFoodAndBeverageDetails {
   calorie_count? : number;
   dietary_preferences? : CatalogItemFoodAndBeverageDetailsDietaryPreference[];
   ingredients? : CatalogItemFoodAndBeverageDetailsIngredient[];
 };
-
 interface CatalogItemFoodAndBeverageDetailsDietaryPreference {
   type? : string;
   standard_name? : string;
   custom_name? : string;
 };
-
 interface CatalogItemFoodAndBeverageDetailsIngredient {
   type? : string;
   standard_name? : string;
   custom_name? : string;
 };
-
 interface CatalogItemModifierListInfo {
   modifier_list_id : string;
   modifier_overrides? : CatalogModifierOverride[];
@@ -490,7 +441,6 @@ interface CatalogItemModifierListInfo {
   enabled? : boolean;
   ordinal? : number;
 };
-
 interface CatalogItemOption {
   name? : string;
   display_name? : string;
@@ -498,11 +448,9 @@ interface CatalogItemOption {
   show_colors? : boolean;
   values? : CatalogObject[];
 };
-
 interface CatalogItemOptionForItem {
   item_option_id? : string;
 };
-
 interface CatalogItemOptionValue {
   item_option_id? : string;
   name? : string;
@@ -510,12 +458,10 @@ interface CatalogItemOptionValue {
   color? : string;
   ordinal? : number;
 };
-
 interface CatalogItemOptionValueForItemVariation {
   item_option_id? : string;
   item_option_value_id? : string;
 };
-
 interface CatalogItemVariation {
   item_id? : string;
   name? : string;
@@ -539,12 +485,10 @@ interface CatalogItemVariation {
   team_member_ids? : string[];
   stockable_conversion? : CatalogStockConversion;
 };
-
 interface CatalogMeasurementUnit {
   measurement_unit? : MeasurementUnit;
   precision? : number;
 };
-
 interface CatalogModifier {
   name? : string;
   price_money? : Money;
@@ -553,7 +497,6 @@ interface CatalogModifier {
   location_overrides? : ModifierLocationOverrides[]
   image_id? : string;
 };
-
 interface CatalogModifierList {
   name? : string;
   ordinal? : number;
@@ -565,12 +508,10 @@ interface CatalogModifierList {
   text_required? : boolean;
   internal_name? : string;
 };
-
 interface CatalogModifierOverride {
   modifier_id : string;
   on_by_default? : boolean;
 };
-
 interface CatalogObject {
   type : string;
   id : string;
@@ -602,21 +543,17 @@ interface CatalogObject {
   subscription_plan_variation_data? : CatalogSubscriptionPlanVariation;
   availability_period_data? : CatalogAvailabilityPeriod;
 };
-
 interface CatalogObjectBatch {
   objects : CatalogObject[];
 };
-
 interface CatalogObjectCategory {
   id? : string;
   ordinal? : number;
 };
-
 interface CatalogObjectReference {
   object_id? : string;
   catalog_version? : number;
 };
-
 interface CatalogPricingRule {
   name? : string;
   time_period_ids? : string[];
@@ -631,7 +568,6 @@ interface CatalogPricingRule {
   minimum_order_subtotal_money? : Money;
   customer_group_ids_any? : string[];
 };
-
 interface CatalogProductSet {
   name? : string;
   product_ids_any? : string[];
@@ -641,7 +577,6 @@ interface CatalogProductSet {
   quantity_max? : number;
   all_products? : boolean;
 };
-
 interface CatalogQuery {
   sorted_attribute_query? : CatalogQuerySortedAttribute;
   exact_query? : CatalogQueryExact;
@@ -654,73 +589,59 @@ interface CatalogQuery {
   items_for_item_options_query? : CatalogQueryItemsForItemOptions;
   item_variations_for_item_option_values_query? : CatalogQueryItemVariationsForItemOptionValues;
 };
-
 interface CatalogQueryExact {
   attribute_name : string;
   attribute_value : string;
 };
-
 interface CatalogQueryItemVariationsForItemOptionValues {
   item_option_value_ids? : string[];
 };
-
 interface CatalogQueryItemsForItemOptions {
   item_option_ids? : string[];
 };
-
 interface CatalogQueryItemsForModifierList {
   modifier_list_ids : string[];
 };
-
 interface CatalogQueryItemsForTax {
   tax_ids : string[];
 };
-
 interface CatalogQueryPrefix {
   attribute_name : string;
   attribute_prefix : string;
 };
-
 interface CatalogQueryRange {
   attribute_name : string;
   attribute_min_value? : number;
   attribute_max_value? : number;
 };
-
 interface CatalogQuerySet {
   attribute_name : string;
   attribute_values : string[];
 };
-
 interface CatalogQuerySortedAttribute {
   attribute_name : string;
   initial_attribute_value? : string;
   sort_order? : string;
 };
-
 interface CatalogQueryText {
   keywords : string[];
 };
-
 interface CatalogQuickAmount {
   type : string;
   amount : Money;
   score? : number;
   ordinal? : number;
 };
-
 interface CatalogQuickAmountsSettings {
   option : string;
   eligible_for_auto_amounts? : boolean;
   amounts? : CatalogQuickAmount[];
 };
-
 interface CatalogStockConversion {
   stockable_item_variation_id : string;
   stockable_quantity : string;
   nonstockable_quantity : string;
 };
-
 interface CatalogSubscriptionPlan {
   name : string;
   phases? : SubscriptionPhase[];
@@ -729,7 +650,6 @@ interface CatalogSubscriptionPlan {
   eligible_category_ids? : string[];
   all_items? : boolean;
 };
-
 interface CatalogSubscriptionPlanVariation {
   name : string;
   phases : SubscriptionPhase[];
@@ -738,7 +658,6 @@ interface CatalogSubscriptionPlanVariation {
   can_prorate? : boolean;
   successor_plan_variation_id? : string;
 };
-
 interface CatalogTax {
   name? : string;
   calculation_phase? : string;
@@ -747,25 +666,20 @@ interface CatalogTax {
   enabled? : boolean;
   applies_to_product_set_id? : string;
 };
-
 interface CatalogTimePeriod {
   event? : string;
 };
-
 interface CatalogV1Id {
   catalog_v1_id? : string;
   location_id? : string;
 };
-
 interface CatalogVersionUpdatedEventCatalogVersion {
   updated_at? : string;
 };
-
 interface CategoryPathToRootNode {
   category_id? : string;
   category_name? : string;
 };
-
 interface Checkout {
   id? : string;
   checkout_page_url? : string;
@@ -777,7 +691,6 @@ interface Checkout {
   order? : Order;
   created_at? : string;
 };
-
 interface CheckoutLocationSettings {
   location_id? : string;
   customer_notes_enabled? : boolean;
@@ -787,23 +700,19 @@ interface CheckoutLocationSettings {
   coupons? : CheckoutLocationSettingsCoupons;
   updated_at? : string;
 };
-
 interface CheckoutLocationSettingsBranding {
   header_type? : string;
   button_color? : string;
   button_shape? : string;
 };
-
 interface CheckoutLocationSettingsCoupons {
   enabled? : boolean;
 };
-
 interface CheckoutLocationSettingsPolicy {
   uid? : string;
   title? : string;
   description? : string;
 };
-
 interface CheckoutLocationSettingsTipping {
   percentages? : string[];
   smart_tipping_enabled? : boolean;
@@ -811,34 +720,28 @@ interface CheckoutLocationSettingsTipping {
   smart_tips? : Money[];
   default_smart_tip? : Money;
 };
-
 interface CheckoutMerchantSettings {
   payment_methods? : CheckoutMerchantSettingsPaymentMethods,
   updated_at? : string;
 };
-
 interface CheckoutMerchantSettingsPaymentMethods {
   apple_pay? : CheckoutMerchantSettingsPaymentMethodsPaymentMethod;
   google_pay? : CheckoutMerchantSettingsPaymentMethodsPaymentMethod;
   cash_app? : CheckoutMerchantSettingsPaymentMethodsPaymentMethod;
   afterpay_clearpay? : CheckoutMerchantSettingsPaymentMethodsAfterpayClearpay;
 };
-
 interface CheckoutMerchantSettingsPaymentMethodsAfterpayClearpay {
   order_eligibility_range? : CheckoutMerchantSettingsPaymentMethodsAfterpayClearpayEligibilityRange;
   item_eligibility_range? : CheckoutMerchantSettingsPaymentMethodsAfterpayClearpayEligibilityRange;
   enabled? : boolean;
 };
-
 interface CheckoutMerchantSettingsPaymentMethodsAfterpayClearpayEligibilityRange {
   min : Money;
   max : Money;
 };
-
 interface CheckoutMerchantSettingsPaymentMethodsPaymentMethod {
   enabled? : boolean;
 };
-
 interface CheckoutOptions {
   allow_tipping? : boolean;
   custom_fields? : CustomField[];
@@ -852,15 +755,12 @@ interface CheckoutOptions {
   enable_coupon? : boolean;
   enable_loyalty? : boolean;
 };
-
 interface ClearpayDetails {
   email_address? : string;
 };
-
 interface CollectedData{
   input_text? : string;
 };
-
 interface Component {
   type : string;
   application_details? : DeviceComponentDetailsApplicationDetails;
@@ -869,11 +769,9 @@ interface Component {
   wifi_details? : DeviceComponentDetailsWiFiDetails;
   ethernet_details? : DeviceComponentDetailsEthernetDetails;
 };
-
 interface ConfirmationDecision {
   has_agreed? : boolean;
 };
-
 interface ConfirmationOptions {
   title : string;
   body : string;
@@ -881,12 +779,10 @@ interface ConfirmationOptions {
   disagree_button_text? : string;
   decision? : ConfirmationDecision;
 };
-
 interface Coordinates {
   latitude? : number;
   longitude? : number;
 };
-
 interface CustomAttribute {
   key? : string;
   value? : any;
@@ -896,7 +792,6 @@ interface CustomAttribute {
   updated_at? : string;
   created_at? : string;
 };
-
 interface CustomAttributeDefinition {
   key? : string;
   schema? : object;
@@ -907,15 +802,12 @@ interface CustomAttributeDefinition {
   updated_at? : string;
   created_at? : string;
 };
-
 interface CustomAttributeDefinitionEventDataObject {
   custom_attribute_definition? : CustomAttributeDefinition;
 };
-
 interface CustomAttributeEventDataObject {
   custom_attribute? : CustomAttribute;
 };
-
 interface CustomAttributeFilter {
   custom_attribute_definition_id? : string;
   key? : string;
@@ -924,11 +816,9 @@ interface CustomAttributeFilter {
   selection_uids_filter? : string[];
   bool_filter? : boolean;
 };
-
 interface CustomField {
   title : string;
 };
-
 interface Customer {
   id? : string;
   created_at? : string;
@@ -950,32 +840,26 @@ interface Customer {
   version? : number;
   tax_ids? : CustomerTaxIds;
 };
-
 interface CustomerAddressFilter {
   postal_code? : CustomerTextFilter;
   country? : string;
 };
-
 interface CustomerCreatedEventEventContext {
   merge? : CustomerCreatedEventEventContextMerge;
 };
-
 interface CustomerCreatedEventEventContextMerge {
   from_customer_ids? : string[];
   to_customer_id? : string;
 };
-
 interface CustomerCreationSourceFilter {
   values? : string[];
   rule? : string;
 };
-
 interface CustomerCustomAttributeFilter {
   key : string;
   filter? : CustomerCustomAttributeFilterValue;
   updated_at? : TimeRange;
 };
-
 interface CustomerCustomAttributeFilterValue {
   email? : CustomerTextFilter;
   phone? : CustomerTextFilter;
@@ -986,25 +870,20 @@ interface CustomerCustomAttributeFilterValue {
   boolean? : boolean;
   address? : CustomerAddressFilter;
 };
-
 interface CustomerCustomAttributeFilters {
   filters? : CustomerCustomAttributeFilter[];
 };
-
 interface CustomerDeletedEventEventContext {
   merge? : CustomerDeletedEventEventContextMerge;
 };
-
 interface CustomerDeletedEventEventContextMerge {
   from_customer_ids? : string[];
   to_customer_id? : string;
 };
-
 interface CustomerDetails {
   customer_initiated? : boolean;
   seller_keyed_in? : boolean;
 };
-
 interface CustomerFilter {
   creation_source? : CustomerCreationSourceFilter;
   created_at? : TimeRange;
@@ -1016,91 +895,75 @@ interface CustomerFilter {
   custom_attribute? : CustomerCustomAttributeFilters;
   segment_ids? : FilterValue;
 };
-
 interface CustomerGroup {
   id? : string;
   name : string;
   created_at? : string;
   updated_at? : string;
 };
-
 interface CustomerPreferences {
   email_unsubscribed? : boolean;
 };
-
 interface CustomerQuery {
   filter? : CustomerFilter;
   sort? : CustomerSort;
 };
-
 interface CustomerSegment {
   id? : string;
   name : string;
   created_at? : string;
   updated_at? : string;
 };
-
 interface CustomerSort {
   field? : string;
   order? : string;
 };
-
 interface CustomerTaxIds {
   eu_vat? : string;
 };
-
 interface CustomerTextFilter {
   exact? : string;
   fuzzy? : string;
 };
-
 interface DataCollectionOptions {
   title : string;
   body : string;
   input_type : string;
   collected_data? : CollectedData;
 };
-
 interface DateRange {
   start_at? : string;
   end_at? : string;
 };
-
 interface Destination {
   type? : string;
   id? : string;
 };
-
 interface DestinationDetails {
   card_details? : DestinationDetailsCardRefundDetails;
   cash_details? : DestinationDetailsCashRefundDetails;
   external_details? : DestinationDetailsExternalRefundDetails;
 };
-
 interface DestinationDetailsCardRefundDetails {
   card? : Card;
   entry_method? : string;
   auth_result_code? : string;
 };
-
 interface DestinationDetailsCashRefundDetails {
   seller_supplied_money : Money;
   change_back_money? : Money;
-}
-
+};
 interface DestinationDetailsExternalRefundDetails {
   type : string;
   source : string;
   source_id? : string;
-}
-
+};
 interface Device {
   id? : string;
   attributes : DeviceAttributes;
   components? : Component[];
   status? : DeviceStatus;
 };
-
 interface DeviceAttributes {
   type : string;
   manufacturer : string;
@@ -1111,7 +974,6 @@ interface DeviceAttributes {
   version? : string;
   merchant_token? : string;
 };
-
 interface DeviceCheckoutOptions {
   device_id : string;
   skip_receipt_screen? : boolean;
@@ -1119,7 +981,6 @@ interface DeviceCheckoutOptions {
   tip_settings? : TipSettings;
   show_itemized_cart? : boolean;
 };
-
 interface DeviceCode {
   id? : string;
   name? : string;
@@ -1133,37 +994,29 @@ interface DeviceCode {
   status_changed_at? : string;
   paired_at? : string;
 };
-
 // interface DeviceComponentDetails {};
-
 interface DeviceComponentDetailsApplicationDetails {
   application_type? : string;
   version? : string;
   session_location? : string;
   device_code_id? : string;
 };
-
 interface DeviceComponentDetailsBatteryDetails {
   visible_percent? : number;
 };
-
 interface DeviceComponentDetailsCardReaderDetails {
   version? : string;
 };
-
 interface DeviceComponentDetailsEthernetDetails {
   active? : boolean;
   ip_address_v4? : string;
 };
-
 interface DeviceComponentDetailsMeasurement {
   value? : number;
 };
-
 interface DeviceComponentDetailsNetworkInterfaceDetails {
   ip_address_v4? : string;
 };
-
 interface DeviceComponentDetailsWiFiDetails {
   active? : boolean;
   ssid? : string;
@@ -1171,13 +1024,11 @@ interface DeviceComponentDetailsWiFiDetails {
   secure_connection? : string;
   signal_strength? : DeviceComponentDetailsMeasurement;
 };
-
 interface DeviceDetails {
   device_id? : string;
   device_installation_id? : string;
   device_name? : string;
 };
-
 interface DeviceMetadata {
   battery_percentage? : string;
   charging_state? : string;
@@ -1192,17 +1043,14 @@ interface DeviceMetadata {
   wifi_network_strength? : string;
   ip_address? : string;
 };
-
 interface DeviceStatus {
   category? : string;
 };
-
 interface DigitalWalletDetails {
   status? : string;
   brand? : string;
   cash_app_details? : CashAppDetails;
 };
-
 interface Dispute {
   id? : string;
   amount_money? : Money;
@@ -1218,7 +1066,6 @@ interface Dispute {
   version? : number;
   location_id? : string;
 };
-
 interface DisputeEvidence {
   id? : string;
   dispute_id? : string;
@@ -1227,23 +1074,19 @@ interface DisputeEvidence {
   uploaded_at? : string;
   evidence_type? : string;
 };
-
 interface DisputeEvidenceFile {
   filename? : string;
   filetype? : string;
 };
-
 interface DisputedPayment {
   payment_id? : string;
 };
-
 interface Error {
   category : string;
   code : string;
   detail? : string;
   field? : string;
-}
-
+};
 interface Event {
   merchant_id? : string;
   location_id? : string;
@@ -1252,36 +1095,30 @@ interface Event {
   created_at? : string;
   data? : EventData;
 };
-
 interface EventMetadata {
   event_id? : string;
   api_version? : string;
 };
-
 interface EventTypeMetadata {
   event_type? : string;
   api_version_introduced? : string;
   release_status? : string;
 };
-
 interface ExternalPaymentDetails {
   type : string;
   source : string;
   source_id? : string;
   source_fee_money? : Money;
 };
-
 interface FilterValue {
   all? : string[];
   any? : string[];
   none? : string[];
 };
-
 interface FloatNumberRange {
   start_at? : string;
   end_at? : string;
 };
-
 interface Fulfillment {
   uid? : string;
   type? : string;
@@ -1293,7 +1130,6 @@ interface Fulfillment {
   shipment_details? : FulfillmentShipmentDetails;
   delivery_details? : FulfillmentDeliveryDetails;
 };
-
 interface FulfillmentDeliveryDetails {
   recipient? : FulfillmentRecipient;
   schedule_type? : string;
@@ -1319,14 +1155,12 @@ interface FulfillmentDeliveryDetails {
   external_delivery_id? : string;
   managed_delivery? : boolean;
 };
-
 interface FulfillmentFulfillmentEntry {
   uid : string;
   line_item_uid : string;
   quantity : string;
   metadata : Map<string, string>;
 };
-
 interface FulfillmentPickupDetails {
   recipient? : FulfillmentRecipient;
   expires_at? : string;
@@ -1347,12 +1181,10 @@ interface FulfillmentPickupDetails {
   is_curbside_pickup? : boolean;
   curbside_pickup_details? : FulfillmentPickupDetailsCurbsidePickupDetails;
 };
-
 interface FulfillmentPickupDetailsCurbsidePickupDetails {
   curbside_details? : string;
   buyer_arrived_at? : string;
 };
-
 interface FulfillmentRecipient {
   customer_id? : string;
   display_name? : string;
@@ -1360,7 +1192,6 @@ interface FulfillmentRecipient {
   phone_number? : string;
   address? : Address;
 };
-
 interface FulfillmentShipmentDetails {
   recipient? : FulfillmentRecipient;
   carrier? : string;
@@ -1378,7 +1209,6 @@ interface FulfillmentShipmentDetails {
   failed_at? : string;
   failure_reason? : string;
 };
-
 interface GiftCardActivity {
   id? : string;
   type : string;
@@ -1389,7 +1219,6 @@ interface GiftCardActivity {
   created_at? : string;
   customer_ids? : string[];
 };
-
 interface GiftCardActivity {
   id? : string;
   type : string;
@@ -1414,7 +1243,6 @@ interface GiftCardActivity {
   transfer_balance_to_activity_details? : GiftCardActivityTransferBalanceTo;
   transfer_balance_from_activity_details? : GiftCardActivityTransferBalanceFrom;
 };
-
 interface GiftCardActivityActivate {
   amount_money? : Money;
   order_id? : string;
@@ -1422,37 +1250,29 @@ interface GiftCardActivityActivate {
   reference_id? : string;
   buyer_payment_instrument_ids? : string[];
 };
-
 interface GiftCardActivityAdjustDecrement {
   amount_money : Money;
   reason : string;
 };
-
 interface GiftCardActivityAdjustIncrement {
   amount_money : Money;
   reason : string;
 };
-
 interface GiftCardActivityBlock {
   reason : string;
 };
-
 interface GiftCardActivityClearBalance {
   reason : string;
 };
-
 interface GiftCardActivityDeactivate {
   reason : string;
 };
-
 interface GiftCardActivityImport {
   amount_money : Money;
 };
-
 interface GiftCardActivityImportReversal {
   amount_money : Money;
 };
-
 interface GiftCardActivityLoad {
   amount_money? : Money;
   order_id? : string;
@@ -1460,41 +1280,34 @@ interface GiftCardActivityLoad {
   reference_id? : string;
   buyer_payment_instrument_ids? : string[];
 };
-
 interface GiftCardActivityRedeem {
   amount_money : Money;
   payment_id? : string;
   reference_id? : string;
   status? : string;
 };
-
 interface GiftCardActivityRefund {
   redeem_activity_id? : string;
   amount_money? : Money;
   reference_id? : string;
   payment_id? : string;
 };
-
 interface GiftCardActivityTransferBalanceFrom {
   transfer_to_gift_card_id : string;
   amount_money : Money;
 };
-
 interface GiftCardActivityTransferBalanceTo {
   transfer_from_gift_card_id : string;
   amount_money : Money;
 };
-
 interface GiftCardActivityUnblock {
   reason : string;
 };
-
 interface GiftCardActivityUnlinkedActivityRefund {
   amount_money : Money;
   reference_id? : string;
   payment_id? : string;
 };
-
 interface InventoryAdjustment {
   id? : string;
   reference_id? : string;
@@ -1516,14 +1329,12 @@ interface InventoryAdjustment {
   goods_receipt_id? : string;
   adjustment_group? : InventoryAdjustmentGroup;
 };
-
 interface InventoryAdjustmentGroup {
   id? : string;
   root_adjustment_id? : string;
   from_state? : string;
   to_state? : string;
 };
-
 interface InventoryChange {
   type? : string;
   physical_count? : InventoryPhysicalCount;
@@ -1532,7 +1343,6 @@ interface InventoryChange {
   measurement_unit? : CatalogMeasurementUnit;
   measurement_unit_id? : string;
 };
-
 interface InventoryCount {
   catalog_object_id? : string;
   catalog_object_type? : string;
@@ -1542,7 +1352,6 @@ interface InventoryCount {
   calculated_at? : string;
   is_estimated? : boolean;
 };
-
 interface InventoryPhysicalCount {
   id? : string;
   reference_id? : string;
@@ -1557,7 +1366,6 @@ interface InventoryPhysicalCount {
   occurred_at? : string;
   created_at? : string;
 };
-
 interface InventoryTransfer {
   id? : string;
   reference_id? : string;
@@ -1573,7 +1381,6 @@ interface InventoryTransfer {
   employee_id? : string;
   team_member_id? : string;
 };
-
 interface Invoice {
   id? : string;
   version? : number;
@@ -1600,7 +1407,6 @@ interface Invoice {
   store_payment_method_enabled? : boolean;
   attachments? : InvoiceAttachment[];
 };
-
 interface InvoiceAcceptedPaymentMethods {
   card? : boolean;
   square_gift_card? : boolean;
@@ -1608,7 +1414,6 @@ interface InvoiceAcceptedPaymentMethods {
   buy_now_pay_later? : boolean;
   cash_app_pay? : boolean;
 };
-
 interface InvoiceAttachment {
   id? : string;
   filename? : string;
@@ -1618,18 +1423,15 @@ interface InvoiceAttachment {
   mime_type? : string;
   uploaded_at? : string;
 };
-
 interface InvoiceCustomField {
   label? : string;
   value? : string;
   placement? : string;
 };
-
 interface InvoiceFilter {
   location_ids : string[];
   customer_ids? : string[];
 };
-
 interface InvoicePaymentReminder {
   uid? : string;
   relative_scheduled_days? : number;
@@ -1637,13 +1439,10 @@ interface InvoicePaymentReminder {
   status? : string;
   sent_at? : string;
 };
-
-
 interface InvoiceQuery {
   filter : InvoiceFilter;
   sort? : InvoiceSort;
 };
-
 interface InvoiceRecipient {
   customer_id? : string;
   given_name? : string;
@@ -1654,16 +1453,13 @@ interface InvoiceRecipient {
   company_name? : string;
   tax_ids? : InvoiceRecipientTaxIds;
 };
-
 interface InvoiceRecipientTaxIds {
   eu_vat? : string;
 };
-
 interface InvoiceSort {
   field : string;
   order? : string;
 };
-
 interface ItemVariationLocationOverrides {
   location_id? : string;
   price_money? : Money;
@@ -1674,7 +1470,6 @@ interface ItemVariationLocationOverrides {
   sold_out? : boolean;
   sold_out_valid_until? : string;
 };
-
 interface JobAssignment {
   job_title : string;
   pay_type : string;
@@ -1682,7 +1477,6 @@ interface JobAssignment {
   annual_rate? : Money;
   weekly_hours? : number;
 };
-
 interface Location {
   id? : string;
   name? : string;
@@ -1712,13 +1506,11 @@ interface Location {
   full_format_logo_url? : string;
   tax_ids? : TaxIds;
 };
-
 interface LocationBookingProfile {
   location_id? : string;
   booking_site_url? : string;
   online_booking_enabled? : boolean;
 };
-
 interface LoyaltyAccount {
   id? : string;
   program_id : string;
@@ -1731,18 +1523,15 @@ interface LoyaltyAccount {
   mapping? : LoyaltyAccountMapping;
   expiring_point_deadlines? : LoyaltyAccountExpiringPointDeadline[];
 };
-
 interface LoyaltyAccountExpiringPointDeadline {
   points : number;
   expires_at : string;
 };
-
 interface LoyaltyAccountMapping {
   id? : string;
   created_at? : string;
   phone_number? : string;
 };
-
 interface LoyaltyEvent {
   id? : string;
   type? : string;
@@ -1759,47 +1548,39 @@ interface LoyaltyEvent {
   other_event? : LoyaltyEventOther;
   accumulate_promotion_points? : LoyaltyEventAccumulatePromotionPoints;
 };
-
 interface LoyaltyEventAccumulatePoints {
   loyalty_program_id? : string;
   points? : number;
   order_id? : string;
 };
-
 interface LoyaltyEventAccumulatePromotionPoints {
   loyalty_program_id? : string;
   loyalty_promotion_id? : string;
   points? : number;
   order_id? : string;
 };
-
 interface LoyaltyEventAdjustPoints {
   loyalty_program_id? : string;
   points : number;
   reason? : string;
 };
-
 interface LoyaltyEventCreateReward {
   loyalty_program_id? : string;
   reward_id? : string;
   points? : number;
 };
-
 interface LoyaltyEventDateTimeFilter {
   created_at : TimeRange;
 };
-
 interface LoyaltyEventDeleteReward {
   loyalty_program_id? : string;
   reward_id? : string;
   points? : number;
 };
-
 interface LoyaltyEventExpirePoints {
   loyalty_program_id? : string;
   points : number;
 };
-
 interface LoyaltyEventFilter {
   loyalty_account_filter? : LoyaltyEventLoyaltyAccountFilter;
   type_filter? : LoyaltyEventTypeFilter;
@@ -1807,38 +1588,30 @@ interface LoyaltyEventFilter {
   location_filter? : LoyaltyEventLocationFilter;
   order_filter? : LoyaltyEventOrderFilter;
 };
-
 interface LoyaltyEventLocationFilter {
   location_ids : string[];
 };
-
 interface LoyaltyEventLoyaltyAccountFilter {
   loyalty_account_id : string;
 };
-
 interface LoyaltyEventOrderFilter {
   order_id : string;
 };
-
 interface LoyaltyEventOther {
   loyalty_program_id? : string;
   points : number;
 };
-
 interface LoyaltyEventQuery {
   filter? : LoyaltyEventFilter;
 };
-
 interface LoyaltyEventRedeemReward {
   loyalty_program_id? : string;
   reward_id? : string;
   order_id? : string;
 };
-
 interface LoyaltyEventTypeFilter {
   types : string[];
 };
-
 interface LoyaltyProgram {
   id? : string;
   status? : string;
@@ -1850,7 +1623,6 @@ interface LoyaltyProgram {
   updated_at? : string;
   accrual_rules? : LoyaltyProgramAccrualRule[];
 };
-
 interface LoyaltyProgramAccrualRule {
   accrual_type : string;
   points? : number;
@@ -1859,31 +1631,25 @@ interface LoyaltyProgramAccrualRule {
   item_variation_data? : LoyaltyProgramAccrualRuleItemVariationData;
   category_data? : LoyaltyProgramAccrualRuleCategoryData;
 };
-
 interface LoyaltyProgramAccrualRuleCategoryData {
   category_id : string;
 };
-
 interface LoyaltyProgramAccrualRuleItemVariationData {
   item_variation_id : string;
 };
-
 interface LoyaltyProgramAccrualRuleSpendData {
   amount_money : Money
   excluded_category_ids? : string[]
   excluded_item_variation_ids? : string[]
   tax_mode : string
 };
-
 interface LoyaltyProgramAccrualRuleVisitData {
   minimum_amount_money? : Money;
   tax_mode : string;
 };
-
 interface LoyaltyProgramExpirationPolicy {
   expiration_duration : string;
 };
-
 interface LoyaltyProgramRewardTier {
   id? : string
   points : number;
@@ -1891,12 +1657,10 @@ interface LoyaltyProgramRewardTier {
   created_at? : string;
   pricing_rule_reference : CatalogObjectReference;
 };
-
 interface LoyaltyProgramTerminology {
   one : string;
   other : string;
 };
-
 interface LoyaltyPromotion {
   id? : string;
   name : string;
@@ -1912,32 +1676,26 @@ interface LoyaltyPromotion {
   qualifying_item_variation_ids? : string[];
   qualifying_category_ids? : string[];
 };
-
 interface LoyaltyPromotionAvailableTimeData {
   start_date? : string;
   end_date? : string;
   time_periods : string[];
 };
-
 interface LoyaltyPromotionIncentive {
   type : string;
   points_multiplier_data? : LoyaltyPromotionIncentivePointsMultiplierData;
   points_addition_data? : LoyaltyPromotionIncentivePointsAdditionData;
 };
-
 interface LoyaltyPromotionIncentivePointsAdditionData {
   points_addition : number;
 };
-
 interface LoyaltyPromotionIncentivePointsMultiplierData {
   multiplier? : string;
 };
-
 interface LoyaltyPromotionTriggerLimit {
   times : number;
   interval? : string;
 };
-
 interface LoyaltyReward {
   id? : string;
   status? : string;
@@ -1949,7 +1707,6 @@ interface LoyaltyReward {
   updated_at? : string;
   redeemed_at? : string;
 };
-
 interface MeasurementUnit {
   custom_unit? : MeasurementUnitCustom;
   area_unit? : string;
@@ -1960,12 +1717,10 @@ interface MeasurementUnit {
   time_unit? : string;
   type? : string;
 };
-
 interface MeasurementUnitCustom {
   name : string;
   abbreviation : string;
 };
-
 interface Merchant {
   id? : string;
   business_name? : string;
@@ -1976,27 +1731,22 @@ interface Merchant {
   main_location_id? : string;
   created_at? : string;
 };
-
 interface ModifierLocationOverrides {
   location_id? : string;
   price_money? : Money;
   sold_out? : boolean;
 };
-
 interface Money {
   amount? : number;
   currency? : string;
-}
-
+};
 interface OauthAuthorizationRevokedEventRevocationObject {
   revoked_at? : string;
   revoker_type? : string;
 };
-
 interface OfflinePaymentDetails {
   client_created_at? : string;
 };
-
 interface Order {
   id? : string;
   location_id : string;
@@ -2030,7 +1780,6 @@ interface Order {
   rewards? : OrderReward[];
   net_amount_due_money? : Money;
 };
-
 interface OrderCreated {
   order_id? : string;
   version? : number;
@@ -2038,17 +1787,14 @@ interface OrderCreated {
   state? : string;
   created_at? : string;
 };
-
 interface OrderCreatedObject {
   order_created? : OrderCreated;
 };
-
 interface OrderEntry {
   order_id? : string;
   version? : number;
   location_id? : string;
 };
-
 interface OrderFulfillment {
   uid? : string;
   type? : string;
@@ -2060,7 +1806,6 @@ interface OrderFulfillment {
   shipment_details? : OrderFulfillmentShipmentDetails;
   delivery_details? : OrderFulfillmentDeliveryDetails;
 };
-
 interface OrderFulfillmentDeliveryDetails {
   recipient? : OrderFulfillmentRecipient;
   schedule_type? : string;
@@ -2086,14 +1831,12 @@ interface OrderFulfillmentDeliveryDetails {
   external_delivery_id? : string;
   managed_delivery? : boolean;
 };
-
 interface OrderFulfillmentFulfillmentEntry {
   uid? : string;
   line_item_uid : string;
   quantity : string;
   metadata? : Map<string, string>;
 };
-
 interface OrderFulfillmentPickupDetails {
   recipient? : OrderFulfillmentRecipient;
   expires_at? : string;
@@ -2114,12 +1857,10 @@ interface OrderFulfillmentPickupDetails {
   is_curbside_pickup? : boolean;
   curbside_pickup_details? : OrderFulfillmentPickupDetailsCurbsidePickupDetails;
 };
-
 interface OrderFulfillmentPickupDetailsCurbsidePickupDetails {
   curbside_details? : string;
   buyer_arrived_at? : string;
 };
-
 interface OrderFulfillmentRecipient {
   customer_id? : string;
   display_name? : string;
@@ -2127,7 +1868,6 @@ interface OrderFulfillmentRecipient {
   phone_number? : string;
   address? : Address;
 };
-
 interface OrderFulfillmentShipmentDetails {
   recipient? : OrderFulfillmentRecipient;
   carrier? : string;
@@ -2145,7 +1885,6 @@ interface OrderFulfillmentShipmentDetails {
   failed_at? : string;
   failure_reason? : string;
 };
-
 interface OrderFulfillmentUpdated {
   order_id? : string;
   version? : number;
@@ -2155,17 +1894,14 @@ interface OrderFulfillmentUpdated {
   updated_at? : string;
   fulfillment_update? : OrderFulfillmentUpdatedUpdate[];
 };
-
 interface OrderFulfillmentUpdatedObject {
   order_fulfillment_updated? : OrderFulfillmentUpdated;
 };
-
 interface OrderFulfillmentUpdatedUpdate {
   fulfillment_uid? : string;
   old_state? : string;
   new_state? : string;
 };
-
 interface OrderLineItem {
   uid? : string;
   name? : string;
@@ -2190,25 +1926,21 @@ interface OrderLineItem {
   pricing_blocklists? : OrderLineItemPricingBlocklists;
   total_service_charge_money? : Money;
 };
-
 interface OrderLineItemAppliedDiscount {
   uid? : string;
   discount_uid : string;
   applied_money? : Money;
 };
-
 interface OrderLineItemAppliedServiceCharge {
   uid? : string;
   service_charge_uid : string;
   applied_money? : Money;
 };
-
 interface OrderLineItemAppliedTax {
   uid? : string;
   tax_uid : string;
   applied_money? : Money;
 };
-
 interface OrderLineItemDiscount {
   uid? : string;
   catalog_object_id? : string;
@@ -2223,7 +1955,6 @@ interface OrderLineItemDiscount {
   reward_ids? : string[];
   pricing_rule_id? : string;
 };
-
 interface OrderLineItemModifier {
   uid? : string;
   catalog_object_id? : string;
@@ -2234,24 +1965,20 @@ interface OrderLineItemModifier {
   total_price_money? : Money;
   metadata? : Map<string, string>;
 };
-
 interface OrderLineItemPricingBlocklists {
   blocked_discounts? : OrderLineItemPricingBlocklistsBlockedDiscount[];
   blocked_taxes? : OrderLineItemPricingBlocklistsBlockedTax[];
 };
-
 interface OrderLineItemPricingBlocklistsBlockedDiscount {
   uid? : string;
   discount_uid? : string;
   discount_catalog_object_id? : string;
 };
-
 interface OrderLineItemPricingBlocklistsBlockedTax {
   uid? : string;
   tax_uid? : string;
   tax_catalog_object_id? : string;
 };
-
 interface OrderLineItemTax {
   uid? : string;
   catalog_object_id? : string;
@@ -2264,7 +1991,6 @@ interface OrderLineItemTax {
   scope? : string;
   auto_applied? : boolean;
 };
-
 interface OrderMoneyAmounts {
   total_money? : Money;
   tax_money? : Money;
@@ -2272,19 +1998,16 @@ interface OrderMoneyAmounts {
   tip_money? : Money;
   service_charge_money? : Money;
 };
-
 interface OrderPricingOptions {
   auto_apply_discounts? : boolean;
   auto_apply_taxes? : boolean;
 };
-
 interface OrderQuantityUnit {
   measurement_unit? : MeasurementUnit;
   precision? : number;
   catalog_object_id? : string;
   catalog_version? : number;
 };
-
 interface OrderReturn {
   uid? : string;
   source_order_id? : string;
@@ -2296,7 +2019,6 @@ interface OrderReturn {
   rounding_adjustment? : OrderRoundingAdjustment;
   return_amounts? : OrderMoneyAmounts;
 };
-
 interface OrderReturnDiscount {
   uid? : string;
   source_discount_uid? : string;
@@ -2309,7 +2031,6 @@ interface OrderReturnDiscount {
   applied_money? : Money;
   scope? : string;
 };
-
 interface OrderReturnLineItem {
   uid? : string;
   source_line_item_uid? : string;
@@ -2333,7 +2054,6 @@ interface OrderReturnLineItem {
   applied_service_charges? : OrderLineItemAppliedServiceCharge[];
   total_service_charge_money? : Money;
 };
-
 interface OrderReturnLineItemModifier {
   uid? : string;
   source_modifier_uid? : string;
@@ -2344,7 +2064,6 @@ interface OrderReturnLineItemModifier {
   total_price_money? : Money;
   quantity? : string;
 };
-
 interface OrderReturnServiceCharge {
   uid? : string;
   source_service_charge_uid? : string;
@@ -2362,7 +2081,6 @@ interface OrderReturnServiceCharge {
   treatment_type? : string;
   scope? : string;
 };
-
 interface OrderReturnTax {
   uid? : string;
   source_tax_uid? : string;
@@ -2374,25 +2092,21 @@ interface OrderReturnTax {
   applied_money? : Money;
   scope? : string;
 };
-
 interface OrderReturnTip {
   uid? : string;
   applied_money? : Money;
   source_tender_uid? : string;
   source_tender_id? : string;
 };
-
 interface OrderReward {
   id : string;
   reward_tier_id : string;
 };
-
 interface OrderRoundingAdjustment {
   uid? : string;
   name? : string;
   amount_money? : Money;
 };
-
 interface OrderServiceCharge {
   uid? : string;
   name? : string;
@@ -2411,11 +2125,9 @@ interface OrderServiceCharge {
   treatment_type? : string;
   scope? : string;
 };
-
 interface OrderSource {
   name : string;
 };
-
 interface OrderUpdated {
   order_id? : string;
   version? : number;
@@ -2424,16 +2136,12 @@ interface OrderUpdated {
   created_at? : string;
   updated_at? : string;
 };
-
 interface OrderUpdatedObject {
   order_updated? : OrderUpdated;
 };
-
-
 interface PaginationCursor {
   order_value? : string;
 };
-
 interface Payment {
   id? : string;
   created_at? : string;
@@ -2479,117 +2187,91 @@ interface Payment {
   offline_payment_details? : OfflinePaymentDetails;
   version_token? : string;
 };
-
 interface PaymentBalanceActivityAppFeeRefundDetails {
   payment_id? : string;
   refund_id? : string;
   location_id? : string;
 };
-
 interface PaymentBalanceActivityAppFeeRevenueDetail {
   payment_id? : string;
   location_id? : string;
 };
-
 interface PaymentBalanceActivityAutomaticSavingsDetail {
   payment_id? : string;
   payout_id? : string;
 };
-
 interface PaymentBalanceActivityAutomaticSavingsReversedDetail {
   payment_id? : string;
   payout_id? : string;
 };
-
 interface PaymentBalanceActivityChargeDetails {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivityDepositFeeDetail {
   payout_id? : string;
 };
-
 interface PaymentBalanceActivityDepositFeeReversedDetail {
   payout_id? : string;
 };
-
 interface PaymentBalanceActivityDisputeDetail {
   payment_id? : string;
   dispute_id? : string;
 };
-
 interface PaymentBalanceActivityFeeDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivityFreeProcessingDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivityHoldAdjustmentDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivityOpenDisputeDetail {
   payment_id? : string;
   dispute_id? : string;
 };
-
 interface PaymentBalanceActivityOtherAdjustmentDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivityOtherDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivityRefundDetail {
   payment_id? : string;
   refund_id? : string;
 };
-
 interface PaymentBalanceActivityReleaseAdjustmentDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivityReserveHoldDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivityReserveReleaseDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivitySquareCapitalPaymentDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivitySquareCapitalReversedPaymentDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivitySquarePayrollTransferDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivitySquarePayrollTransferReversedDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivityTaxOnFeeDetail {
   payment_id? : string;
   tax_rate_description? : string;
 };
-
 interface PaymentBalanceActivityThirdPartyFeeDetail {
   payment_id? : string;
 };
-
 interface PaymentBalanceActivityThirdPartyFeeRefundDetail {
   payment_id? : string;
   refund_id? : string;
 };
-
 interface PaymentLink {
   id? : string;
   version : number;
@@ -2603,19 +2285,16 @@ interface PaymentLink {
   updated_at? : string;
   payment_note? : string;
 };
-
 interface PaymentLinkRelatedResources {
   orders? : Order[];
   subscription_plans? : CatalogObject[];
 };
-
 interface PaymentOptions {
   autocomplete? : boolean;
   delay_duration? : string;
   accept_partial_authorization? : boolean;
   delay_action? : string;
 };
-
 interface PaymentRefund {
   id : string;
   status? : string;
@@ -2634,7 +2313,6 @@ interface PaymentRefund {
   team_member_id? : string;
   terminal_refund_id? : string;
 };
-
 interface Payout {
   id : string;
   status? : string;
@@ -2649,7 +2327,6 @@ interface Payout {
   arrival_date? : string;
   end_to_end_id? : string;
 };
-
 interface PayoutEntry {
   id : string;
   payout_id : string;
@@ -2684,48 +2361,40 @@ interface PayoutEntry {
   type_square_payroll_transfer_details? : PaymentBalanceActivitySquarePayrollTransferDetail;
   type_square_payroll_transfer_reversed_details? : PaymentBalanceActivitySquarePayrollTransferReversedDetail;
 };
-
 interface PayoutFee {
   amount_money? : Money;
   effective_at? : string;
   type? : string;
 };
-
 interface Phase {
   uid? : string;
   ordinal? : number;
   order_template_id? : string;
   plan_phase_uid? : string;
 };
-
 interface PhaseInput {
   ordinal : number;
   order_template_id? : string;
 };
-
 interface PrePopulatedData {
   buyer_email? : string;
   buyer_phone_number? : string;
   buyer_address? : Address;
 };
-
 interface ProcessingFee {
   effective_at? : string;
   type? : string;
   amount_money? : Money;
 };
-
 interface QrCodeOptions {
   title : string;
   body : string;
   barcode_contents : string;
 };
-
 interface QuantityRatio {
   quantity? : number;
   quantity_denominator? : number;
 };
-
 interface QuickPay {
   name : string;
   price_money : Money;
@@ -2735,13 +2404,11 @@ interface Range {
   min? : string;
   max? : string;
 };
-
 interface ReceiptOptions {
   payment_id : string; 
   print_only? : boolean; 
   is_duplicate? : boolean; 
 };
-
 interface Refund {
   id : string;
   location_id : string;
@@ -2753,27 +2420,276 @@ interface Refund {
   status : string;
   processing_fee_money? : Money;
 };
-
 interface RiskEvaluation {
   created_at? : string;
   risk_level? : string;
 };
-
-export interface ListPaymentsQueryParams {
-  begin_time? : string;
-  end_time? : string;
-  sort_order? : string;
-  cursor? : string;
+interface SaveCardOptions {
+  customer_id : string;
+  card_id? : string;
+  reference_id? : string;
+};
+interface SearchAvailabilityFilter {
+  start_at_range : TimeRange;
   location_id? : string;
-  total? : number;
-  last_4? : string;
-  card_brand? : string;
-  limit? : number;
-  is_offline_payment? : boolean;
-  offline_begin_time? : string;
-  offline_end_time? : string;
+  segment_filters? : SegmentFilter[];
+  booking_id? : string;
+};
+interface SearchAvailabilityQuery {
+  filter : SearchAvailabilityFilter;
+};
+interface SearchEventsFilter {
+  event_types? : string[];
+  merchant_ids? : string[];
+  location_ids? : string[];
+  created_at? : TimeRange;
+};
+interface SearchEventsQuery {
+  filter? : SearchEventsFilter;
+  sort? : SearchEventsSort;
+};
+interface SearchEventsSort {
+  field? : string;
+  order? : string;
+};
+interface SearchLoyaltyAccountsRequestLoyaltyAccountQuery {
+  mappings? : LoyaltyAccountMapping[];
+  customer_ids? : string[];
+};
+interface SearchLoyaltyRewardsRequestLoyaltyRewardQuery {
+  loyalty_account_id : string;
+  status? : string;
+};
+interface SearchOrdersCustomerFilter {
+  customer_ids? : string[];
+};
+interface SearchOrdersDateTimeFilter {
+  created_at? : TimeRange;
+  updated_at? : TimeRange;
+  closed_at? : TimeRange;
+};
+interface SearchOrdersFilter  {
+  state_filter? : SearchOrdersStateFilter;
+  date_time_filter? : SearchOrdersDateTimeFilter;
+  fulfillment_filter? : SearchOrdersFulfillmentFilter;
+  source_filter? : SearchOrdersSourceFilter;
+  customer_filter? : SearchOrdersCustomerFilter;
+};
+interface SearchOrdersFulfillmentFilter {
+  fulfillment_types? : string[];
+  fulfillment_states? : string[];
+};
+interface SearchOrdersQuery {
+  filter? : SearchOrdersFilter;
+  sort? : SearchOrdersSort;
+};
+interface SearchOrdersSort {
+  sort_field : string;
+  sort_order? : string;
+};
+interface SearchOrdersSourceFilter {
+  source_names? : string[];
+};
+interface SearchOrdersStateFilter {
+  states : string[];
+};
+interface SearchSubscriptionsFilter {
+  customer_ids? : string[];
+  location_ids? : string[];
+  source_names? : string[];
+};
+interface SearchSubscriptionsQuery {
+  filter? : SearchSubscriptionsFilter;
+};
+interface SearchTeamMembersFilter {
+  location_ids? : string[];
+  status? : string;
+  is_owner? : boolean;
+};
+interface SearchTeamMembersQuery {
+  filter? : SearchTeamMembersFilter;
+};
+interface SearchVendorsRequestFilter {
+  name? : string[];
+  status? : string[];
+};
+interface SearchVendorsRequestSort {
+  field? : string;
+  order? : string;
+};
+interface SegmentFilter {
+  service_variation_id : string;
+  team_member_id_filter? : FilterValue;
+};
+interface SelectOption {
+  reference_id : string;
+  title : string;
+};
+interface SelectOptions {
+  title : string;
+  body : string;
+  options : SelectOption[];
+  selected_option? : SelectOption;
+};
+interface Shift {
+  id? : string;
+  location_id : string;
+  timezone? : string;
+  start_at : string;
+  end_at? : string;
+  wage? : ShiftWage;
+  breaks? : Break[];
+  status? : string;
+  version? : number;
+  created_at? : string;
+  updated_at? : string;
+  team_member_id? : string;
+  declared_cash_tip_money? : Money;
+};
+interface ShiftFilter {
+  location_ids? : string[];
+  status? : string;
+  start? : TimeRange;
+  end? : TimeRange;
+  workday? : ShiftWorkday;
+  team_member_ids? : string[];
+};
+interface ShiftQuery {
+  filter? : ShiftFilter;
+  sort? : ShiftSort;
+};
+interface ShiftSort {
+  field? : string;
+  order? : string;
+};
+interface ShiftWage {
+  title? : string;
+  hourly_rate? : Money;
+  job_id? : string;
+  tip_eligible? : boolean;
+};
+interface ShiftWorkday {
+  date_range? : DateRange;
+  match_shifts_by? : string;
+  default_timezone? : string;
+};
+interface ShippingFee {
+  name? : string;
+  charge : Money;
+};
+interface SignatureImage {
+  image_type? : string;
+  data? : string;
+};
+interface SignatureOptions {
+  title : string;
+  body : string;
+  signature? : SignatureImage[];
+};
+interface Site {
+  id? : string;
+  site_title? : string;
+  domain? : string;
+  is_published? : boolean;
+  created_at? : string;
+  updated_at? : string;
+};
+interface Snippet {
+  id? : string;
+  site_id? : string;
+  content : string;
+  created_at? : string;
+  updated_at? : string;
+};
+interface SourceApplication {
+  product? : string;
+  application_id? : string;
+  name? : string;
+};
+interface SquareAccountDetails {
+  payment_source_token? : string;
+  errors? : Error[];
+};
+interface StandardUnitDescription {
+  unit? : MeasurementUnit;
+  name? : string;
+  abbreviation? : string;
+};
+interface StandardUnitDescriptionGroup {
+  standard_unit_descriptions? : StandardUnitDescription[];
+  language_code? : string;
+};
+interface Subscription {
+  id? : string;
+  location_id? : string;
+  plan_variation_id? : string;
+  customer_id? : string;
+  start_date? : string;
+  canceled_date? : string;
+  charged_through_date? : string;
+  status? : string;
+  tax_percentage? : string;
+  invoice_ids? : string[];
+  price_override_money? : Money;
+  version? : number;
+  created_at? : string;
+  card_id? : string;
+  timezone? : string;
+  source? : SubscriptionSource;
+  actions? : SubscriptionAction[];
+  monthly_billing_anchor_date? : number;
+  phases? : Phase[];
+};
+interface SubscriptionAction {
+  id? : string;
+  type? : string;
+  effective_date? : string;
+  monthly_billing_anchor_date? : number;
+  phases? : Phase[];
+  new_plan_variation_id? : string;
+};
+interface SubscriptionEvent {
+  id : string;
+  subscription_event_type : string;
+  effective_date : string;
+  monthly_billing_anchor_date? : number;
+  info? : SubscriptionEventInfo;
+  phases? : Phase[];
+  plan_variation_id : string;
+};
+interface SubscriptionEventInfo {
+  detail? : string;
+  code? : string;
+};
+interface SubscriptionPhase {
+  uid? : string;
+  cadence : string;
+  periods? : number;
+  recurring_price_money? : Money;
+  ordinal? : number;
+  pricing? : SubscriptionPricing;
+};
+interface SubscriptionPricing {
+  type? : string;
+  discount_ids? : string[];
+  price_money? : Money;
+};
+interface SubscriptionSource {
+  name? : string;
+};
+interface SubscriptionTestResult {
+  id? : string;
+  status_code? : number;
+  payload? : string;
+  created_at? : string;
+  updated_at? : string;
 };
 
+
+// Request Body Interfaces
+export interface CancelPaymentBody {
+  idempotency_key : string;
+};
 export interface CreatePaymentBody {
   source_id : string
   idempotency_key : string;
@@ -2800,27 +2716,12 @@ export interface CreatePaymentBody {
   customer_details? : CustomerDetails;
   offline_payment_details? : OfflinePaymentDetails;
 };
-
-export interface CancelPaymentBody {
-  idempotency_key : string;
-};
-
-export interface UpdatePaymentBody {
-  payment : Payment,
-  idempotency_key : string;
-};
-
-export interface ListPaymentRefundsQueryParams {
-  begin_time? : string;
-  end_time? : string;
-  sort_order? : string;
-  cursor? : string;
-  location_id? : string;
-  status? : string;
-  source_type? : string;
-  limit? : number;
-};
-
+export interface CreatePaymentLinkBody {
+  idempotency_key? : string;
+  description? : string;
+  quick_pay? : QuickPay;
+  order? : Order;
+}
 export interface RefundPaymentBody {
   idempotency_key : string;
   amount_money : Money;
@@ -2835,24 +2736,44 @@ export interface RefundPaymentBody {
   cash_details? : DestinationDetailsCashRefundDetails;
   external_details? : DestinationDetailsExternalRefundDetails;
 };
-
 export interface UpdateLocationSettingsBody {
   location_settings : CheckoutLocationSettings;
 };
-
 export interface UpdateMerchantSettingsBody {
   merchant_settings : CheckoutMerchantSettings;
 };
+export interface UpdatePaymentBody {
+  payment : Payment,
+  idempotency_key : string;
+};
 
+
+// Request Params Interfaces
 export interface ListPaymentLinksQueryParams {
   cursor? : string;
   limit? : number;
 };
-
-export interface CreatePaymentLinkBody {
-  idempotency_key? : string;
-  description? : string;
-  quick_pay? : QuickPay;
-  order? : Order;
-}
-
+export interface ListPaymentsQueryParams {
+  begin_time? : string;
+  end_time? : string;
+  sort_order? : string;
+  cursor? : string;
+  location_id? : string;
+  total? : number;
+  last_4? : string;
+  card_brand? : string;
+  limit? : number;
+  is_offline_payment? : boolean;
+  offline_begin_time? : string;
+  offline_end_time? : string;
+};
+export interface ListPaymentRefundsQueryParams {
+  begin_time? : string;
+  end_time? : string;
+  sort_order? : string;
+  cursor? : string;
+  location_id? : string;
+  status? : string;
+  source_type? : string;
+  limit? : number;
+};
