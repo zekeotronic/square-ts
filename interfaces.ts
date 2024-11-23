@@ -2552,7 +2552,162 @@ interface PaymentBalanceActivityReleaseAdjustmentDetail {
   payment_id? : string;
 };
 
+interface PaymentBalanceActivityReserveHoldDetail {
+  payment_id? : string;
+};
 
+interface PaymentBalanceActivityReserveReleaseDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivitySquareCapitalPaymentDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivitySquareCapitalReversedPaymentDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivitySquarePayrollTransferDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivitySquarePayrollTransferReversedDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivityTaxOnFeeDetail {
+  payment_id? : string;
+  tax_rate_description? : string;
+};
+
+interface PaymentBalanceActivityThirdPartyFeeDetail {
+  payment_id? : string;
+};
+
+interface PaymentBalanceActivityThirdPartyFeeRefundDetail {
+  payment_id? : string;
+  refund_id? : string;
+};
+
+interface PaymentLink {
+  id? : string;
+  version : number;
+  description? : string;
+  order_id? : string;
+  checkout_options? : CheckoutOptions;
+  pre_populated_data? : PrePopulatedData;
+  url? : string;
+  long_url? : string;
+  created_at? : string;
+  updated_at? : string;
+  payment_note? : string;
+};
+
+interface PaymentLinkRelatedResources {
+  orders? : Order[];
+  subscription_plans? : CatalogObject[];
+};
+
+interface PaymentOptions {
+  autocomplete? : boolean;
+  delay_duration? : string;
+  accept_partial_authorization? : boolean;
+  delay_action? : string;
+};
+
+interface PaymentRefund {
+  id : string;
+  status? : string;
+  location_id? : string;
+  unlinked? : boolean;
+  destination_type? : string;
+  destination_details? : DestinationDetails;
+  amount_money : Money;
+  app_fee_money? : Money;
+  processing_fee? : ProcessingFee[];
+  payment_id? : string;
+  order_id? : string;
+  reason? : string;
+  created_at? : string;
+  updated_at? : string;
+  team_member_id? : string;
+  terminal_refund_id? : string;
+};
+
+interface Payout {
+  id : string;
+  status? : string;
+  location_id : string;
+  created_at? : string;
+  updated_at? : string;
+  amount_money? : Money;
+  destination? : Destination;
+  version? : number;
+  type? : string;
+  payout_fee? : PayoutFee[];
+  arrival_date? : string;
+  end_to_end_id? : string;
+};
+
+interface PayoutEntry {
+  id : string;
+  payout_id : string;
+  effective_at? : string;
+  type? : string;
+  gross_amount_money? : Money;
+  fee_amount_money? : Money;
+  net_amount_money? : Money;
+  type_app_fee_revenue_details? : PaymentBalanceActivityAppFeeRevenueDetail;
+  type_app_fee_refund_details? : PaymentBalanceActivityAppFeeRefundDetail;
+  type_automatic_savings_details? : PaymentBalanceActivityAutomaticSavingsDetail;
+  type_automatic_savings_reversed_details? : PaymentBalanceActivityAutomaticSavingsReversedDetail;
+  type_charge_details? : PaymentBalanceActivityChargeDetail;
+  type_deposit_fee_details? : PaymentBalanceActivityDepositFeeDetail;
+  type_deposit_fee_reversed_details? : PaymentBalanceActivityDepositFeeReversedDetail;
+  type_dispute_details? : PaymentBalanceActivityDisputeDetail;
+  type_fee_details? : PaymentBalanceActivityFeeDetail;
+  type_free_processing_details? : PaymentBalanceActivityFreeProcessingDetail;
+  type_hold_adjustment_details? : PaymentBalanceActivityHoldAdjustmentDetail;
+  type_open_dispute_details? : PaymentBalanceActivityOpenDisputeDetail;
+  type_other_details? : PaymentBalanceActivityOtherDetail;
+  type_other_adjustment_details? : PaymentBalanceActivityOtherAdjustmentDetail;
+  type_refund_details? : PaymentBalanceActivityRefundDetail;
+  type_release_adjustment_details? : PaymentBalanceActivityReleaseAdjustmentDetail;
+  type_reserve_hold_details? : PaymentBalanceActivityReserveHoldDetail;
+  type_reserve_release_details? : PaymentBalanceActivityReserveReleaseDetail;
+  type_square_capital_payment_details? : PaymentBalanceActivitySquareCapitalPaymentDetail;
+  type_square_capital_reversed_payment_details? : PaymentBalanceActivitySquareCapitalReversedPaymentDetail;
+  type_tax_on_fee_details? : PaymentBalanceActivityTaxOnFeeDetail;
+  type_third_party_fee_details? : PaymentBalanceActivityThirdPartyFeeDetail;
+  type_third_party_fee_refund_details? : PaymentBalanceActivityThirdPartyFeeRefundDetail;
+  type_square_payroll_transfer_details? : PaymentBalanceActivitySquarePayrollTransferDetail;
+  type_square_payroll_transfer_reversed_details? : PaymentBalanceActivitySquarePayrollTransferReversedDetail;
+};
+
+interface PayoutFee {
+  amount_money? : Money;
+  effective_at? : string;
+  type? : string;
+};
+
+interface Phase {
+  uid? : string;
+  ordinal? : number;
+  order_template_id? : string;
+  plan_phase_uid? : string;
+};
+
+interface PhaseInput {
+  ordinal : number;
+  order_template_id? : string;
+};
+
+interface PrePopulatedData {
+  buyer_email? : string;
+  buyer_phone_number? : string;
+  buyer_address? : Address;
+};
 
 interface ProcessingFee {
   effective_at? : string;
