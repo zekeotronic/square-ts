@@ -1447,10 +1447,10 @@ interface InvoicePaymentRequest {
   tipping_enabled? : boolean;
   automatic_payment_source? : string;
   card_id? : string;
-  reminders? : string;
+  reminders? : InvoicePaymentReminder[];
   computed_amount_money? : string;
-  total_completed_amount_money? : string;
-  rounding_adjustment_included_money? : string;
+  total_completed_amount_money? : Money;
+  rounding_adjustment_included_money? : Money;
 };
 interface InvoicePaymentReminder {
   uid? : string;
@@ -2207,7 +2207,7 @@ interface Payment {
   offline_payment_details? : OfflinePaymentDetails;
   version_token? : string;
 };
-interface PaymentBalanceActivityAppFeeRefundDetails {
+interface PaymentBalanceActivityAppFeeRefundDetail {
   payment_id? : string;
   refund_id? : string;
   location_id? : string;
@@ -2224,7 +2224,7 @@ interface PaymentBalanceActivityAutomaticSavingsReversedDetail {
   payment_id? : string;
   payout_id? : string;
 };
-interface PaymentBalanceActivityChargeDetails {
+interface PaymentBalanceActivityChargeDetail {
   payment_id? : string;
 };
 interface PaymentBalanceActivityDepositFeeDetail {
@@ -2704,7 +2704,190 @@ interface SubscriptionTestResult {
   created_at? : string;
   updated_at? : string;
 };
-
+interface TaxIds {
+  eu_vat? : string;
+  fr_siret? : string;
+  fr_naf? : string;
+  es_nif? : string;
+  jp_qii? : string;
+};
+interface TeamMember {
+  id? : string;
+  reference_id? : string;
+  is_owner? : boolean;
+  status? : string;
+  given_name? : string;
+  family_name? : string;
+  email_address? : string;
+  phone_number? : string;
+  created_at? : string;
+  updated_at ? : string;
+  assigned_locations? : TeamMemberAssignedLocations;
+};
+interface TeamMemberAssignedLocations {
+  assignment_type? : string;
+  location_ids? : string[];
+};
+interface TeamMemberBookingProfile {
+  team_member_id? : string;
+  description? : string;
+  display_name? : string;
+  is_bookable? : boolean;
+  profile_image_url? : string;
+};
+interface TeamMemberWage {
+  id? : string;
+  team_member_id? : string;
+  title? : string;
+  hourly_rate? : Money;
+  job_id? : string;
+  tip_eligible? : boolean;
+};
+interface Tender {
+  id? : string;
+  location_id? : string;
+  transaction_id? : string;
+  created_at? : string;
+  note? : string;
+  amount_money? : Money;
+  tip_money? : Money;
+  processing_fee_money? : Money;
+  customer_id? : string;
+  type : string;
+  card_details? : TenderCardDetails;
+  cash_details? : TenderCashDetails;
+  bank_account_details? : TenderBankAccountDetails;
+  buy_now_pay_later_details? : TenderBuyNowPayLaterDetails;
+  square_account_details? : TenderSquareAccountDetails;
+  payment_id? : string;
+};
+interface TenderBankAccountDetails {
+  status? : string;
+};
+interface TenderBuyNowPayLaterDetails {
+  buy_now_pay_later_brand? : string;
+  status? : string;
+};
+interface TenderCardDetails {
+  status? : string;
+  card? : Card;
+  entry_method? : string;
+};
+interface TenderCashDetails {
+  buyer_tendered_money? : Money;
+  change_back_money? : Money;
+};
+interface TenderSquareAccountDetails {
+  status? : string;
+};
+interface TerminalAction {
+  id? : string;
+  device_id? : string;
+  deadline_duration? : string;
+  status? : string;
+  cancel_reason? : string;
+  created_at? : string;
+  updated_at? : string;
+  app_id? : string;
+  location_id? : string;
+  type? : string;
+  qr_code_options? : QrCodeOptions;
+  save_card_options? : SaveCardOptions;
+  signature_options? : SignatureOptions;
+  confirmation_options? : ConfirmationOptions;
+  receipt_options? : ReceiptOptions;
+  data_collection_options? : DataCollectionOptions;
+  select_options? : SelectOptions;
+  device_metadata? : DeviceMetadata;
+  await_next_action? : boolean;
+  await_next_action_duration? : string;
+};
+interface TerminalActionQuery {
+  filter? : TerminalActionQueryFilter;
+  sort? : TerminalActionQuerySort;
+};
+interface TerminalActionQueryFilter {
+  device_id? : string;
+  created_at? : TimeRange;
+  status? : string;
+  type? : string;
+};
+interface TerminalActionQuerySort {
+  sort_order? : string;
+};
+interface TerminalCheckout {
+  id? : string;
+  amount_money : Money;
+  reference_id? : string;
+  note? : string;
+  order_id? : string;
+  payment_options? : PaymentOptions;
+  device_options : DeviceCheckoutOptions;
+  status? : string;
+  cancel_reason? : string;
+  payment_ids? : string[];
+  created_at? : string;
+  updated_at? : string;
+  app_id? : string;
+  location_id? : string;
+  payment_type? : string;
+  team_member_id? : string;
+  customer_id? : string;
+  app_fee_money? : Money;
+  statement_description_identifier? : string;
+  tip_money? : Money;
+};
+interface TerminalCheckoutQuery {
+  filter? : TerminalCheckoutQueryFilter;
+  sort? : TerminalCheckoutQuerySort;
+};
+interface TerminalCheckoutQueryFilter {
+  device_id? : string;
+  created_at? : TimeRange;
+  status? : string;
+};
+interface TerminalCheckoutQuerySort {
+  sort_order? : string;
+};
+interface TerminalRefund {
+  id? : string;
+  refund_id? : string;
+  payment_id : string;
+  order_id? : string;
+  amount_money : Money;
+  reason : string;
+  device_id : string;
+  deadline_duration? : string;
+  status? : string;
+  cancel_reason? : string;
+  created_at? : string;
+  updated_at? : string;
+  app_id? : string;
+  location_id? : string;
+};
+interface TerminalRefundQuery {
+  filter? : TerminalRefundQueryFilter;
+  sort? : TerminalRefundQuerySort;
+};
+interface TerminalRefundQueryFilter {
+  device_id? : string;
+  created_at? : TimeRange;
+  status? : string;
+};
+interface TerminalRefundQuerySort {
+  sort_order? : string;
+};
+interface TimeRange {
+  start_at? : string;
+  end_at? : string;
+};
+interface TipSettings {
+  allow_tipping? : boolean;
+  separate_tip_screen? : boolean;
+  custom_tip_field? : boolean;
+  tip_percentages? : string[];
+  smart_tipping? : boolean;
+};
 
 // Request Body Interfaces
 export interface CancelPaymentBody {
