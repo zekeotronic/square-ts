@@ -1095,6 +1095,12 @@ interface Event {
   created_at? : string;
   data? : EventData;
 };
+interface EventData {
+  type? : string;
+  id? : string;
+  deleted? : boolean;
+  object? : object;
+};
 interface EventMetadata {
   event_id? : string;
   api_version? : string;
@@ -1431,6 +1437,20 @@ interface InvoiceCustomField {
 interface InvoiceFilter {
   location_ids : string[];
   customer_ids? : string[];
+};
+interface InvoicePaymentRequest {
+  uid? : string;
+  request_type? : string;
+  due_date? : string;
+  fixed_amount_requested_money? : Money;
+  percentage_requested? : string;
+  tipping_enabled? : boolean;
+  automatic_payment_source? : string;
+  card_id? : string;
+  reminders? : string;
+  computed_amount_money? : string;
+  total_completed_amount_money? : string;
+  rounding_adjustment_included_money? : string;
 };
 interface InvoicePaymentReminder {
   uid? : string;
