@@ -33,7 +33,14 @@ import type {
   SearchTerminalRefundsBody,
   ListDisputesParams,
   CreateDisputeEvidenceFileBody,
-  CreateDisputeEvidenceTextBody
+  CreateDisputeEvidenceTextBody,
+  ListInvoicesQueryParams,
+  CreateInvoiceBody,
+  SearchInvoicesBody,
+  DeleteInvoiceQueryParams,
+  UpdateInvoiceBody,
+  CreateInvoiceAttachmentBody,
+  PublishInvoiceBody
 } from "./interfaces.ts";
 
 /**
@@ -55,6 +62,7 @@ export class Square {
   checkoutBaseURL : string;
   terminalBaseURL : string;
   disputesBaseURL : string;
+  invoicesBaseURL : string;
   
   constructor(accessToken : string) {
     this.accessToken = accessToken;
@@ -65,6 +73,7 @@ export class Square {
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
     this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
     this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
+    this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
   }
   // Helper methods
   private makeParamsString(options: object): string {
@@ -311,7 +320,11 @@ export class Square {
    */
   public async completePayment(paymentId : string, body? : CompletePaymentBody) : Promise<string> {
     const url = `${this.paymentsBaseURL}/${paymentId}/complete`;
-    return await this.makeRequest('POST', url);
+    if (body) {
+      return await this.makeRequest('POST', url, body);
+    } else {
+      return await this.makeRequest('POST', url);
+    }
   }
   // Refund Methods
   public async listPaymentRefunds(params? : ListPaymentRefundsQueryParams) : Promise<string> {
@@ -456,6 +469,7 @@ export class Square {
     const url = `${this.disputesBaseURL}/${disputeID}/evidence`;
     return await this.makeRequest('GET', url);
   }
+  // TODO: Add File Upload to createDisputeEvidenceFile
   public async createDisputeEvidenceFile(disputeID : string, body : CreateDisputeEvidenceFileBody) : Promise<string> {
     const url = `${this.disputesBaseURL}/${disputeID}/evidence-files`;
     return await this.makeRequest('POST', url, body);
@@ -475,6 +489,49 @@ export class Square {
   public async submitEvidence(disputeID : string) : Promise<string> {
     const url = `${this.disputesBaseURL}/${disputeID}/submit-evidence`;
     return await this.makeRequest('POST', url);
+  }
+  // Invoices Methods
+  public async listInvoices(params : ListInvoicesQueryParams) : Promise<string> {
+    const paramsString = this.makeParamsString(params);
+    const url = `${this.invoicesBaseURL}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async createInvoice(body : CreateInvoiceBody) : Promise<string> {
+    return await this.makeRequest('POST', this.invoicesBaseURL, body);
+  }
+  public async searchInvoices(body : SearchInvoicesBody) : Promise<string> {
+    const url = `${this.invoicesBaseURL}/search`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async deleteInvoice(invoiceID : string, params? : DeleteInvoiceQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.invoicesBaseURL}/${invoiceID}${paramsString}`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async getInvoice(invoiceID : string) : Promise<string> {
+    const url = `${this.invoicesBaseURL}/${invoiceID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async updateInvoice(invoiceID : string, body : UpdateInvoiceBody) : Promise<string> {
+    const url = `${this.invoicesBaseURL}/${invoiceID}`;
+    return await this.makeRequest('PUT', url, body);
+  }
+  // TODO: Add File Upload to createInvoiceAttachment
+  public async createInvoiceAttachment(invoiceID : string, body : CreateInvoiceAttachmentBody) : Promise<string> {
+    const url = `${this.invoicesBaseURL}/${invoiceID}/attachments`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async deleteInvoiceAttachment(invoiceID : string, attachmentID : string) : Promise<string> {
+    const url = `${this.invoicesBaseURL}/${invoiceID}/attachments/${attachmentID}`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async cancelInvoice(invoiceID : string) : Promise<string> {
+    const url = `${this.invoicesBaseURL}/${invoiceID}/cancel`;
+    return await this.makeRequest('POST', url);
+  }
+  public async publishInvoice(invoiceID : string, body : PublishInvoiceBody) : Promise<string> {
+    const url = `${this.invoicesBaseURL}/${invoiceID}/publish`;
+    return await this.makeRequest('POST', url, body);
   }
 }
 

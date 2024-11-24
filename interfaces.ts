@@ -2935,6 +2935,20 @@ interface WorkweekConfig {
   created_at? : string;
   updated_at? : string;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Request Body Interfaces
 export interface CancelPaymentBody {
   idempotency_key : string;
@@ -2951,6 +2965,14 @@ export interface CreateDisputeEvidenceTextBody {
   idempotency_key : string;
   evidence_type : string;
   evidence_text : string;
+};
+export interface CreateInvoiceAttachmentBody {
+  idempotency_key? : string;
+  description? : string;
+};
+export interface CreateInvoiceBody {
+  invoice : Invoice;
+  idempotency_key? : string;
 };
 export interface CreatePaymentBody {
   source_id : string
@@ -2996,6 +3018,11 @@ export interface CreateTerminalRefundBody {
   idempotency_key : string;
   refund? : TerminalRefund;
 };
+export interface PublishInvoiceBody {
+  version : number;
+  idempotency_key? : string;
+
+};
 export interface RefundPaymentBody {
   idempotency_key : string;
   amount_money : Money;
@@ -3009,6 +3036,11 @@ export interface RefundPaymentBody {
   team_member_id? : string;
   cash_details? : DestinationDetailsCashRefundDetails;
   external_details? : DestinationDetailsExternalRefundDetails;
+};
+export interface SearchInvoicesBody {
+  query : InvoiceQuery;
+  limit? : number;
+  cursor? : string;
 };
 export interface SearchTerminalActionsBody {
   query? : TerminalActionQuery;
@@ -3025,6 +3057,11 @@ export interface SearchTerminalRefundsBody {
   cursor : string;
   limit : number;
 };
+export interface UpdateInvoiceBody {
+  invoice : Invoice;
+  idempotency_key? : string;
+  fields_to_clear? : string[];
+};
 export interface UpdateLocationSettingsBody {
   location_settings : CheckoutLocationSettings;
 };
@@ -3035,11 +3072,35 @@ export interface UpdatePaymentBody {
   payment : Payment,
   idempotency_key : string;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Request Params Interfaces
+export interface DeleteInvoiceQueryParams {
+  version? : number;
+};
 export interface ListDisputesParams {
   cursor? : string;
   states? : string;
   location_id? : string;
+};
+export interface ListInvoicesQueryParams {
+  location_id? : string;
+  cursor? : string;
+  limit? : number;
 };
 export interface ListPaymentLinksQueryParams {
   cursor? : string;
