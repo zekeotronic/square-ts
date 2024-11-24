@@ -1,3 +1,17 @@
+  /**
+   * @module
+   *
+   * This module contains methods to interact with Square API.
+   *
++  * @example
++  * ```ts
++  * import Square from "@shnoice/square";
+
++  *
++  * const sq = new Square(accessToken);
++  * ```
+   */
+
 import type { 
   ListPaymentsQueryParams, 
   CreatePaymentBody, 
