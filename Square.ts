@@ -13,7 +13,7 @@
    */
 
 import type { 
-  ListPaymentsQueryParams, 
+  ListPaymentsQueryParams,
   CreatePaymentBody, 
   CancelPaymentBody, 
   UpdatePaymentBody, 
@@ -38,10 +38,15 @@ import type {
 /**
  * The Square API class
  * @class Square
+ * Create a new Square API instance
+ * @param {string} accessToken - The access token for the Square API
+ * @example
+ * ```ts
+ * const sq = new Square(accessToken);
+ * ```
  */
 export class Square {
   accessToken : string;
-  // locationID : string;
   paymentsBaseURL : string;
   itemsBaseURL : string;
   searchOrdersBaseURL : string;
@@ -49,13 +54,9 @@ export class Square {
   checkoutBaseURL : string;
   terminalBaseURL : string;
   disputesBaseURL : string;
-  /**
-   * Create a new Square API instance
-   * @param {string} accessToken - The access token for the Square API
-   */
+  
   constructor(accessToken : string) {
     this.accessToken = accessToken;
-    // this.locationID = locationID || '';
     this.paymentsBaseURL = 'https://connect.squareup.com/v2/payments';
     this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
@@ -176,17 +177,31 @@ export class Square {
    * Lists payments for a Square account
    * @async
    * @method listPayments
-   * @param params {@link ListPaymentsQueryParams}
+   * @memberof Square
+   * @param {object} params {@link ListPaymentsQueryParams}
+   * @param {string} [params.begin_time] - The beginning of the requested reporting period, in RFC 3339 format
+   * @param {string} [params.end_time] - The end of the requested reporting period, in RFC 3339 format
+   * @param {string} [params.sort_order] - The order in which results are listed, either ASC or DESC
+   * @param {string} [params.cursor] - A pagination cursor returned by a previous call to this endpoint
+   * @param {string} [params.location_id] - Limit results to the location supplied. By default, results are returned for the default (main) location associated with the seller.
+   * @param {string} [params.total] - The exact amount in the total_money for a `Payment` object
+   * @param {string} [params.last_4] - The last 4 digits of the card number for a `Payment` object
+   * @param {string} [params.card_brand] - The brand of the payment card (for example, VISA)
+   * @param {number} [params.limit] - The maximum number of results to be returned in a single page. It is possible to receive fewer results than the specified limit on a given page. The default value of 100 is also the maximum allowed value. If the provided value is greater than 100, it is ignored and the default value is used instead. Default: 100
+   * @param {boolean} [params.is_offline_payment] - Whether the payment was taken offline or not.
+   * @param {string} [params.offline_begin_time] - Indicates the start of the time range for which to retrieve offline payments, in RFC 3339 format for timestamps. The range is determined using the offline_payment_details.client_created_at field for each Payment. If set, payments without a value set in offline_payment_details.client_created_at will not be returned. Default: The current time. Examples for January 25th, 2020 6:25:34pm Pacific Standard Time: UTC: 2020-01-26T02:25:34Z Pacific Standard Time with UTC offset: 2020-01-25T18:25:34-08:00
+   * @param {string} [params.offline_end_time] - Indicates the end of the time range for which to retrieve offline payments, in RFC 3339 format for timestamps. The range is determined using the offline_payment_details.client_created_at field for each Payment. If set, payments without a value set in offline_payment_details.client_created_at will not be returned. Default: The current time.Examples for January 25th, 2020 6:25:34pm Pacific Standard Time: UTC: 2020-01-26T02:25:34Z Pacific Standard Time with UTC offset: 2020-01-25T18:25:34-08:00
    * @returns {Promise<string>} JSON response string
    * @example
    * ```ts
    * const payments = await sq.listPayments();
-   * console.log(payments);
    * ```
    * @example
    * ```ts
-   * const payments = await sq.listPayments({begin_time: '2021-01-01T00:00:00Z', end_time: '2021-01-31T23:59:59Z'});
-   * console.log(payments);
+   * const payments = await sq.listPayments({
+   *    begin_time: '2021-01-01T00:00:00Z', 
+   *    end_time: '2021-01-31T23:59:59Z'
+   * });
    * ```
    */
   public async listPayments(params? : ListPaymentsQueryParams) : Promise<string> {
