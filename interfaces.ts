@@ -2956,6 +2956,13 @@ export interface CancelPaymentBody {
 export interface CompletePaymentBody {
   version_token? : string;
 };
+export interface CreateCardBody {
+  idempotency_key : string;
+  source_id : string;
+  verification_token? : string;
+  card : Card;
+
+};
 export interface CreateDisputeEvidenceFileBody {
   idempotency_key : string;
   evidence_type? : string;
@@ -3091,6 +3098,13 @@ export interface UpdatePaymentBody {
 // Request Params Interfaces
 export interface DeleteInvoiceQueryParams {
   version? : number;
+};
+export interface ListCardsQueryParams {
+  cursor? : string;
+  customer_id? : string;
+  include_disabled? : boolean;
+  reference_id? : string;
+  sort_order? : string;
 };
 export interface ListDisputesParams {
   cursor? : string;

@@ -13,34 +13,36 @@
    */
 
 import type { 
-  ListPaymentsQueryParams,
-  CreatePaymentBody, 
   CancelPaymentBody, 
-  UpdatePaymentBody, 
   CompletePaymentBody,
-  ListPaymentRefundsQueryParams, 
-  RefundPaymentBody, 
-  UpdateLocationSettingsBody,
-  UpdateMerchantSettingsBody,
-  ListPaymentLinksQueryParams,
-  CreatePaymentLinkBody,
-  PaymentLink,
-  CreateTerminalActionBody,
-  SearchTerminalActionsBody,
-  CreateTerminalCheckoutBody,
-  SearchTerminalCheckoutsBody,
-  CreateTerminalRefundBody,
-  SearchTerminalRefundsBody,
-  ListDisputesParams,
+  CreateCardBody,
   CreateDisputeEvidenceFileBody,
   CreateDisputeEvidenceTextBody,
-  ListInvoicesQueryParams,
-  CreateInvoiceBody,
-  SearchInvoicesBody,
-  DeleteInvoiceQueryParams,
-  UpdateInvoiceBody,
   CreateInvoiceAttachmentBody,
-  PublishInvoiceBody
+  CreateInvoiceBody,
+  CreatePaymentBody, 
+  CreatePaymentLinkBody,
+  CreateTerminalActionBody,
+  CreateTerminalCheckoutBody,
+  CreateTerminalRefundBody,
+  DeleteInvoiceQueryParams,
+  ListCardsQueryParams,
+  ListDisputesParams,
+  ListInvoicesQueryParams,
+  ListPaymentLinksQueryParams,
+  ListPaymentRefundsQueryParams, 
+  ListPaymentsQueryParams,
+  PaymentLink,
+  PublishInvoiceBody,
+  RefundPaymentBody, 
+  SearchInvoicesBody,
+  SearchTerminalActionsBody,
+  SearchTerminalCheckoutsBody,
+  SearchTerminalRefundsBody,
+  UpdateInvoiceBody,
+  UpdateLocationSettingsBody,
+  UpdateMerchantSettingsBody,
+  UpdatePaymentBody, 
 } from "./interfaces.ts";
 
 /**
@@ -55,25 +57,27 @@ import type {
  */
 export class Square {
   accessToken : string;
-  paymentsBaseURL : string;
-  itemsBaseURL : string;
-  searchOrdersBaseURL : string;
-  refundsBaseURL : string;
+  cardsBaseURL : string;
   checkoutBaseURL : string;
-  terminalBaseURL : string;
   disputesBaseURL : string;
   invoicesBaseURL : string;
+  itemsBaseURL : string;
+  paymentsBaseURL : string;
+  refundsBaseURL : string;
+  searchOrdersBaseURL : string;
+  terminalBaseURL : string;
   
   constructor(accessToken : string) {
     this.accessToken = accessToken;
-    this.paymentsBaseURL = 'https://connect.squareup.com/v2/payments';
-    this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
-    this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
-    this.searchOrdersBaseURL = 'https://connect.squareup.com/v2/orders/search';
+    this.cardsBaseURL = 'https://connect.squareup.com/v2/cards';
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
-    this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
     this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
     this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
+    this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
+    this.paymentsBaseURL = 'https://connect.squareup.com/v2/payments';
+    this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
+    this.searchOrdersBaseURL = 'https://connect.squareup.com/v2/orders/search';
+    this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
   }
   // Helper methods
   private makeParamsString(options: object): string {
@@ -82,39 +86,23 @@ export class Square {
         .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`);
     return paramsArray.length > 0 ? `?${paramsArray.join("&")}` : ""; 
   }
-  private async makeRequest(method : string, url : string, body? : object, params? : object) : Promise<string> {
+  private async makeRequest(method : string, url : string, body? : object) : Promise<string> {
     const errorMessage = JSON.stringify({
       error: "Error"
     });
     let response;
     if (method === 'GET') {
-      if (params) {
-        try {
-          const paramsString = this.makeParamsString(params);
-          response = await fetch(`${url}${paramsString}`, {
+      try {
+        response = await fetch(url, {
           headers: {
             Authorization: `Bearer ${this.accessToken}`,
             "Content-Type": "application/json"
-            },
-          });
-          response = response.json();
-        } catch (error) {
-          console.error(error);
-          response = errorMessage;
-        }
-      } else {
-        try {
-          response = await fetch(url, {
-            headers: {
-              Authorization: `Bearer ${this.accessToken}`,
-              "Content-Type": "application/json"
-            },
-          });
-          response = response.json();
-        } catch (error) {
-          console.log(error);
-          response = errorMessage;
-        }
+          },
+        });
+        response = response.json();
+      } catch (error) {
+        console.log(error);
+        response = errorMessage;
       }
     };
     if (method === 'POST') {
@@ -205,7 +193,7 @@ export class Square {
     if (params) {
       const paramsString = this.makeParamsString(params);
       const url = `${this.paymentsBaseURL}${paramsString}`;
-      return await this.makeRequest('GET', url, {}, params);
+      return await this.makeRequest('GET', url);
     }
     return await this.makeRequest('GET', this.paymentsBaseURL);
   }
@@ -331,7 +319,7 @@ export class Square {
     if (params) {
       const paramsString = this.makeParamsString(params);
       const url = `${this.refundsBaseURL}${paramsString}`;
-      return await this.makeRequest('GET', url, {}, params);
+      return await this.makeRequest('GET', url);
     } else {
       return await this.makeRequest('GET', this.refundsBaseURL);
     }
@@ -364,7 +352,7 @@ export class Square {
     if (params) {
       const paramsString = this.makeParamsString(params);
       const url = `${this.checkoutBaseURL}/payment-links${paramsString}`;
-      return await this.makeRequest('GET', url, {}, params);
+      return await this.makeRequest('GET', url);
     } else {
       const url = `${this.checkoutBaseURL}/payment-links`;
       return await this.makeRequest('GET', url);
@@ -452,7 +440,7 @@ export class Square {
     if (params) {
       const paramsString = this.makeParamsString(params);
       const url = `${this.disputesBaseURL}${paramsString}`;
-      return await this.makeRequest('GET', url, {}, params);
+      return await this.makeRequest('GET', url);
     } else {
       return await this.makeRequest('GET', this.disputesBaseURL);
     }
@@ -532,6 +520,27 @@ export class Square {
   public async publishInvoice(invoiceID : string, body : PublishInvoiceBody) : Promise<string> {
     const url = `${this.invoicesBaseURL}/${invoiceID}/publish`;
     return await this.makeRequest('POST', url, body);
+  }
+  // Cards Methods
+  public async listCards(params? : ListCardsQueryParams) : Promise<string> {
+    if (params) {
+      const paramsString = this.makeParamsString(params);
+      const url = `${this.cardsBaseURL}${paramsString}`;
+      return await this.makeRequest('GET', url);
+    } else {
+      return await this.makeRequest('GET', this.cardsBaseURL);
+    }
+  }
+  public async createCard(body : CreateCardBody) : Promise<string> {
+    return await this.makeRequest('POST', this.cardsBaseURL, body);
+  }
+  public async getCard(cardID : string) : Promise<string> {
+    const url = `${this.cardsBaseURL}/${cardID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async disableCard(cardID : string) : Promise<string> {
+    const url = `${this.cardsBaseURL}/${cardID}/disable`;
+    return await this.makeRequest('POST', url);
   }
 }
 
