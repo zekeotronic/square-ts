@@ -37,6 +37,7 @@ import type {
 
 /**
  * The Square API class
+ * @class Square
  */
 export class Square {
   accessToken : string;
@@ -50,7 +51,6 @@ export class Square {
   disputesBaseURL : string;
   /**
    * Create a new Square API instance
-   * @constructor
    * @param {string} accessToken - The access token for the Square API
    */
   constructor(accessToken : string) {
@@ -174,6 +174,8 @@ export class Square {
   // Payment methods
   /**
    * Lists payments for a Square account
+   * @async
+   * @method listPayments
    * @param params {@link ListPaymentsQueryParams}
    * @returns {Promise<string>} JSON response string
    * @example

@@ -3042,6 +3042,22 @@ export interface ListPaymentLinksQueryParams {
   cursor? : string;
   limit? : number;
 };
+/**
+ * @interface ListPaymentsQueryParams
+ * @description Query parameters for {@link Square.listPayments}
+ * @member {string} [begin_time]
+ * @member {string} [end_time]
+ * @member {string} [sort_order]
+ * @member {string} [cursor]
+ * @member {string} [location_id]
+ * @member {number} [total]
+ * @member {string} [last_4]
+ * @member {string} [card_brand]
+ * @member {number} [limit]
+ * @member {boolean} [is_offline_payment]
+ * @member {string} [offline_begin_time]
+ * @member {string} [offline_end_time]
+ */
 export interface ListPaymentsQueryParams {
   begin_time? : string;
   end_time? : string;
