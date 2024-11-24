@@ -8,7 +8,8 @@ import type {
   UpdateLocationSettingsBody,
   UpdateMerchantSettingsBody,
   ListPaymentLinksQueryParams,
-  CreatePaymentLinkBody
+  CreatePaymentLinkBody,
+  PaymentLink
 } from "./interfaces.ts";
 class Square {
   accessToken : string;
@@ -274,7 +275,7 @@ class Square {
     if (params) {
       try {
         const paramsString = this.makeParamsString(params);
-        const response = await fetch(`${this.paymentsBaseURL}/payment-links${paramsString}`, {
+        const response = await fetch(`${this.checkoutBaseURL}/payment-links${paramsString}`, {
         headers: {
           Authorization: `Bearer ${this.accessToken}`,
           "Content-Type": "application/json"
@@ -287,7 +288,7 @@ class Square {
       }
     }
     try {
-      const response = await fetch(`${this.paymentsBaseURL}/payment-links`, {
+      const response = await fetch(`${this.checkoutBaseURL}/payment-links`, {
         headers: {
           Authorization: `Bearer ${this.accessToken}`,
           "Content-Type": "application/json"
@@ -299,14 +300,67 @@ class Square {
       return "Error";
     }
   }
-  // public async createPaymentLink(body : CreatePaymentLinkBody) : Promise<string> {
-  //   try {
-      
-  //   } catch (error) {
-  //     console.log(error);
-  //     return "Error";
-  //   }
-  // }
+  public async createPaymentLink(body : CreatePaymentLinkBody) : Promise<string> {
+    try {
+      const response = await fetch(`${this.checkoutBaseURL}/payment-links`, {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(body)
+      });
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+      return "Error";
+    }
+  }
+  public async deletePaymentLink(id : string) : Promise<string> {
+    try {
+      const response = await fetch(`${this.checkoutBaseURL}/payment-links/${id}`, {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+          "Content-Type": "application/json"
+        },
+        method: "DELETE"
+      });
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+      return "Error";
+    }
+  }
+  public async getPaymentLink(id : string) : Promise<string> {
+    try {
+      const response = await fetch(`${this.checkoutBaseURL}/payment-links/${id}`, {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+          "Content-Type": "application/json"
+        },
+      });
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+      return "Error";
+    }
+  }
+  public async updatePaymentLink(id : string, body : PaymentLink) : Promise<string> {
+    try {
+      const response = await fetch(`${this.checkoutBaseURL}/payment-links/${id}`, {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+          "Content-Type": "application/json"
+        },
+        method: "PUT",
+        body: JSON.stringify(body)
+      });
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+      return "Error";
+    }
+  }
 }
 
 export default Square;

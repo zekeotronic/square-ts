@@ -2292,7 +2292,7 @@ interface PaymentBalanceActivityThirdPartyFeeRefundDetail {
   payment_id? : string;
   refund_id? : string;
 };
-interface PaymentLink {
+export interface PaymentLink {
   id? : string;
   version : number;
   description? : string;
