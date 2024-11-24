@@ -2939,6 +2939,9 @@ interface WorkweekConfig {
 export interface CancelPaymentBody {
   idempotency_key : string;
 };
+export interface CompletePaymentBody {
+  version_token? : string;
+};
 export interface CreateDisputeEvidenceFileBody {
   idempotency_key : string;
   evidence_type? : string;

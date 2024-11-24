@@ -17,6 +17,7 @@ import type {
   CreatePaymentBody, 
   CancelPaymentBody, 
   UpdatePaymentBody, 
+  CompletePaymentBody,
   ListPaymentRefundsQueryParams, 
   RefundPaymentBody, 
   UpdateLocationSettingsBody,
@@ -199,8 +200,8 @@ export class Square {
     }
     return await this.makeRequest('GET', this.paymentsBaseURL);
   }
-    /**
-   * Lists payments for a Square account
+  /**
+   * Creates payment for a Square account
    * @async
    * @method createPayment
    * @memberof Square
@@ -212,7 +213,7 @@ export class Square {
    *    idempotency_key: 'XXXXXXXX',
    *    amount_money: {
    *     amount: 2500,
-   *    currency: 'USD'
+   *     currency: 'USD'
    *    }
    * });
    * ```
@@ -220,23 +221,95 @@ export class Square {
   public async createPayment(body : CreatePaymentBody) : Promise<string> {
     return await this.makeRequest('POST', this.paymentsBaseURL, body);
   }
+  /**
+   * Cancels payment by idempotency key
+   * @async
+   * @method cancelPaymentByIdempotency
+   * @memberof Square
+   * @returns {Promise<string>} JSON response string
+   * @example
+   * ```ts
+   * const canceledPayment = await sq.cancelPaymentByIdempotency({
+   *     idempotency_key: 'XXXXXXXX'
+   * });
+   * ```
+   */
   public async cancelPaymentByIdempotency(body : CancelPaymentBody) : Promise<string> {
     const url = `${this.paymentsBaseURL}/cancel`;
     return await this.makeRequest('POST', url, body);
   }
+  /**
+   * Gets payment by payment id
+   * @async
+   * @method getPayment
+   * @memberof Square
+   * @returns {Promise<string>} JSON response string
+   * @example
+   * ```ts
+   * const payment = await sq.getPayment('123456789');
+   * ```
+   */
   public async getPayment(paymentID : string) : Promise<string> {
     const url = `${this.paymentsBaseURL}/${paymentID}`;
     return await this.makeRequest('GET', url);
   }
+  /**
+   * Updates payment by payment id
+   * @async
+   * @method updatePayment
+   * @memberof Square
+   * @returns {Promise<string>} JSON response string
+   * @example
+   * ```ts
+   * const updatedPayment = await sq.updatePayment('123456789', {
+   *    idempotency_key: 'XXXXXXXX',
+   *    payment: {
+   *      amount_money: {
+   *        amount: 2500,
+   *        currency: 'USD'
+   *      }
+   *    }
+   * });
+   * ```
+   */
   public async updatePayment(paymentID : string, body : UpdatePaymentBody) : Promise<string> {
     const url = `${this.paymentsBaseURL}/${paymentID}`;
     return await this.makeRequest('PUT', url, body);
   }
+  /**
+   * Cancels payment by payment id
+   * @async
+   * @method cancelPayment
+   * @memberof Square
+   * @returns {Promise<string>} JSON response string
+   * @example
+   * ```ts
+   * const canceledPayment = await sq.cancelPayment('123456789');
+   * ```
+   */
   public async cancelPayment(paymentId : string) : Promise<string> {
     const url = `${this.paymentsBaseURL}/${paymentId}/cancel`;
     return await this.makeRequest('POST', url);
   }
-  public async completePayment(paymentId : string, ) : Promise<string> {
+  /**
+   * Completes payment for a Square account
+   * @async
+   * @method completePayment
+   * @memberof Square
+   * @returns {Promise<string>} JSON response string
+   * @example
+   * ```ts
+   * const completedPayment = await sq.completePayment({
+   *    source_id: 'CASH', 
+   *    idempotency_key: 'XXXXXXXX',
+   *    amount_money: {
+   *     amount: 2500,
+   *     currency: 'USD'
+   *    }
+   * });
+   * ```
+   */
+  public async completePayment(paymentId : string, body? : CompletePaymentBody) : Promise<string> {
     const url = `${this.paymentsBaseURL}/${paymentId}/complete`;
     return await this.makeRequest('POST', url);
   }
