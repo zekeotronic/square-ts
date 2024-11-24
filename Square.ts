@@ -35,7 +35,7 @@ import type {
   CreateDisputeEvidenceTextBody
 } from "./interfaces.ts";
 
-class Square {
+export class Square {
   accessToken : string;
   locationID : string;
   paymentsBaseURL : string;
@@ -361,4 +361,4 @@ class Square {
   }
 }
 
-export default Square;
+// export default Square;
