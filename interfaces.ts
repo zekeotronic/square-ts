@@ -2935,9 +2935,6 @@ interface WorkweekConfig {
   created_at? : string;
   updated_at? : string;
 };
-
-
-
 // Request Body Interfaces
 export interface CancelPaymentBody {
   idempotency_key : string;
@@ -3035,8 +3032,6 @@ export interface UpdatePaymentBody {
   payment : Payment,
   idempotency_key : string;
 };
-
-
 // Request Params Interfaces
 export interface ListDisputesParams {
   cursor? : string;

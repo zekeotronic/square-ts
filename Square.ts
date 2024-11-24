@@ -5,7 +5,7 @@
    *
 +  * @example
 +  * ```ts
-+  * import Square from "@shnoice/square";
++  * import { Square } from "@shnoice/square";
 
 +  *
 +  * const sq = new Square(accessToken);
@@ -35,9 +35,12 @@ import type {
   CreateDisputeEvidenceTextBody
 } from "./interfaces.ts";
 
+/**
+ * The Square API class
+ */
 export class Square {
   accessToken : string;
-  locationID : string;
+  // locationID : string;
   paymentsBaseURL : string;
   itemsBaseURL : string;
   searchOrdersBaseURL : string;
@@ -45,10 +48,13 @@ export class Square {
   checkoutBaseURL : string;
   terminalBaseURL : string;
   disputesBaseURL : string;
-  // Constructor
-  constructor(accessToken : string, locationID? : string) {
+  /**
+   * Create a new Square API instance
+   * @param {string} accessToken - The access token for the Square API
+   */
+  constructor(accessToken : string) {
     this.accessToken = accessToken;
-    this.locationID = locationID || '';
+    // this.locationID = locationID || '';
     this.paymentsBaseURL = 'https://connect.squareup.com/v2/payments';
     this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
@@ -214,8 +220,8 @@ export class Square {
     return await this.makeRequest('GET', url);
   }
   // Checkout Methods
-  public async getLocationSettings(locationID? : string) : Promise<string> {
-    const url = `${this.checkoutBaseURL}/location-settings/${locationID || this.locationID}`;
+  public async getLocationSettings(locationID : string) : Promise<string> {
+    const url = `${this.checkoutBaseURL}/location-settings/${locationID}`;
     return await this.makeRequest('GET', url);
   }
   public async updateLocationSettings(locationID : string, body : UpdateLocationSettingsBody ) : Promise<string> {
