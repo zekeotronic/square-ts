@@ -50,6 +50,7 @@ export class Square {
   disputesBaseURL : string;
   /**
    * Create a new Square API instance
+   * @constructor
    * @param {string} accessToken - The access token for the Square API
    */
   constructor(accessToken : string) {
@@ -64,7 +65,7 @@ export class Square {
     this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
   }
   // Helper methods
-  private makeParamsString(options: ListPaymentsQueryParams): string {
+  private makeParamsString(options: object): string {
     const paramsArray = Object.entries(options)
         .filter(([_, value]) => value !== undefined && value !== null)
         .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`);
@@ -171,6 +172,11 @@ export class Square {
     return response;
   }
   // Payment methods
+  /**
+   * Lists payments for a Square account
+   * @param params {@link ListPaymentsQueryParams}
+   * @returns {Promise<string>} JSON response string
+   */
   public async listPayments(params? : ListPaymentsQueryParams) : Promise<string> {
     if (params) {
       const paramsString = this.makeParamsString(params);
