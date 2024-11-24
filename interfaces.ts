@@ -2942,6 +2942,16 @@ interface WorkweekConfig {
 export interface CancelPaymentBody {
   idempotency_key : string;
 };
+export interface CreateDisputeEvidenceFileBody {
+  idempotency_key : string;
+  evidence_type? : string;
+  content_type? : string;
+};
+export interface CreateDisputeEvidenceTextBody {
+  idempotency_key : string;
+  evidence_type : string;
+  evidence_text : string;
+};
 export interface CreatePaymentBody {
   source_id : string
   idempotency_key : string;
@@ -3028,6 +3038,11 @@ export interface UpdatePaymentBody {
 
 
 // Request Params Interfaces
+export interface ListDisputesParams {
+  cursor? : string;
+  states? : string;
+  location_id? : string;
+};
 export interface ListPaymentLinksQueryParams {
   cursor? : string;
   limit? : number;

@@ -15,7 +15,10 @@ import type {
   CreateTerminalCheckoutBody,
   SearchTerminalCheckoutsBody,
   CreateTerminalRefundBody,
-  SearchTerminalRefundsBody
+  SearchTerminalRefundsBody,
+  ListDisputesParams,
+  CreateDisputeEvidenceFileBody,
+  CreateDisputeEvidenceTextBody
 } from "./interfaces.ts";
 
 class Square {
@@ -27,6 +30,7 @@ class Square {
   refundsBaseURL : string;
   checkoutBaseURL : string;
   terminalBaseURL : string;
+  disputesBaseURL : string;
   // Constructor
   constructor(accessToken : string, locationID? : string) {
     this.accessToken = accessToken;
@@ -37,6 +41,7 @@ class Square {
     this.searchOrdersBaseURL = 'https://connect.squareup.com/v2/orders/search';
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
     this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
+    this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
   }
   // Helper methods
   private makeParamsString(options: ListPaymentsQueryParams): string {
@@ -299,6 +304,47 @@ class Square {
     return await this.makeRequest('POST', url);
   }
   // Disputes Methods
+  public async listDisputes(params? : ListDisputesParams) : Promise<string> {
+    if (params) {
+      const paramsString = this.makeParamsString(params);
+      const url = `${this.disputesBaseURL}${paramsString}`;
+      return await this.makeRequest('GET', url, {}, params);
+    } else {
+      return await this.makeRequest('GET', this.disputesBaseURL);
+    }
+  }
+  public async getDispute(disputeID : string) : Promise<string> {
+    const url = `${this.disputesBaseURL}/${disputeID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async acceptDispute(disputeID : string) : Promise<string> {
+    const url = `${this.disputesBaseURL}/${disputeID}/accept`;
+    return await this.makeRequest('POST', url);
+  }
+  public async listDisputeEvidence(disputeID : string) : Promise<string> {
+    const url = `${this.disputesBaseURL}/${disputeID}/evidence`;
+    return await this.makeRequest('GET', url);
+  }
+  public async createDisputeEvidenceFile(disputeID : string, body : CreateDisputeEvidenceFileBody) : Promise<string> {
+    const url = `${this.disputesBaseURL}/${disputeID}/evidence-files`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async createDisputeEvidenceText(disputeID : string, body : CreateDisputeEvidenceTextBody) : Promise<string> {
+    const url = `${this.disputesBaseURL}/${disputeID}/evidence-text`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async deleteDisputeEvidence(disputeID : string, evidenceID : string) : Promise<string> {
+    const url = `${this.disputesBaseURL}/${disputeID}/evidence/${evidenceID}`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async getDisputeEvidence(disputeID : string, evidenceID : string) : Promise<string> {
+    const url = `${this.disputesBaseURL}/${disputeID}/evidence/${evidenceID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async submitEvidence(disputeID : string) : Promise<string> {
+    const url = `${this.disputesBaseURL}/${disputeID}/submit-evidence`;
+    return await this.makeRequest('POST', url);
+  }
 }
 
 export default Square;
