@@ -176,6 +176,16 @@ export class Square {
    * Lists payments for a Square account
    * @param params {@link ListPaymentsQueryParams}
    * @returns {Promise<string>} JSON response string
+   * @example
+   * ```ts
+   * const payments = await sq.listPayments();
+   * console.log(payments);
+   * ```
+   * @example
+   * ```ts
+   * const payments = await sq.listPayments({begin_time: '2021-01-01T00:00:00Z', end_time: '2021-01-31T23:59:59Z'});
+   * console.log(payments);
+   * ```
    */
   public async listPayments(params? : ListPaymentsQueryParams) : Promise<string> {
     if (params) {
