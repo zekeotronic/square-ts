@@ -178,19 +178,6 @@ export class Square {
    * @async
    * @method listPayments
    * @memberof Square
-   * @param {ListPaymentsQueryParams} params List Payments Query Parameters
-   * @param {string} [params.begin_time] - The beginning of the requested reporting period, in RFC 3339 format
-   * @param {string} [params.end_time] - The end of the requested reporting period, in RFC 3339 format
-   * @param {string} [params.sort_order] - The order in which results are listed, either ASC or DESC
-   * @param {string} [params.cursor] - A pagination cursor returned by a previous call to this endpoint
-   * @param {string} [params.location_id] - Limit results to the location supplied. By default, results are returned for the default (main) location associated with the seller.
-   * @param {string} [params.total] - The exact amount in the total_money for a `Payment` object
-   * @param {string} [params.last_4] - The last 4 digits of the card number for a `Payment` object
-   * @param {string} [params.card_brand] - The brand of the payment card (for example, VISA)
-   * @param {number} [params.limit] - The maximum number of results to be returned in a single page. It is possible to receive fewer results than the specified limit on a given page. The default value of 100 is also the maximum allowed value. If the provided value is greater than 100, it is ignored and the default value is used instead. Default: 100
-   * @param {boolean} [params.is_offline_payment] - Whether the payment was taken offline or not.
-   * @param {string} [params.offline_begin_time] - Indicates the start of the time range for which to retrieve offline payments, in RFC 3339 format for timestamps. The range is determined using the offline_payment_details.client_created_at field for each Payment. If set, payments without a value set in offline_payment_details.client_created_at will not be returned. Default: The current time. Examples for January 25th, 2020 6:25:34pm Pacific Standard Time: UTC: 2020-01-26T02:25:34Z Pacific Standard Time with UTC offset: 2020-01-25T18:25:34-08:00
-   * @param {string} [params.offline_end_time] - Indicates the end of the time range for which to retrieve offline payments, in RFC 3339 format for timestamps. The range is determined using the offline_payment_details.client_created_at field for each Payment. If set, payments without a value set in offline_payment_details.client_created_at will not be returned. Default: The current time.Examples for January 25th, 2020 6:25:34pm Pacific Standard Time: UTC: 2020-01-26T02:25:34Z Pacific Standard Time with UTC offset: 2020-01-25T18:25:34-08:00
    * @returns {Promise<string>} JSON response string
    * @example
    * ```ts
@@ -212,6 +199,24 @@ export class Square {
     }
     return await this.makeRequest('GET', this.paymentsBaseURL);
   }
+    /**
+   * Lists payments for a Square account
+   * @async
+   * @method createPayment
+   * @memberof Square
+   * @returns {Promise<string>} JSON response string
+   * @example
+   * ```ts
+   * const createdPayment = await sq.createPayment({
+   *    source_id: 'CASH', 
+   *    idempotency_key: 'XXXXXXXX',
+   *    amount_money: {
+   *     amount: 2500,
+   *    currency: 'USD'
+   *    }
+   * });
+   * ```
+   */
   public async createPayment(body : CreatePaymentBody) : Promise<string> {
     return await this.makeRequest('POST', this.paymentsBaseURL, body);
   }
