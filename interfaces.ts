@@ -2974,6 +2974,18 @@ export interface CreatePaymentLinkBody {
   quick_pay? : QuickPay;
   order? : Order;
 }
+export interface CreateTerminalActionBody {
+  idempotency_key : string;
+  action : TerminalAction
+};
+export interface CreateTerminalCheckoutBody {
+  idempotency_key : string;
+  checkout : TerminalCheckout;
+};
+export interface CreateTerminalRefundBody {
+  idempotency_key : string;
+  refund? : TerminalRefund;
+};
 export interface RefundPaymentBody {
   idempotency_key : string;
   amount_money : Money;
@@ -2987,6 +2999,21 @@ export interface RefundPaymentBody {
   team_member_id? : string;
   cash_details? : DestinationDetailsCashRefundDetails;
   external_details? : DestinationDetailsExternalRefundDetails;
+};
+export interface SearchTerminalActionsBody {
+  query? : TerminalActionQuery;
+  cursor? : string;
+  limit? : number;
+};
+export interface SearchTerminalCheckoutsBody {
+  query? : TerminalCheckoutQuery;
+  cursor? : string;
+  limit? : number;
+};
+export interface SearchTerminalRefundsBody {
+  query : TerminalRefundQuery;
+  cursor : string;
+  limit : number;
 };
 export interface UpdateLocationSettingsBody {
   location_settings : CheckoutLocationSettings;

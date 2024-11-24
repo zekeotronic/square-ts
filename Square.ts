@@ -9,8 +9,15 @@ import type {
   UpdateMerchantSettingsBody,
   ListPaymentLinksQueryParams,
   CreatePaymentLinkBody,
-  PaymentLink
+  PaymentLink,
+  CreateTerminalActionBody,
+  SearchTerminalActionsBody,
+  CreateTerminalCheckoutBody,
+  SearchTerminalCheckoutsBody,
+  CreateTerminalRefundBody,
+  SearchTerminalRefundsBody
 } from "./interfaces.ts";
+
 class Square {
   accessToken : string;
   locationID : string;
@@ -19,7 +26,8 @@ class Square {
   searchOrdersBaseURL : string;
   refundsBaseURL : string;
   checkoutBaseURL : string;
-
+  terminalBaseURL : string;
+  // Constructor
   constructor(accessToken : string, locationID? : string) {
     this.accessToken = accessToken;
     this.locationID = locationID || '';
@@ -28,7 +36,9 @@ class Square {
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
     this.searchOrdersBaseURL = 'https://connect.squareup.com/v2/orders/search';
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
+    this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
   }
+  // Helper methods
   private makeParamsString(options: ListPaymentsQueryParams): string {
     const paramsArray = Object.entries(options)
         .filter(([_, value]) => value !== undefined && value !== null)
@@ -135,7 +145,7 @@ class Square {
     };
     return response;
   }
-  
+  // Payment methods
   public async listPayments(params? : ListPaymentsQueryParams) : Promise<string> {
     if (params) {
       const paramsString = this.makeParamsString(params);
@@ -167,6 +177,7 @@ class Square {
     const url = `${this.paymentsBaseURL}/${paymentId}/complete`;
     return await this.makeRequest('POST', url);
   }
+  // Refund Methods
   public async listPaymentRefunds(params? : ListPaymentRefundsQueryParams) : Promise<string> {
     if (params) {
       const paramsString = this.makeParamsString(params);
@@ -183,6 +194,7 @@ class Square {
     const url = `${this.refundsBaseURL}/${refundID}`;
     return await this.makeRequest('GET', url);
   }
+  // Checkout Methods
   public async getLocationSettings(locationID? : string) : Promise<string> {
     const url = `${this.checkoutBaseURL}/location-settings/${locationID || this.locationID}`;
     return await this.makeRequest('GET', url);
@@ -225,6 +237,68 @@ class Square {
     const url = `${this.checkoutBaseURL}/payment-links/${id}`;
     return await this.makeRequest('PUT', url, body);
   }
+  // Terminal Methods
+  public async createTerminalAction(body : CreateTerminalActionBody) : Promise<string> {
+    const url = `${this.terminalBaseURL}/actions`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async searchTerminalActions(body : SearchTerminalActionsBody) : Promise<string> {
+    const url = `${this.terminalBaseURL}/actions/search`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async getTerminalAction(actionID : string) : Promise<string> {
+    const url = `${this.terminalBaseURL}/actions/${actionID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async cancelTerminalAction(actionID : string) : Promise<string> {
+    const url = `${this.terminalBaseURL}/actions/${actionID}/cancel`;
+    return await this.makeRequest('POST', url);
+  }
+  public async dismissTerminalAction(actionID : string) : Promise<string> {
+    const url = `${this.terminalBaseURL}/actions/${actionID}/dismiss`;
+    return await this.makeRequest('POST', url);
+  }
+  public async createTerminalCheckout(body : CreateTerminalCheckoutBody) : Promise<string> {
+    const url = `${this.terminalBaseURL}/checkouts`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async searchTerminalCheckouts(body : SearchTerminalCheckoutsBody) : Promise<string> {
+    const url = `${this.terminalBaseURL}/checkouts/search`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async getTerminalCheckout(checkoutID : string) : Promise<string> {
+    const url = `${this.terminalBaseURL}/checkouts/${checkoutID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async cancelTerminalCheckout(checkoutID : string) : Promise<string> {
+    const url = `${this.terminalBaseURL}/checkouts/${checkoutID}/cancel`;
+    return await this.makeRequest('POST', url);
+  }
+  public async dismissTerminalCheckout(checkoutID : string) : Promise<string> {
+    const url = `${this.terminalBaseURL}/checkouts/${checkoutID}/dismiss`;
+    return await this.makeRequest('POST', url);
+  }
+  public async createTerminalRefund(body : CreateTerminalRefundBody) : Promise<string> {
+    const url = `${this.terminalBaseURL}/refunds`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async searchTerminalRefunds(body : SearchTerminalRefundsBody) : Promise<string> {
+    const url = `${this.terminalBaseURL}/refunds/search`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async getTerminalRefund(terminalRefundID : string) : Promise<string> {
+    const url = `${this.terminalBaseURL}/refunds/${terminalRefundID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async cancelTerminalRefund(terminalRefundID : string) : Promise<string> {
+    const url = `${this.terminalBaseURL}/refunds/${terminalRefundID}/cancel`;
+    return await this.makeRequest('POST', url);
+  }
+  public async dismissTerminalRefund(terminalRefundID : string) : Promise<string> {
+    const url = `${this.terminalBaseURL}/refunds/${terminalRefundID}/dismiss`;
+    return await this.makeRequest('POST', url);
+  }
+  // Disputes Methods
 }
 
 export default Square;
