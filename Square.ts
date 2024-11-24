@@ -178,7 +178,7 @@ export class Square {
    * @async
    * @method listPayments
    * @memberof Square
-   * @param {object} params List Payments Query Parameters
+   * @param {ListPaymentsQueryParams} params List Payments Query Parameters
    * @param {string} [params.begin_time] - The beginning of the requested reporting period, in RFC 3339 format
    * @param {string} [params.end_time] - The end of the requested reporting period, in RFC 3339 format
    * @param {string} [params.sort_order] - The order in which results are listed, either ASC or DESC
