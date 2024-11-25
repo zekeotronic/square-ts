@@ -13,7 +13,10 @@
    */
 
 import type { 
+  BatchChangeInventoryBody,
   BatchDeleteCatalogObjectsBody,
+  BatchGetInventoryChangesBody,
+  BatchGetInventoryCountsBody,
   BatchGetCatalogObjectsBody,
   BatchGetOrdersBody,
   BulkDeleteOrderCustomAttributesBody,
@@ -43,6 +46,7 @@ import type {
   CreateTerminalRefundBody,
   DeleteInvoiceQueryParams,
   GetCatalogObjectQueryParams,
+  GetInventoryCountQueryParams,
   GetOrderCustomAttributeDefinitionQueryParams,
   GetOrderCustomAttributesQueryParams,
   GetSubscriptionQueryParams,
@@ -110,6 +114,7 @@ export class Square {
   checkoutBaseURL : string;
   devicesBaseURL : string;
   disputesBaseURL : string;
+  inventoryBaseURL : string;
   invoicesBaseURL : string;
   itemsBaseURL : string;
   mobileAuthBaseURL : string;
@@ -131,6 +136,7 @@ export class Square {
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
     this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
     this.devicesBaseURL = 'https://connect.squareup.com/v2/devices';
+    this.inventoryBaseURL = 'https://connect.squareup.com/v2/inventory';
     this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
     this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code';
@@ -838,6 +844,35 @@ export class Square {
     const url = `${this.catalogBaseURL}/update-item-taxes`;
     return await this.makeRequest('POST', url, body);
   };
-
+  // Inventory Methods
+  public async getInventoryAdjustment(adjustmentID : string) : Promise<string> {
+    const url = `${this.inventoryBaseURL}/adjustment/${adjustmentID}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async batchChangeInventory(body : BatchChangeInventoryBody) : Promise<string> {
+    const url = `${this.inventoryBaseURL}/changes/batch-create`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async batchGetInventoryChanges(body : BatchGetInventoryChangesBody) : Promise<string> {
+    const url = `${this.inventoryBaseURL}/changes/batch-retrieve`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async batchGetInventoryCounts(body : BatchGetInventoryCountsBody) : Promise<string> {
+    const url = `${this.inventoryBaseURL}/counts/batch-retrieve`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async getPhysicalInventoryCount(physicalCountID : string) : Promise<string> {
+    const url = `${this.inventoryBaseURL}/physical-counts/${physicalCountID}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async getInventoryTransfer(transferID : string) : Promise<string> {
+    const url = `${this.inventoryBaseURL}/transfers/${transferID}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async getInventoryCount(catalogObjectID : string, params? : GetInventoryCountQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.inventoryBaseURL}/catalog-object/${catalogObjectID}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  };
 }
 

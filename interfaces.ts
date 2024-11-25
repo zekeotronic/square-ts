@@ -2950,8 +2950,31 @@ interface WorkweekConfig {
 
 
 // Request Body Interfaces
+export interface BatchChangeInventoryBody {
+  idempotency_key : string;
+  changes? : InventoryChange[];
+  ignore_unchanged_counts? : boolean;
+};
 export interface BatchDeleteCatalogObjectsBody {
   object_ids? : string[];
+};
+export interface BatchGetInventoryChangesBody {
+  catalog_object_ids? : string[];
+  location_ids? : string[];
+  types? : string[];
+  states? : string[];
+  updated_after? : string;
+  updated_before? : string;
+  cursor? : string;
+  limit? : number;
+};
+export interface BatchGetInventoryCountsBody {
+  catalog_object_ids? : string[];
+  location_ids? : string[];
+  updated_after? : string;
+  cursor? : string;
+  states? : string;
+  limit? : number;
 };
 export interface BatchGetCatalogObjectsBody {
   object_ids : string[];
@@ -3119,7 +3142,6 @@ export interface PayOrderBody {
 export interface PublishInvoiceBody {
   version : number;
   idempotency_key? : string;
-
 };
 export interface RefundPaymentBody {
   idempotency_key : string;
@@ -3273,6 +3295,10 @@ export interface GetCatalogObjectQueryParams {
   include_related_objects? : boolean;
   catalog_version? : number;
   include_category_path_to_root? : boolean;
+};
+export interface GetInventoryCountQueryParams {
+  location_ids? : string;
+  cursor? : string;
 };
 export interface GetOrderCustomAttributeDefinitionQueryParams {
   version? : number;
