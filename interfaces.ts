@@ -2990,6 +2990,10 @@ export interface CreateInvoiceBody {
   invoice : Invoice;
   idempotency_key? : string;
 };
+export interface CreateMobileAuthorizationCodeBody {
+  location_id : string
+
+};
 export interface CreatePaymentBody {
   source_id : string
   idempotency_key : string;
@@ -3150,6 +3154,11 @@ export interface DeleteInvoiceQueryParams {
 export interface GetSubscriptionQueryParams {
   include? : string;
 };
+export interface ListBankAccountsQueryParams {
+  cursor? : string;
+  limit? : number;
+  location_id? : string;
+};
 export interface ListCardsQueryParams {
   cursor? : string;
   customer_id? : string;
@@ -3209,6 +3218,20 @@ export interface ListPaymentRefundsQueryParams {
   location_id? : string;
   status? : string;
   source_type? : string;
+  limit? : number;
+};
+export interface ListPayoutEntriesQueryParams {
+  sort_order? : string;
+  cursor? : string;
+  limit? : number;
+};
+export interface ListPayoutsQueryParams {
+  location_id? : string;
+  status? : string;
+  begin_time? : string;
+  end_time? : string;
+  sort_order? : string;
+  cursor? : string;
   limit? : number;
 };
 export interface ListSubscriptionEventsQueryParams {

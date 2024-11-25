@@ -22,6 +22,7 @@ import type {
   CreateDisputeEvidenceTextBody,
   CreateInvoiceAttachmentBody,
   CreateInvoiceBody,
+  CreateMobileAuthorizationCodeBody,
   CreatePaymentBody, 
   CreatePaymentLinkBody,
   CreateSubscriptionBody,
@@ -30,12 +31,15 @@ import type {
   CreateTerminalRefundBody,
   DeleteInvoiceQueryParams,
   GetSubscriptionQueryParams,
+  ListBankAccountsQueryParams,
   ListCardsQueryParams,
   ListDisputesParams,
   ListInvoicesQueryParams,
   ListPaymentLinksQueryParams,
   ListPaymentRefundsQueryParams, 
   ListPaymentsQueryParams,
+  ListPayoutEntriesQueryParams,
+  ListPayoutsQueryParams,
   ListSubscriptionEventsQueryParams,
   PauseSubscriptionBody,
   PaymentLink,
@@ -67,12 +71,15 @@ import type {
  */
 export class Square {
   accessToken : string;
+  bankAccountsBaseURL : string;
   cardsBaseURL : string;
   checkoutBaseURL : string;
   disputesBaseURL : string;
   invoicesBaseURL : string;
   itemsBaseURL : string;
+  mobileAuthBaseURL : string;
   paymentsBaseURL : string;
+  payoutsBaseURL : string;
   refundsBaseURL : string;
   searchOrdersBaseURL : string;
   subscriptionsBaseURL : string;
@@ -80,12 +87,15 @@ export class Square {
   
   constructor(accessToken : string) {
     this.accessToken = accessToken;
+    this.bankAccountsBaseURL = 'https://connect.squareup.com/v2/bank-accounts';
     this.cardsBaseURL = 'https://connect.squareup.com/v2/cards';
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
     this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
     this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
+    this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code'
     this.paymentsBaseURL = 'https://connect.squareup.com/v2/payments';
+    this.payoutsBaseURL = 'https://connect.squareup.com/v2/payouts';
     this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
     this.searchOrdersBaseURL = 'https://connect.squareup.com/v2/orders/search';
     this.subscriptionsBaseURL = 'https://connect.squareup.com/v2/subscriptions'
@@ -586,5 +596,38 @@ export class Square {
     const url = `${this.subscriptionsBaseURL}/${subscriptionID}/swap-plan`;
     return await this.makeRequest('POST', url, body);
   }
+  // Bank Accounts Methods
+  public async listBankAccounts(params? : ListBankAccountsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.bankAccountsBaseURL}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async getBankAccountByv1ID(v1BankAccountID : string) : Promise<string> {
+    const url = `${this.bankAccountsBaseURL}/by-v1-id/${v1BankAccountID}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async getBankAccount(bankAccountID : string) : Promise<string> {
+    const url = `${this.bankAccountsBaseURL}/${bankAccountID}`;
+    return await this.makeRequest('GET', url);
+  };
+  // Payouts Methods
+  public async listPayouts(params? : ListPayoutsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.payoutsBaseURL}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async getPayout(payoutID : string) : Promise<string> {
+    const url = `${this.payoutsBaseURL}/${payoutID}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async listPayoutEntries(payoutID : string, params? : ListPayoutEntriesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.payoutsBaseURL}/${payoutID}/payout-entries${paramsString}`;
+    return await this.makeRequest('GET', url);
+  };
+  // Mobile Authorization Methods
+  public async createMobileAuthorizationCode(body : CreateMobileAuthorizationCodeBody) : Promise<string> {
+    return await this.makeRequest('POST', this.mobileAuthBaseURL, body);
+  };
 }
 
