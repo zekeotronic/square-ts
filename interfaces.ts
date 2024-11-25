@@ -2950,6 +2950,16 @@ interface WorkweekConfig {
 
 
 // Request Body Interfaces
+export interface BatchDeleteCatalogObjectsBody {
+  object_ids? : string[];
+};
+export interface BatchGetCatalogObjectsBody {
+  object_ids : string[];
+  include_related_objects? : boolean;
+  catalog_version? : number;
+  include_deleted_objects? : boolean;
+  include_category_path_to_root? : boolean;
+};
 export interface BatchGetOrdersBody {
   location_id? : string;
   order_ids : string[];
@@ -2961,6 +2971,10 @@ export interface BulkSwapPlanBody {
   new_plan_variation_id : string;
   old_plan_variation_id : string;
   location_id : string;
+};
+export interface BatchUpsertCatalogObjectsBody {
+  idempotency_key : string;
+  batches : CatalogObjectBatch[];
 };
 export interface BulkUpsertOrderCustomAttributesBody {
   values : Map<string, BulkUpsertOrderCustomAttributesRequestUpsertCustomAttribute>[];
@@ -2990,6 +3004,12 @@ export interface CreateCardBody {
   verification_token? : string;
   card : Card;
 
+};
+export interface CreateCatalogImageBody {
+  idempotency_key : string;
+  object_id? : string;
+  image : CatalogObject;
+  is_primary? : boolean;
 };
 export interface CreateDeviceCodeBody {
   idempotency_key : string;
@@ -3122,6 +3142,28 @@ export interface ResumeSubscriptionBody {
   resume_effective_date? : string;
   resume_change_timing? : string;
 };
+export interface SearchCatalogItemsBody {
+  text_filter? : string;
+  category_ids? : string[];
+  stock_levels? : string[];
+  enabled_location_ids? : string[];
+  cursor? : string;
+  limit? : number;
+  sort_order? : string;
+  product_types? : string[];
+  custom_attribute_filters? : CustomAttributeFilter[];
+  archived_state? : string;
+};
+export interface SearchCatalogObjectsBody {
+  cursor? : string;
+  object_types? : string[];
+  include_deleted_objects? : boolean;
+  include_related_objects? : boolean;
+  begin_time? : string;
+  query? : CatalogQuery;
+  limit? : number;
+  include_category_path_to_root? : boolean;
+};
 export interface SearchInvoicesBody {
   query : InvoiceQuery;
   limit? : number;
@@ -3159,10 +3201,23 @@ export interface SwapPlanBody {
   new_plan_variation_id : string;
   phases? : Phase[];
 };
+export interface UpdateCatalogImageBody {
+  idempotency_key : string;
+};
 export interface UpdateInvoiceBody {
   invoice : Invoice;
   idempotency_key? : string;
   fields_to_clear? : string[];
+};
+export interface UpdateItemModifierListsBody {
+  item_ids : string[];
+  modifier_lists_to_enable? : string[];
+  modifier_lists_to_disable? : string[];
+};
+export interface UpdateItemTaxesBody {
+  item_ids : string[];
+  taxes_to_enable? : string[];
+  taxes_to_disable? : string[];
 };
 export interface UpdateLocationSettingsBody {
   location_settings : CheckoutLocationSettings;
@@ -3185,6 +3240,10 @@ export interface UpdatePaymentBody {
 };
 export interface UpdateSubscriptionBody {
   subscription? : Subscription;
+};
+export interface UpsertCatalogObjectBody {
+  idempotency_key : string;
+  object : CatalogObject;
 };
 export interface UpsertOrderCustomAttributesBody {
   custom_attribute : CustomAttribute;
@@ -3210,6 +3269,11 @@ export interface UpsertOrderCustomAttributesBody {
 export interface DeleteInvoiceQueryParams {
   version? : number;
 };
+export interface GetCatalogObjectQueryParams {
+  include_related_objects? : boolean;
+  catalog_version? : number;
+  include_category_path_to_root? : boolean;
+};
 export interface GetOrderCustomAttributeDefinitionQueryParams {
   version? : number;
 };
@@ -3231,6 +3295,11 @@ export interface ListCardsQueryParams {
   include_disabled? : boolean;
   reference_id? : string;
   sort_order? : string;
+};
+export interface ListCatalogQueryParams {
+  cursor? : string;
+  types? : string;
+  catalog_version? : number;
 };
 export interface ListDeviceCodesQueryParams {
   cursor? : string;

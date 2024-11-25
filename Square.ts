@@ -13,9 +13,12 @@
    */
 
 import type { 
+  BatchDeleteCatalogObjectsBody,
+  BatchGetCatalogObjectsBody,
   BatchGetOrdersBody,
   BulkDeleteOrderCustomAttributesBody,
   BulkSwapPlanBody,
+  BatchUpsertCatalogObjectsBody,
   BulkUpsertOrderCustomAttributesBody,
   CalculateOrderBody,
   CancelPaymentBody, 
@@ -23,6 +26,7 @@ import type {
   CloneOrderBody,
   CompletePaymentBody,
   CreateCardBody,
+  CreateCatalogImageBody,
   CreateDeviceCodeBody,
   CreateDisputeEvidenceFileBody,
   CreateDisputeEvidenceTextBody,
@@ -38,11 +42,13 @@ import type {
   CreateTerminalCheckoutBody,
   CreateTerminalRefundBody,
   DeleteInvoiceQueryParams,
+  GetCatalogObjectQueryParams,
   GetOrderCustomAttributeDefinitionQueryParams,
   GetOrderCustomAttributesQueryParams,
   GetSubscriptionQueryParams,
   ListBankAccountsQueryParams,
   ListCardsQueryParams,
+  ListCatalogQueryParams,
   ListDeviceCodesQueryParams,
   ListDevicesQueryParams,
   ListDisputesParams,
@@ -62,6 +68,8 @@ import type {
   RefundPaymentBody, 
   RegisterApplePayDomainBody,
   ResumeSubscriptionBody,
+  SearchCatalogItemsBody,
+  SearchCatalogObjectsBody,
   SearchInvoicesBody,
   SearchOrdersBody,
   SearchSubscriptionsBody,
@@ -69,13 +77,17 @@ import type {
   SearchTerminalCheckoutsBody,
   SearchTerminalRefundsBody,
   SwapPlanBody,
+  UpdateCatalogImageBody,
   UpdateInvoiceBody,
+  UpdateItemModifierListsBody,
+  UpdateItemTaxesBody,
   UpdateLocationSettingsBody,
   UpdateMerchantSettingsBody,
   UpdateOrderBody,
   UpdateOrderCustomAttributeDefinitionBody,
   UpdatePaymentBody, 
   UpdateSubscriptionBody,
+  UpsertCatalogObjectBody,
   UpsertOrderCustomAttributesBody
 } from "./interfaces.ts";
 
@@ -94,6 +106,7 @@ export class Square {
   applePayBaseURL : string;
   bankAccountsBaseURL : string;
   cardsBaseURL : string;
+  catalogBaseURL : string;
   checkoutBaseURL : string;
   devicesBaseURL : string;
   disputesBaseURL : string;
@@ -114,6 +127,7 @@ export class Square {
     this.applePayBaseURL = 'https://connect.squareup.com/v2/apple-pay/domains';
     this.bankAccountsBaseURL = 'https://connect.squareup.com/v2/bank-accounts';
     this.cardsBaseURL = 'https://connect.squareup.com/v2/cards';
+    this.catalogBaseURL = 'https://connect.squareup.com/v2/catalog';
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
     this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
     this.devicesBaseURL = 'https://connect.squareup.com/v2/devices';
@@ -763,5 +777,67 @@ export class Square {
     const url = `${this.ordersBaseURL}/${orderID}/custom-attributes/${customAttributeKey}`;
     return await this.makeRequest('POST', url, body);
   }
+  // Catalog Methods
+  public async batchDeleteCatalogObjects(body : BatchDeleteCatalogObjectsBody) : Promise<string> {
+    const url = `${this.catalogBaseURL}/batch-delete`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async batchGetCatalogObjects(body : BatchGetCatalogObjectsBody) : Promise<string> {
+    const url = `${this.catalogBaseURL}/batch-retrieve`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async batchUpsertCatalogObjects(body : BatchUpsertCatalogObjectsBody) : Promise<string> {
+    const url = `${this.catalogBaseURL}/batch-upsert`;
+    return await this.makeRequest('POST', url, body);
+  };
+  // TODO: Add File Upload to createCatalogImage
+  public async createCatalogImage(body : CreateCatalogImageBody) : Promise<string> {
+    const url = `${this.catalogBaseURL}/images`;
+    return await this.makeRequest('POST', url, body);
+  };
+  // TODO: Add File Upload to updateCatalogImage
+  public async updateCatalogImage(imageID : string, body : UpdateCatalogImageBody) : Promise<string> {
+    const url = `${this.catalogBaseURL}/images/${imageID}`;
+    return await this.makeRequest('PUT', url, body);
+  };
+  public async catalogInfo() : Promise<string> {
+    const url = `${this.catalogBaseURL}/info`;
+    return await this.makeRequest('GET', url);
+  };
+  public async listCatalog(params? : ListCatalogQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.catalogBaseURL}/list${paramsString}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async upsertCatalogObject(body : UpsertCatalogObjectBody) : Promise<string> {
+    const url = `${this.catalogBaseURL}/object`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async deleteCatalogObject(objectID : string) : Promise<string> {
+    const url = `${this.catalogBaseURL}/object/${objectID}`;
+    return await this.makeRequest('DELETE', url);
+  };
+  public async getCatalogObject(objectID : string, params? : GetCatalogObjectQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.catalogBaseURL}/object/${objectID}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async searchCatalogObjects(body : SearchCatalogObjectsBody) : Promise<string> {
+    const url = `${this.catalogBaseURL}/search`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async searchCatalogItems(body : SearchCatalogItemsBody) : Promise<string> {
+    const url = `${this.catalogBaseURL}/search-catalog-items`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async updateItemModifierLists(body : UpdateItemModifierListsBody) : Promise<string> {
+    const url = `${this.catalogBaseURL}/update-item-modifier-lists`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async updateItemTaxes(body : UpdateItemTaxesBody) : Promise<string> {
+    const url = `${this.catalogBaseURL}/update-item-taxes`;
+    return await this.makeRequest('POST', url, body);
+  };
+
 }
 
