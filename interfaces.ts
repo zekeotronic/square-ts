@@ -2950,10 +2950,18 @@ interface WorkweekConfig {
 
 
 // Request Body Interfaces
+export interface BatchGetOrdersBody {
+  location_id? : string;
+  order_ids : string[];
+};
 export interface BulkSwapPlanBody {
   new_plan_variation_id : string;
   old_plan_variation_id : string;
   location_id : string;
+};
+export interface CalculateOrderBody {
+  order : Order;
+  proposed_rewards? : OrderReward[];
 };
 export interface CancelPaymentBody {
   idempotency_key : string;
@@ -2961,6 +2969,11 @@ export interface CancelPaymentBody {
 export interface ChangeBillingAnchorDateBody {
   monthly_billing_anchor_date? : number;
   effective_date? : string;
+};
+export interface CloneOrderBody {
+  order_id : string;
+  version? : number;
+  idempotency_key? : string;
 };
 export interface CompletePaymentBody {
   version_token? : string;
@@ -2997,6 +3010,10 @@ export interface CreateInvoiceBody {
 export interface CreateMobileAuthorizationCodeBody {
   location_id : string
 
+};
+export interface CreateOrderBody {
+  order : Order;
+  idempotency_key : string;
 };
 export interface CreatePaymentBody {
   source_id : string
@@ -3064,6 +3081,11 @@ export interface PauseSubscriptionBody {
   resume_change_timing? : string;
   pause_reason? : string;
 };
+export interface PayOrderBody {
+  idempotency_key : string;
+  order_version? : number;
+  payment_ids? : string[];
+};
 export interface PublishInvoiceBody {
   version : number;
   idempotency_key? : string;
@@ -3094,6 +3116,13 @@ export interface SearchInvoicesBody {
   query : InvoiceQuery;
   limit? : number;
   cursor? : string;
+};
+export interface SearchOrdersBody {
+  location_ids? : string[];
+  cursor? : string;
+  query? : SearchOrdersQuery;
+  limit? : number;
+  return_entries? : boolean;
 };
 export interface SearchSubscriptionsBody {
   cursor? : string;
@@ -3130,6 +3159,11 @@ export interface UpdateLocationSettingsBody {
 };
 export interface UpdateMerchantSettingsBody {
   merchant_settings : CheckoutMerchantSettings;
+};
+export interface UpdateOrderBody {
+  order? : Order;
+  fields_to_clear? : string[];
+  idempotency_key? : string;
 };
 export interface UpdatePaymentBody {
   payment : Payment,

@@ -13,9 +13,12 @@
    */
 
 import type { 
+  BatchGetOrdersBody,
   BulkSwapPlanBody,
+  CalculateOrderBody,
   CancelPaymentBody, 
   ChangeBillingAnchorDateBody,
+  CloneOrderBody,
   CompletePaymentBody,
   CreateCardBody,
   CreateDeviceCodeBody,
@@ -24,6 +27,7 @@ import type {
   CreateInvoiceAttachmentBody,
   CreateInvoiceBody,
   CreateMobileAuthorizationCodeBody,
+  CreateOrderBody,
   CreatePaymentBody, 
   CreatePaymentLinkBody,
   CreateSubscriptionBody,
@@ -46,11 +50,13 @@ import type {
   ListSubscriptionEventsQueryParams,
   PauseSubscriptionBody,
   PaymentLink,
+  PayOrderBody,
   PublishInvoiceBody,
   RefundPaymentBody, 
   RegisterApplePayDomainBody,
   ResumeSubscriptionBody,
   SearchInvoicesBody,
+  SearchOrdersBody,
   SearchSubscriptionsBody,
   SearchTerminalActionsBody,
   SearchTerminalCheckoutsBody,
@@ -59,6 +65,7 @@ import type {
   UpdateInvoiceBody,
   UpdateLocationSettingsBody,
   UpdateMerchantSettingsBody,
+  UpdateOrderBody,
   UpdatePaymentBody, 
   UpdateSubscriptionBody
 } from "./interfaces.ts";
@@ -84,10 +91,10 @@ export class Square {
   invoicesBaseURL : string;
   itemsBaseURL : string;
   mobileAuthBaseURL : string;
+  ordersBaseURL : string;
   paymentsBaseURL : string;
   payoutsBaseURL : string;
   refundsBaseURL : string;
-  searchOrdersBaseURL : string;
   subscriptionsBaseURL : string;
   terminalBaseURL : string;
   
@@ -101,11 +108,11 @@ export class Square {
     this.devicesBaseURL = 'https://connect.squareup.com/v2/devices';
     this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
-    this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code'
+    this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code';
+    this.ordersBaseURL = 'https://connect.squareup.com/v2/orders';
     this.paymentsBaseURL = 'https://connect.squareup.com/v2/payments';
     this.payoutsBaseURL = 'https://connect.squareup.com/v2/payouts';
     this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
-    this.searchOrdersBaseURL = 'https://connect.squareup.com/v2/orders/search';
     this.subscriptionsBaseURL = 'https://connect.squareup.com/v2/subscriptions'
     this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
   }
@@ -662,6 +669,38 @@ export class Square {
   // Apple Pay Methods
   public async registerApplePayDomain(body : RegisterApplePayDomainBody) : Promise<string> {
     return await this.makeRequest('POST', this.applePayBaseURL, body);
+  }
+  // Orders Methods
+  public async createOrder(body : CreateOrderBody) : Promise<string> {
+    return await this.makeRequest('POST', this.ordersBaseURL, body);
+  }
+  public async batchGetOrders(body : BatchGetOrdersBody) : Promise<string> {
+    const url = `${this.ordersBaseURL}/batch-retrieve`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async calculateOrder(body : CalculateOrderBody) : Promise<string> {
+    const url = `${this.ordersBaseURL}/calculate`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async cloneOrder(body : CloneOrderBody) : Promise<string> {
+    const url = `${this.ordersBaseURL}/clone`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async searchOrders(body : SearchOrdersBody) : Promise<string> {
+    const url = `${this.ordersBaseURL}/search`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async getOrder(orderID : string) : Promise<string> {
+    const url = `${this.ordersBaseURL}/${orderID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async updateOrder(orderID : string, body : UpdateOrderBody) : Promise<string> {
+    const url = `${this.ordersBaseURL}/${orderID}`;
+    return await this.makeRequest('PUT', url, body);
+  }
+  public async payOrder(orderID : string, body : PayOrderBody) : Promise<string> {
+    const url = `${this.ordersBaseURL}/${orderID}/pay`;
+    return await this.makeRequest('POST', url, body);
   }
 }
 
