@@ -20,14 +20,18 @@ import type {
   BatchGetCatalogObjectsBody,
   BatchGetOrdersBody,
   BulkDeleteOrderCustomAttributesBody,
+  BulkGetBookingsBody,
+  BulkGetTeamMemberBookingProfilesBody,
   BulkSwapPlanBody,
   BatchUpsertCatalogObjectsBody,
   BulkUpsertOrderCustomAttributesBody,
   CalculateOrderBody,
+  CancelBookingBody,
   CancelPaymentBody, 
   ChangeBillingAnchorDateBody,
   CloneOrderBody,
   CompletePaymentBody,
+  CreateBookingBody,
   CreateCardBody,
   CreateCatalogImageBody,
   CreateDeviceCodeBody,
@@ -51,12 +55,14 @@ import type {
   GetOrderCustomAttributesQueryParams,
   GetSubscriptionQueryParams,
   ListBankAccountsQueryParams,
+  ListBookingsQueryParams,
   ListCardsQueryParams,
   ListCatalogQueryParams,
   ListDeviceCodesQueryParams,
   ListDevicesQueryParams,
   ListDisputesParams,
   ListInvoicesQueryParams,
+  ListLocationBookingProfilesQueryParams,
   ListOrderCustomAttributeDefinitionsQueryParams,
   ListOrderCustomAttributesQueryParams,
   ListPaymentLinksQueryParams,
@@ -65,6 +71,7 @@ import type {
   ListPayoutEntriesQueryParams,
   ListPayoutsQueryParams,
   ListSubscriptionEventsQueryParams,
+  ListTeamMemberBookingProfilesQueryParams,
   PauseSubscriptionBody,
   PaymentLink,
   PayOrderBody,
@@ -72,6 +79,7 @@ import type {
   RefundPaymentBody, 
   RegisterApplePayDomainBody,
   ResumeSubscriptionBody,
+  SearchAvailabilityBody,
   SearchCatalogItemsBody,
   SearchCatalogObjectsBody,
   SearchInvoicesBody,
@@ -81,6 +89,7 @@ import type {
   SearchTerminalCheckoutsBody,
   SearchTerminalRefundsBody,
   SwapPlanBody,
+  UpdateBookingBody,
   UpdateCatalogImageBody,
   UpdateInvoiceBody,
   UpdateItemModifierListsBody,
@@ -109,6 +118,7 @@ export class Square {
   accessToken : string;
   applePayBaseURL : string;
   bankAccountsBaseURL : string;
+  bookingsBaseURL : string;
   cardsBaseURL : string;
   catalogBaseURL : string;
   checkoutBaseURL : string;
@@ -131,6 +141,7 @@ export class Square {
     this.accessToken = accessToken;
     this.applePayBaseURL = 'https://connect.squareup.com/v2/apple-pay/domains';
     this.bankAccountsBaseURL = 'https://connect.squareup.com/v2/bank-accounts';
+    this.bookingsBaseURL = 'https://connect.squareup.com/v2/bookings';
     this.cardsBaseURL = 'https://connect.squareup.com/v2/cards';
     this.catalogBaseURL = 'https://connect.squareup.com/v2/catalog';
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
@@ -873,6 +884,61 @@ export class Square {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.inventoryBaseURL}/catalog-object/${catalogObjectID}${paramsString}`;
     return await this.makeRequest('GET', url);
+  };
+  // Bookings Methods
+  public async listBookings(params? : ListBookingsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.bookingsBaseURL}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async createBooking(body : CreateBookingBody) : Promise<string> {
+    return await this.makeRequest('POST', this.bookingsBaseURL, body);
+  };
+  public async searchAvailability(body : SearchAvailabilityBody) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/availability/search`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async bulkGetBookings(body : BulkGetBookingsBody) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/bulk-retrieve`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async getBusinessBookingProfile() : Promise<string> {
+    const url = `${this.bookingsBaseURL}/business-booking-profile`;
+    return await this.makeRequest('GET', url);
+  };
+  public async listLocationBookingProfiles(params? : ListLocationBookingProfilesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.bookingsBaseURL}/location-booking-profiles${paramsString}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async getLocationBookingProfile(locationID : string) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/location-booking-profiles/${locationID}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async listTeamMemberBookingProfiles(params? : ListTeamMemberBookingProfilesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.bookingsBaseURL}/team-member-booking-profiles${paramsString}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async bulkGetTeamMemberBookingProfiles(body : BulkGetTeamMemberBookingProfilesBody) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/team-member-booking-profiles/bulk-retrieve`;
+    return await this.makeRequest('POST', url, body);
+  };
+  public async getTeamMemberBookingProfile(teamMemberID : string) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/team-member-booking-profiles/${teamMemberID}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async getBooking(bookingID : string) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/${bookingID}`;
+    return await this.makeRequest('GET', url);
+  };
+  public async updateBooking(bookingID : string, body : UpdateBookingBody) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/${bookingID}`;
+    return await this.makeRequest('PUT', url, body);
+  };
+  public async cancelBooking(bookingID : string, body : CancelBookingBody) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/${bookingID}/cancel`;
+    return await this.makeRequest('POST', url, body);
   };
 }
 

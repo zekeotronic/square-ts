@@ -2990,6 +2990,12 @@ export interface BatchGetOrdersBody {
 export interface BulkDeleteOrderCustomAttributesBody {
   values : Map<string, BulkDeleteOrderCustomAttributesRequestDeleteCustomAttribute>[];
 };
+export interface BulkGetBookingsBody {
+  booking_ids : string[];
+};
+export interface BulkGetTeamMemberBookingProfilesBody {
+  team_member_ids : string[];
+};
 export interface BulkSwapPlanBody {
   new_plan_variation_id : string;
   old_plan_variation_id : string;
@@ -3006,6 +3012,10 @@ export interface CalculateOrderBody {
   order : Order;
   proposed_rewards? : OrderReward[];
 };
+export interface CancelBookingBody {
+  idempotency_key? : string;
+  booking_version? : number;
+};
 export interface CancelPaymentBody {
   idempotency_key : string;
 };
@@ -3020,6 +3030,10 @@ export interface CloneOrderBody {
 };
 export interface CompletePaymentBody {
   version_token? : string;
+};
+export interface CreateBookingBody {
+  idempotency_key? : string;
+  booking : Booking;
 };
 export interface CreateCardBody {
   idempotency_key : string;
@@ -3164,6 +3178,9 @@ export interface ResumeSubscriptionBody {
   resume_effective_date? : string;
   resume_change_timing? : string;
 };
+export interface SearchAvailabilityBody {
+  query : SearchAvailabilityQuery;
+};
 export interface SearchCatalogItemsBody {
   text_filter? : string;
   category_ids? : string[];
@@ -3222,6 +3239,10 @@ export interface SearchTerminalRefundsBody {
 export interface SwapPlanBody {
   new_plan_variation_id : string;
   phases? : Phase[];
+};
+export interface UpdateBookingBody {
+  idempotency_key? : string;
+  booking : Booking;
 };
 export interface UpdateCatalogImageBody {
   idempotency_key : string;
@@ -3315,6 +3336,15 @@ export interface ListBankAccountsQueryParams {
   limit? : number;
   location_id? : string;
 };
+export interface ListBookingsQueryParams {
+  limit? : number;
+  cursor? : string;
+  customer_id? : string;
+  team_member_id? : string;
+  location_id? : string;
+  start_at_min? : string;
+  start_at_max? : string;
+};
 export interface ListCardsQueryParams {
   cursor? : string;
   customer_id? : string;
@@ -3348,6 +3378,10 @@ export interface ListInvoicesQueryParams {
   location_id? : string;
   cursor? : string;
   limit? : number;
+};
+export interface ListLocationBookingProfilesQueryParams {
+  limit? : number; 
+  cursor? : string;
 };
 export interface ListOrderCustomAttributeDefinitionsQueryParams {
   visibility_filter? : string;
@@ -3421,4 +3455,10 @@ export interface ListPayoutsQueryParams {
 export interface ListSubscriptionEventsQueryParams {
   cursor? : string;
   limit? : number;
+};
+export interface ListTeamMemberBookingProfilesQueryParams {
+  bookable_only? : boolean;
+  limit? : number;
+  cursor? : string;
+  location_id? : string;
 };
