@@ -18,6 +18,7 @@ import type {
   ChangeBillingAnchorDateBody,
   CompletePaymentBody,
   CreateCardBody,
+  CreateDeviceCodeBody,
   CreateDisputeEvidenceFileBody,
   CreateDisputeEvidenceTextBody,
   CreateInvoiceAttachmentBody,
@@ -33,6 +34,8 @@ import type {
   GetSubscriptionQueryParams,
   ListBankAccountsQueryParams,
   ListCardsQueryParams,
+  ListDeviceCodesQueryParams,
+  ListDevicesQueryParams,
   ListDisputesParams,
   ListInvoicesQueryParams,
   ListPaymentLinksQueryParams,
@@ -45,6 +48,7 @@ import type {
   PaymentLink,
   PublishInvoiceBody,
   RefundPaymentBody, 
+  RegisterApplePayDomainBody,
   ResumeSubscriptionBody,
   SearchInvoicesBody,
   SearchSubscriptionsBody,
@@ -71,9 +75,11 @@ import type {
  */
 export class Square {
   accessToken : string;
+  applePayBaseURL : string;
   bankAccountsBaseURL : string;
   cardsBaseURL : string;
   checkoutBaseURL : string;
+  devicesBaseURL : string;
   disputesBaseURL : string;
   invoicesBaseURL : string;
   itemsBaseURL : string;
@@ -87,10 +93,12 @@ export class Square {
   
   constructor(accessToken : string) {
     this.accessToken = accessToken;
+    this.applePayBaseURL = 'https://connect.squareup.com/v2/apple-pay/domains';
     this.bankAccountsBaseURL = 'https://connect.squareup.com/v2/bank-accounts';
     this.cardsBaseURL = 'https://connect.squareup.com/v2/cards';
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
     this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
+    this.devicesBaseURL = 'https://connect.squareup.com/v2/devices';
     this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
     this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code'
@@ -601,33 +609,59 @@ export class Square {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.bankAccountsBaseURL}${paramsString}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async getBankAccountByv1ID(v1BankAccountID : string) : Promise<string> {
     const url = `${this.bankAccountsBaseURL}/by-v1-id/${v1BankAccountID}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async getBankAccount(bankAccountID : string) : Promise<string> {
     const url = `${this.bankAccountsBaseURL}/${bankAccountID}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   // Payouts Methods
   public async listPayouts(params? : ListPayoutsQueryParams) : Promise<string> {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.payoutsBaseURL}${paramsString}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async getPayout(payoutID : string) : Promise<string> {
     const url = `${this.payoutsBaseURL}/${payoutID}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async listPayoutEntries(payoutID : string, params? : ListPayoutEntriesQueryParams) : Promise<string> {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.payoutsBaseURL}/${payoutID}/payout-entries${paramsString}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   // Mobile Authorization Methods
   public async createMobileAuthorizationCode(body : CreateMobileAuthorizationCodeBody) : Promise<string> {
     return await this.makeRequest('POST', this.mobileAuthBaseURL, body);
-  };
+  }
+  // Devices Methods
+  public async listDevices(params: ListDevicesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.devicesBaseURL}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async listDeviceCodes(params: ListDeviceCodesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.devicesBaseURL}/codes${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async createDeviceCode(body : CreateDeviceCodeBody) : Promise<string> {
+    return await this.makeRequest('POST', `${this.devicesBaseURL}/codes`, body);
+  }
+  public async getDeviceCode(deviceCodeID : string) : Promise<string> {
+    const url = `${this.devicesBaseURL}/codes/${deviceCodeID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async getDevice(deviceID : string) : Promise<string> {
+    const url = `${this.devicesBaseURL}/${deviceID}`;
+    return await this.makeRequest('GET', url);
+  }
+  // Apple Pay Methods
+  public async registerApplePayDomain(body : RegisterApplePayDomainBody) : Promise<string> {
+    return await this.makeRequest('POST', this.applePayBaseURL, body);
+  }
 }
 

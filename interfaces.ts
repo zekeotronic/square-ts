@@ -2972,6 +2972,10 @@ export interface CreateCardBody {
   card : Card;
 
 };
+export interface CreateDeviceCodeBody {
+  idempotency_key : string;
+  device_code : DeviceCode;
+};
 export interface CreateDisputeEvidenceFileBody {
   idempotency_key : string;
   evidence_type? : string;
@@ -3079,6 +3083,9 @@ export interface RefundPaymentBody {
   cash_details? : DestinationDetailsCashRefundDetails;
   external_details? : DestinationDetailsExternalRefundDetails;
 };
+export interface RegisterApplePayDomainBody {
+  domain_name : string;
+};
 export interface ResumeSubscriptionBody {
   resume_effective_date? : string;
   resume_change_timing? : string;
@@ -3165,6 +3172,18 @@ export interface ListCardsQueryParams {
   include_disabled? : boolean;
   reference_id? : string;
   sort_order? : string;
+};
+export interface ListDeviceCodesQueryParams {
+  cursor? : string;
+  location_id? : string;
+  product_type? : string;
+  status? : string;
+};
+export interface ListDevicesQueryParams {
+  cursor? : string;
+  sort_order? : string;
+  limit? : number;
+  location_id? : string;
 };
 export interface ListDisputesParams {
   cursor? : string;
