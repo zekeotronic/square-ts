@@ -2950,8 +2950,17 @@ interface WorkweekConfig {
 
 
 // Request Body Interfaces
+export interface BulkSwapPlanBody {
+  new_plan_variation_id : string;
+  old_plan_variation_id : string;
+  location_id : string;
+};
 export interface CancelPaymentBody {
   idempotency_key : string;
+};
+export interface ChangeBillingAnchorDateBody {
+  monthly_billing_anchor_date? : number;
+  effective_date? : string;
 };
 export interface CompletePaymentBody {
   version_token? : string;
@@ -3013,6 +3022,21 @@ export interface CreatePaymentLinkBody {
   quick_pay? : QuickPay;
   order? : Order;
 }
+export interface CreateSubscriptionBody {
+  idempotency_key? : string;
+  location_id : string;
+  plan_variation_id? : string;
+  customer_id : string;
+  start_date? : string;
+  canceled_date? : string;
+  tax_percentage? : string;
+  price_override_money? : Money;
+  card_id? : string;
+  timezone? : string;
+  source? : SubscriptionSource;
+  monthly_billing_anchor_date? : number;
+  phases? : Phase[];
+};
 export interface CreateTerminalActionBody {
   idempotency_key : string;
   action : TerminalAction
@@ -3024,6 +3048,13 @@ export interface CreateTerminalCheckoutBody {
 export interface CreateTerminalRefundBody {
   idempotency_key : string;
   refund? : TerminalRefund;
+};
+export interface PauseSubscriptionBody {
+  pause_effective_date? : string;
+  pause_cycle_duration? : number;
+  resume_effective_date? : string;
+  resume_change_timing? : string;
+  pause_reason? : string;
 };
 export interface PublishInvoiceBody {
   version : number;
@@ -3044,10 +3075,20 @@ export interface RefundPaymentBody {
   cash_details? : DestinationDetailsCashRefundDetails;
   external_details? : DestinationDetailsExternalRefundDetails;
 };
+export interface ResumeSubscriptionBody {
+  resume_effective_date? : string;
+  resume_change_timing? : string;
+};
 export interface SearchInvoicesBody {
   query : InvoiceQuery;
   limit? : number;
   cursor? : string;
+};
+export interface SearchSubscriptionsBody {
+  cursor? : string;
+  limit? : number;
+  query? : SearchSubscriptionsQuery;
+  include? : string[];
 };
 export interface SearchTerminalActionsBody {
   query? : TerminalActionQuery;
@@ -3064,6 +3105,10 @@ export interface SearchTerminalRefundsBody {
   cursor : string;
   limit : number;
 };
+export interface SwapPlanBody {
+  new_plan_variation_id : string;
+  phases? : Phase[];
+};
 export interface UpdateInvoiceBody {
   invoice : Invoice;
   idempotency_key? : string;
@@ -3078,6 +3123,9 @@ export interface UpdateMerchantSettingsBody {
 export interface UpdatePaymentBody {
   payment : Payment,
   idempotency_key : string;
+};
+export interface UpdateSubscriptionBody {
+  subscription? : Subscription;
 };
 
 
@@ -3098,6 +3146,9 @@ export interface UpdatePaymentBody {
 // Request Params Interfaces
 export interface DeleteInvoiceQueryParams {
   version? : number;
+};
+export interface GetSubscriptionQueryParams {
+  include? : string;
 };
 export interface ListCardsQueryParams {
   cursor? : string;
@@ -3160,4 +3211,7 @@ export interface ListPaymentRefundsQueryParams {
   source_type? : string;
   limit? : number;
 };
-
+export interface ListSubscriptionEventsQueryParams {
+  cursor? : string;
+  limit? : number;
+};

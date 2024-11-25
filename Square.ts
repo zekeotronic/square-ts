@@ -13,7 +13,9 @@
    */
 
 import type { 
+  BulkSwapPlanBody,
   CancelPaymentBody, 
+  ChangeBillingAnchorDateBody,
   CompletePaymentBody,
   CreateCardBody,
   CreateDisputeEvidenceFileBody,
@@ -22,27 +24,35 @@ import type {
   CreateInvoiceBody,
   CreatePaymentBody, 
   CreatePaymentLinkBody,
+  CreateSubscriptionBody,
   CreateTerminalActionBody,
   CreateTerminalCheckoutBody,
   CreateTerminalRefundBody,
   DeleteInvoiceQueryParams,
+  GetSubscriptionQueryParams,
   ListCardsQueryParams,
   ListDisputesParams,
   ListInvoicesQueryParams,
   ListPaymentLinksQueryParams,
   ListPaymentRefundsQueryParams, 
   ListPaymentsQueryParams,
+  ListSubscriptionEventsQueryParams,
+  PauseSubscriptionBody,
   PaymentLink,
   PublishInvoiceBody,
   RefundPaymentBody, 
+  ResumeSubscriptionBody,
   SearchInvoicesBody,
+  SearchSubscriptionsBody,
   SearchTerminalActionsBody,
   SearchTerminalCheckoutsBody,
   SearchTerminalRefundsBody,
+  SwapPlanBody,
   UpdateInvoiceBody,
   UpdateLocationSettingsBody,
   UpdateMerchantSettingsBody,
   UpdatePaymentBody, 
+  UpdateSubscriptionBody
 } from "./interfaces.ts";
 
 /**
@@ -65,6 +75,7 @@ export class Square {
   paymentsBaseURL : string;
   refundsBaseURL : string;
   searchOrdersBaseURL : string;
+  subscriptionsBaseURL : string;
   terminalBaseURL : string;
   
   constructor(accessToken : string) {
@@ -77,6 +88,7 @@ export class Square {
     this.paymentsBaseURL = 'https://connect.squareup.com/v2/payments';
     this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
     this.searchOrdersBaseURL = 'https://connect.squareup.com/v2/orders/search';
+    this.subscriptionsBaseURL = 'https://connect.squareup.com/v2/subscriptions'
     this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
   }
   // Helper methods
@@ -190,12 +202,9 @@ export class Square {
    * ```
    */
   public async listPayments(params? : ListPaymentsQueryParams) : Promise<string> {
-    if (params) {
-      const paramsString = this.makeParamsString(params);
+      const paramsString = params ? this.makeParamsString(params) : '';
       const url = `${this.paymentsBaseURL}${paramsString}`;
       return await this.makeRequest('GET', url);
-    }
-    return await this.makeRequest('GET', this.paymentsBaseURL);
   }
   /**
    * Creates payment for a Square account
@@ -316,13 +325,9 @@ export class Square {
   }
   // Refund Methods
   public async listPaymentRefunds(params? : ListPaymentRefundsQueryParams) : Promise<string> {
-    if (params) {
-      const paramsString = this.makeParamsString(params);
-      const url = `${this.refundsBaseURL}${paramsString}`;
-      return await this.makeRequest('GET', url);
-    } else {
-      return await this.makeRequest('GET', this.refundsBaseURL);
-    }
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.refundsBaseURL}${paramsString}`;
+    return await this.makeRequest('GET', url);
   }
   public async refundPayment(body : RefundPaymentBody) : Promise<string> {
     return await this.makeRequest('POST', this.refundsBaseURL, body);
@@ -349,14 +354,10 @@ export class Square {
     return await this.makeRequest('PUT', url, body);
   }
   public async listPaymentLinks(params? : ListPaymentLinksQueryParams) : Promise<string> {
-    if (params) {
-      const paramsString = this.makeParamsString(params);
-      const url = `${this.checkoutBaseURL}/payment-links${paramsString}`;
-      return await this.makeRequest('GET', url);
-    } else {
-      const url = `${this.checkoutBaseURL}/payment-links`;
-      return await this.makeRequest('GET', url);
-    }
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.checkoutBaseURL}/payment-links${paramsString}`;
+    return await this.makeRequest('GET', url);
+
   }
   public async createPaymentLink(body : CreatePaymentLinkBody) : Promise<string> {
     const url = `${this.checkoutBaseURL}/payment-links`;
@@ -437,13 +438,9 @@ export class Square {
   }
   // Disputes Methods
   public async listDisputes(params? : ListDisputesParams) : Promise<string> {
-    if (params) {
-      const paramsString = this.makeParamsString(params);
-      const url = `${this.disputesBaseURL}${paramsString}`;
-      return await this.makeRequest('GET', url);
-    } else {
-      return await this.makeRequest('GET', this.disputesBaseURL);
-    }
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.disputesBaseURL}${paramsString}`;
+    return await this.makeRequest('GET', url);
   }
   public async getDispute(disputeID : string) : Promise<string> {
     const url = `${this.disputesBaseURL}/${disputeID}`;
@@ -523,13 +520,9 @@ export class Square {
   }
   // Cards Methods
   public async listCards(params? : ListCardsQueryParams) : Promise<string> {
-    if (params) {
-      const paramsString = this.makeParamsString(params);
-      const url = `${this.cardsBaseURL}${paramsString}`;
-      return await this.makeRequest('GET', url);
-    } else {
-      return await this.makeRequest('GET', this.cardsBaseURL);
-    }
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.cardsBaseURL}${paramsString}`;
+    return await this.makeRequest('GET', url);
   }
   public async createCard(body : CreateCardBody) : Promise<string> {
     return await this.makeRequest('POST', this.cardsBaseURL, body);
@@ -542,6 +535,56 @@ export class Square {
     const url = `${this.cardsBaseURL}/${cardID}/disable`;
     return await this.makeRequest('POST', url);
   }
+  // Subscription Methods
+  public async createSubscription(body : CreateSubscriptionBody) : Promise<string> {
+    const url = this.subscriptionsBaseURL;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async bulkSwapPlan(body : BulkSwapPlanBody) : Promise<string> {
+    const url = `${this.subscriptionsBaseURL}/bulk-swap-plan`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async searchSubscriptions(body : SearchSubscriptionsBody) : Promise<string> {
+    const url = `${this.subscriptionsBaseURL}/search`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async getSubscription(subscriptionID : string, params? : GetSubscriptionQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.subscriptionsBaseURL}/${subscriptionID}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async updateSubscription(subscriptionID : string, body : UpdateSubscriptionBody) : Promise<string> {
+    const url = `${this.subscriptionsBaseURL}/${subscriptionID}`;
+    return await this.makeRequest('PUT', url, body);
+  }
+  public async deleteSubscriptionAction(subscriptionID : string, actionID : string) : Promise<string> {
+    const url = `${this.subscriptionsBaseURL}/${subscriptionID}/actions/${actionID}`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async changeBillingAnchorDate(subscriptionID : string, body : ChangeBillingAnchorDateBody) : Promise<string> {
+    const url = `${this.subscriptionsBaseURL}/${subscriptionID}/billing-anchor`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async cancelSubscription(subscriptionID : string) : Promise<string> {
+    const url = `${this.subscriptionsBaseURL}/${subscriptionID}/cancel`;
+    return await this.makeRequest('POST', url);
+  }
+  public async listSubscriptionEvents(subscriptionID : string, params? : ListSubscriptionEventsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.subscriptionsBaseURL}/${subscriptionID}/events${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async pauseSubscription(subscriptionID : string, body : PauseSubscriptionBody) : Promise<string> {
+    const url = `${this.subscriptionsBaseURL}/${subscriptionID}/pause`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async resumeSubscription(subscriptionID : string, body : ResumeSubscriptionBody) : Promise<string> {
+    const url = `${this.subscriptionsBaseURL}/${subscriptionID}/resume`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async swapPlan(subscriptionID : string, body : SwapPlanBody) : Promise<string> {
+    const url = `${this.subscriptionsBaseURL}/${subscriptionID}/swap-plan`;
+    return await this.makeRequest('POST', url, body);
+  }
 }
 
-// export default Square;
