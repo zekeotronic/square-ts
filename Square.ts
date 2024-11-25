@@ -14,7 +14,9 @@
 
 import type { 
   BatchGetOrdersBody,
+  BulkDeleteOrderCustomAttributesBody,
   BulkSwapPlanBody,
+  BulkUpsertOrderCustomAttributesBody,
   CalculateOrderBody,
   CancelPaymentBody, 
   ChangeBillingAnchorDateBody,
@@ -28,6 +30,7 @@ import type {
   CreateInvoiceBody,
   CreateMobileAuthorizationCodeBody,
   CreateOrderBody,
+  CreateOrderCustomAttributeDefinitionBody,
   CreatePaymentBody, 
   CreatePaymentLinkBody,
   CreateSubscriptionBody,
@@ -35,6 +38,8 @@ import type {
   CreateTerminalCheckoutBody,
   CreateTerminalRefundBody,
   DeleteInvoiceQueryParams,
+  GetOrderCustomAttributeDefinitionQueryParams,
+  GetOrderCustomAttributesQueryParams,
   GetSubscriptionQueryParams,
   ListBankAccountsQueryParams,
   ListCardsQueryParams,
@@ -42,6 +47,8 @@ import type {
   ListDevicesQueryParams,
   ListDisputesParams,
   ListInvoicesQueryParams,
+  ListOrderCustomAttributeDefinitionsQueryParams,
+  ListOrderCustomAttributesQueryParams,
   ListPaymentLinksQueryParams,
   ListPaymentRefundsQueryParams, 
   ListPaymentsQueryParams,
@@ -66,8 +73,10 @@ import type {
   UpdateLocationSettingsBody,
   UpdateMerchantSettingsBody,
   UpdateOrderBody,
+  UpdateOrderCustomAttributeDefinitionBody,
   UpdatePaymentBody, 
-  UpdateSubscriptionBody
+  UpdateSubscriptionBody,
+  UpsertOrderCustomAttributesBody
 } from "./interfaces.ts";
 
 /**
@@ -91,6 +100,8 @@ export class Square {
   invoicesBaseURL : string;
   itemsBaseURL : string;
   mobileAuthBaseURL : string;
+  orderCustomAttributeDefinitionsBaseURL : string;
+  orderCustomAttributesBaseURL : string;
   ordersBaseURL : string;
   paymentsBaseURL : string;
   payoutsBaseURL : string;
@@ -109,6 +120,8 @@ export class Square {
     this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
     this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code';
+    this.orderCustomAttributeDefinitionsBaseURL = 'https://connect.squareup.com/v2/orders/custom-attribute-definitions'
+    this.orderCustomAttributesBaseURL = 'https://connect.squareup.com/v2/orders/custom-attributes'
     this.ordersBaseURL = 'https://connect.squareup.com/v2/orders';
     this.paymentsBaseURL = 'https://connect.squareup.com/v2/payments';
     this.payoutsBaseURL = 'https://connect.squareup.com/v2/payouts';
@@ -700,6 +713,54 @@ export class Square {
   }
   public async payOrder(orderID : string, body : PayOrderBody) : Promise<string> {
     const url = `${this.ordersBaseURL}/${orderID}/pay`;
+    return await this.makeRequest('POST', url, body);
+  }
+  // Order Custom Attributes Methods
+  public async listOrderCustomAttributeDefinitions(params? : ListOrderCustomAttributeDefinitionsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.orderCustomAttributeDefinitionsBaseURL}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async createOrderCustomAttributeDefinition(body : CreateOrderCustomAttributeDefinitionBody) : Promise<string> {
+    return await this.makeRequest('POST', this.orderCustomAttributeDefinitionsBaseURL, body);
+  }
+  public async deleteOrderCustomAttributeDefinition(key : string) : Promise<string> {
+    const url = `${this.orderCustomAttributeDefinitionsBaseURL}/${key}`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async getOrderCustomAttributeDefinition(key : string, params? : GetOrderCustomAttributeDefinitionQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.orderCustomAttributeDefinitionsBaseURL}/${key}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async updateOrderCustomAttributeDefinition(key : string, body : UpdateOrderCustomAttributeDefinitionBody) : Promise<string> {
+    const url = `${this.orderCustomAttributeDefinitionsBaseURL}/${key}`;
+    return await this.makeRequest('PUT', url, body);
+  }
+  public async bulkDeleteOrderCustomAttributes(body : BulkDeleteOrderCustomAttributesBody) : Promise<string> {
+    const url = `${this.orderCustomAttributesBaseURL}/bulk-delete`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async bulkUpsertOrderCustomAttributes(body : BulkUpsertOrderCustomAttributesBody) : Promise<string> {
+    const url = `${this.orderCustomAttributesBaseURL}/bulk-upsert`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async listOrderCustomAttributes(orderID : string, params? : ListOrderCustomAttributesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.ordersBaseURL}/${orderID}/custom-attributes${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async deleteOrderCustomAttributes(orderID : string, customAttributeKey : string) : Promise<string> {
+    const url = `${this.ordersBaseURL}/${orderID}/custom-attributes/${customAttributeKey}`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async getOrderCustomAttributes(orderID : string, customAttributeKey : string, params? : GetOrderCustomAttributesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.ordersBaseURL}/${orderID}/custom-attributes/${customAttributeKey}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async upsertOrderCustomAttributes(orderID : string, customAttributeKey : string, body : UpsertOrderCustomAttributesBody) : Promise<string> {
+    const url = `${this.ordersBaseURL}/${orderID}/custom-attributes/${customAttributeKey}`;
     return await this.makeRequest('POST', url, body);
   }
 }

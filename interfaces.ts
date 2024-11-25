@@ -2954,10 +2954,16 @@ export interface BatchGetOrdersBody {
   location_id? : string;
   order_ids : string[];
 };
+export interface BulkDeleteOrderCustomAttributesBody {
+  values : Map<string, BulkDeleteOrderCustomAttributesRequestDeleteCustomAttribute>[];
+};
 export interface BulkSwapPlanBody {
   new_plan_variation_id : string;
   old_plan_variation_id : string;
   location_id : string;
+};
+export interface BulkUpsertOrderCustomAttributesBody {
+  values : Map<string, BulkUpsertOrderCustomAttributesRequestUpsertCustomAttribute>[];
 };
 export interface CalculateOrderBody {
   order : Order;
@@ -3014,6 +3020,10 @@ export interface CreateMobileAuthorizationCodeBody {
 export interface CreateOrderBody {
   order : Order;
   idempotency_key : string;
+};
+export interface CreateOrderCustomAttributeDefinitionBody {
+  custom_attribute_definition : CustomAttributeDefinition;
+  idempotency_key? : string;
 };
 export interface CreatePaymentBody {
   source_id : string
@@ -3165,12 +3175,20 @@ export interface UpdateOrderBody {
   fields_to_clear? : string[];
   idempotency_key? : string;
 };
+export interface UpdateOrderCustomAttributeDefinitionBody {
+  custom_attribute_definition : CustomAttributeDefinition;
+  idempotency_key? : string;
+};
 export interface UpdatePaymentBody {
   payment : Payment,
   idempotency_key : string;
 };
 export interface UpdateSubscriptionBody {
   subscription? : Subscription;
+};
+export interface UpsertOrderCustomAttributesBody {
+  custom_attribute : CustomAttribute;
+  idempotency_key? : string;
 };
 
 
@@ -3191,6 +3209,13 @@ export interface UpdateSubscriptionBody {
 // Request Params Interfaces
 export interface DeleteInvoiceQueryParams {
   version? : number;
+};
+export interface GetOrderCustomAttributeDefinitionQueryParams {
+  version? : number;
+};
+export interface GetOrderCustomAttributesQueryParams {
+  version? : number;
+  with_definition? : boolean;
 };
 export interface GetSubscriptionQueryParams {
   include? : string;
@@ -3228,6 +3253,17 @@ export interface ListInvoicesQueryParams {
   location_id? : string;
   cursor? : string;
   limit? : number;
+};
+export interface ListOrderCustomAttributeDefinitionsQueryParams {
+  visibility_filter? : string;
+  cursor? : string;
+  limit? : number;
+};
+export interface ListOrderCustomAttributesQueryParams {
+  visibility_filter? : string;
+  cursor? : string;
+  limit? : number;
+  with_definitions? : boolean;
 };
 export interface ListPaymentLinksQueryParams {
   cursor? : string;
