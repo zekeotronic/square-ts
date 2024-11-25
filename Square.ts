@@ -19,11 +19,13 @@ import type {
   BatchGetInventoryCountsBody,
   BatchGetCatalogObjectsBody,
   BatchGetOrdersBody,
+  BatchUpsertCatalogObjectsBody,
+  BulkDeleteBookingCustomAttributesBody,
   BulkDeleteOrderCustomAttributesBody,
   BulkGetBookingsBody,
   BulkGetTeamMemberBookingProfilesBody,
   BulkSwapPlanBody,
-  BatchUpsertCatalogObjectsBody,
+  BulkUpsertBookingCustomAttributesBody,
   BulkUpsertOrderCustomAttributesBody,
   CalculateOrderBody,
   CancelBookingBody,
@@ -32,6 +34,7 @@ import type {
   CloneOrderBody,
   CompletePaymentBody,
   CreateBookingBody,
+  CreateBookingCustomAttributeDefinitionBody,
   CreateCardBody,
   CreateCatalogImageBody,
   CreateDeviceCodeBody,
@@ -49,12 +52,16 @@ import type {
   CreateTerminalCheckoutBody,
   CreateTerminalRefundBody,
   DeleteInvoiceQueryParams,
+  GetBookingCustomAttributeDefinitionQueryParams,
+  GetBookingCustomAttributeQueryParams,
   GetCatalogObjectQueryParams,
   GetInventoryCountQueryParams,
   GetOrderCustomAttributeDefinitionQueryParams,
   GetOrderCustomAttributesQueryParams,
   GetSubscriptionQueryParams,
   ListBankAccountsQueryParams,
+  ListBookingCustomAttributeDefinitionsQueryParams,
+  ListBookingCustomAttributesQueryParams,
   ListBookingsQueryParams,
   ListCardsQueryParams,
   ListCatalogQueryParams,
@@ -90,6 +97,7 @@ import type {
   SearchTerminalRefundsBody,
   SwapPlanBody,
   UpdateBookingBody,
+  UpdateBookingCustomAttributeDefinitionBody,
   UpdateCatalogImageBody,
   UpdateInvoiceBody,
   UpdateItemModifierListsBody,
@@ -100,6 +108,7 @@ import type {
   UpdateOrderCustomAttributeDefinitionBody,
   UpdatePaymentBody, 
   UpdateSubscriptionBody,
+  UpsertBookingCustomAttributeBody,
   UpsertCatalogObjectBody,
   UpsertOrderCustomAttributesBody
 } from "./interfaces.ts";
@@ -798,59 +807,59 @@ export class Square {
   public async batchDeleteCatalogObjects(body : BatchDeleteCatalogObjectsBody) : Promise<string> {
     const url = `${this.catalogBaseURL}/batch-delete`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async batchGetCatalogObjects(body : BatchGetCatalogObjectsBody) : Promise<string> {
     const url = `${this.catalogBaseURL}/batch-retrieve`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async batchUpsertCatalogObjects(body : BatchUpsertCatalogObjectsBody) : Promise<string> {
     const url = `${this.catalogBaseURL}/batch-upsert`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   // TODO: Add File Upload to createCatalogImage
   public async createCatalogImage(body : CreateCatalogImageBody) : Promise<string> {
     const url = `${this.catalogBaseURL}/images`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   // TODO: Add File Upload to updateCatalogImage
   public async updateCatalogImage(imageID : string, body : UpdateCatalogImageBody) : Promise<string> {
     const url = `${this.catalogBaseURL}/images/${imageID}`;
     return await this.makeRequest('PUT', url, body);
-  };
+  }
   public async catalogInfo() : Promise<string> {
     const url = `${this.catalogBaseURL}/info`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async listCatalog(params? : ListCatalogQueryParams) : Promise<string> {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.catalogBaseURL}/list${paramsString}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async upsertCatalogObject(body : UpsertCatalogObjectBody) : Promise<string> {
     const url = `${this.catalogBaseURL}/object`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async deleteCatalogObject(objectID : string) : Promise<string> {
     const url = `${this.catalogBaseURL}/object/${objectID}`;
     return await this.makeRequest('DELETE', url);
-  };
+  }
   public async getCatalogObject(objectID : string, params? : GetCatalogObjectQueryParams) : Promise<string> {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.catalogBaseURL}/object/${objectID}${paramsString}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async searchCatalogObjects(body : SearchCatalogObjectsBody) : Promise<string> {
     const url = `${this.catalogBaseURL}/search`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async searchCatalogItems(body : SearchCatalogItemsBody) : Promise<string> {
     const url = `${this.catalogBaseURL}/search-catalog-items`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async updateItemModifierLists(body : UpdateItemModifierListsBody) : Promise<string> {
     const url = `${this.catalogBaseURL}/update-item-modifier-lists`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async updateItemTaxes(body : UpdateItemTaxesBody) : Promise<string> {
     const url = `${this.catalogBaseURL}/update-item-taxes`;
     return await this.makeRequest('POST', url, body);
@@ -859,86 +868,135 @@ export class Square {
   public async getInventoryAdjustment(adjustmentID : string) : Promise<string> {
     const url = `${this.inventoryBaseURL}/adjustment/${adjustmentID}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async batchChangeInventory(body : BatchChangeInventoryBody) : Promise<string> {
     const url = `${this.inventoryBaseURL}/changes/batch-create`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async batchGetInventoryChanges(body : BatchGetInventoryChangesBody) : Promise<string> {
     const url = `${this.inventoryBaseURL}/changes/batch-retrieve`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async batchGetInventoryCounts(body : BatchGetInventoryCountsBody) : Promise<string> {
     const url = `${this.inventoryBaseURL}/counts/batch-retrieve`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async getPhysicalInventoryCount(physicalCountID : string) : Promise<string> {
     const url = `${this.inventoryBaseURL}/physical-counts/${physicalCountID}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async getInventoryTransfer(transferID : string) : Promise<string> {
     const url = `${this.inventoryBaseURL}/transfers/${transferID}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async getInventoryCount(catalogObjectID : string, params? : GetInventoryCountQueryParams) : Promise<string> {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.inventoryBaseURL}/catalog-object/${catalogObjectID}${paramsString}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   // Bookings Methods
   public async listBookings(params? : ListBookingsQueryParams) : Promise<string> {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.bookingsBaseURL}${paramsString}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async createBooking(body : CreateBookingBody) : Promise<string> {
     return await this.makeRequest('POST', this.bookingsBaseURL, body);
-  };
+  }
   public async searchAvailability(body : SearchAvailabilityBody) : Promise<string> {
     const url = `${this.bookingsBaseURL}/availability/search`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async bulkGetBookings(body : BulkGetBookingsBody) : Promise<string> {
     const url = `${this.bookingsBaseURL}/bulk-retrieve`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async getBusinessBookingProfile() : Promise<string> {
     const url = `${this.bookingsBaseURL}/business-booking-profile`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async listLocationBookingProfiles(params? : ListLocationBookingProfilesQueryParams) : Promise<string> {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.bookingsBaseURL}/location-booking-profiles${paramsString}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async getLocationBookingProfile(locationID : string) : Promise<string> {
     const url = `${this.bookingsBaseURL}/location-booking-profiles/${locationID}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async listTeamMemberBookingProfiles(params? : ListTeamMemberBookingProfilesQueryParams) : Promise<string> {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.bookingsBaseURL}/team-member-booking-profiles${paramsString}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async bulkGetTeamMemberBookingProfiles(body : BulkGetTeamMemberBookingProfilesBody) : Promise<string> {
     const url = `${this.bookingsBaseURL}/team-member-booking-profiles/bulk-retrieve`;
     return await this.makeRequest('POST', url, body);
-  };
+  }
   public async getTeamMemberBookingProfile(teamMemberID : string) : Promise<string> {
     const url = `${this.bookingsBaseURL}/team-member-booking-profiles/${teamMemberID}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async getBooking(bookingID : string) : Promise<string> {
     const url = `${this.bookingsBaseURL}/${bookingID}`;
     return await this.makeRequest('GET', url);
-  };
+  }
   public async updateBooking(bookingID : string, body : UpdateBookingBody) : Promise<string> {
     const url = `${this.bookingsBaseURL}/${bookingID}`;
     return await this.makeRequest('PUT', url, body);
-  };
+  }
   public async cancelBooking(bookingID : string, body : CancelBookingBody) : Promise<string> {
     const url = `${this.bookingsBaseURL}/${bookingID}/cancel`;
     return await this.makeRequest('POST', url, body);
-  };
-}
+  }
+  // Booking Custom Attributes Methods
+  public async listBookingCustomAttributeDefinitions(params? : ListBookingCustomAttributeDefinitionsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.bookingsBaseURL}/custom-attribute-definitions${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async createBookingCustomAttributeDefinition(body : CreateBookingCustomAttributeDefinitionBody) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/custom-attribute-definitions`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async deleteBookingCustomAttributeDefinition(key : string) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/custom-attribute-definitions/${key}`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async getBookingCustomAttributeDefinition(key : string, params? : GetBookingCustomAttributeDefinitionQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.bookingsBaseURL}/custom-attribute-definitions/${key}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async updateBookingCustomAttributeDefinition(key : string, body : UpdateBookingCustomAttributeDefinitionBody) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/custom-attribute-definitions/${key}`;
+    return await this.makeRequest('PUT', url, body);
+  }
+  public async bulkDeleteBookingCustomAttributes(body : BulkDeleteBookingCustomAttributesBody) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/custom-attributes/bulk-delete`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async bulkUpsertBookingCustomAttributes(body : BulkUpsertBookingCustomAttributesBody) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/custom-attributes/bulk-upsert`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async listBookingCustomAttributes(bookingID : string, params? : ListBookingCustomAttributesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.bookingsBaseURL}/${bookingID}/custom-attributes${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async deleteBookingCustomAttribute(bookingID : string, key : string) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/${bookingID}/custom-attributes/${key}`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async getBookingCustomAttribute(bookingID : string, key : string, params? : GetBookingCustomAttributeQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.bookingsBaseURL}/${bookingID}/custom-attributes/${key}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async upsertBookingCustomAttribute(bookingID : string, key : string, body : UpsertBookingCustomAttributeBody) : Promise<string> {
+    const url = `${this.bookingsBaseURL}/${bookingID}/custom-attributes/${key}`;
+    return await this.makeRequest('PUT', url, body);
+  }
 
+}

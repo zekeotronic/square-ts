@@ -99,6 +99,15 @@ interface BookingCreatorDetails {
   team_member_id? : string;
   customer_id? : string;
 };
+interface BookingCustomAttributeDeleteRequest {
+  booking_id : string;
+  key : string;
+};
+interface BookingCustomAttributeUpsertRequest {
+  booking_id : string;
+  custom_attribute : CustomAttribute;
+  idempotency_key? : string;
+};
 interface Break {
   id? : string;
   start_at : string;
@@ -2987,6 +2996,13 @@ export interface BatchGetOrdersBody {
   location_id? : string;
   order_ids : string[];
 };
+export interface BatchUpsertCatalogObjectsBody {
+  idempotency_key : string;
+  batches : CatalogObjectBatch[];
+};
+export interface BulkDeleteBookingCustomAttributesBody {
+  values : Map<string, BookingCustomAttributeDeleteRequest>[];
+};
 export interface BulkDeleteOrderCustomAttributesBody {
   values : Map<string, BulkDeleteOrderCustomAttributesRequestDeleteCustomAttribute>[];
 };
@@ -3001,9 +3017,8 @@ export interface BulkSwapPlanBody {
   old_plan_variation_id : string;
   location_id : string;
 };
-export interface BatchUpsertCatalogObjectsBody {
-  idempotency_key : string;
-  batches : CatalogObjectBatch[];
+export interface BulkUpsertBookingCustomAttributesBody {
+  values : Map<string, BookingCustomAttributeUpsertRequest>[];
 };
 export interface BulkUpsertOrderCustomAttributesBody {
   values : Map<string, BulkUpsertOrderCustomAttributesRequestUpsertCustomAttribute>[];
@@ -3034,6 +3049,10 @@ export interface CompletePaymentBody {
 export interface CreateBookingBody {
   idempotency_key? : string;
   booking : Booking;
+};
+export interface CreateBookingCustomAttributeDefinitionBody {
+  custom_attribute_definition : CustomAttributeDefinition;
+  idempotency_key? : string;
 };
 export interface CreateCardBody {
   idempotency_key : string;
@@ -3284,6 +3303,14 @@ export interface UpdatePaymentBody {
 export interface UpdateSubscriptionBody {
   subscription? : Subscription;
 };
+export interface UpdateBookingCustomAttributeDefinitionBody {
+  custom_attribute_definition : CustomAttributeDefinition;
+  idempotency_key? : string;
+};
+export interface UpsertBookingCustomAttributeBody {
+  custom_attribute : CustomAttribute;
+  idempotency_key? : string;
+};
 export interface UpsertCatalogObjectBody {
   idempotency_key : string;
   object : CatalogObject;
@@ -3312,6 +3339,13 @@ export interface UpsertOrderCustomAttributesBody {
 export interface DeleteInvoiceQueryParams {
   version? : number;
 };
+export interface GetBookingCustomAttributeDefinitionQueryParams {
+  version? : number;
+};
+export interface GetBookingCustomAttributeQueryParams {
+  with_definition? : boolean;
+  version? : number;
+};
 export interface GetCatalogObjectQueryParams {
   include_related_objects? : boolean;
   catalog_version? : number;
@@ -3335,6 +3369,15 @@ export interface ListBankAccountsQueryParams {
   cursor? : string;
   limit? : number;
   location_id? : string;
+};
+export interface ListBookingCustomAttributeDefinitionsQueryParams {
+  limit? : number;
+  cursor? : string;
+};
+export interface ListBookingCustomAttributesQueryParams {
+  limit? : number;
+  cursor? : string;
+  with_definitions? : boolean;
 };
 export interface ListBookingsQueryParams {
   limit? : number;
