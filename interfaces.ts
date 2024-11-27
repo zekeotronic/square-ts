@@ -1,3 +1,10 @@
+export enum HTTP {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE'
+};
+
 interface ACHDetails {
   routing_number? : string;
   account_number_suffix? : string;
@@ -157,6 +164,11 @@ interface BulkUpdateCustomerData {
   birthday? : string;
   tax_ids? : CustomerTaxIds;
   version? : number;
+};
+interface BulkUpsertCustomerCustomAttributesRequestCustomerCustomAttributeUpsertRequest {
+  customer_id : string;
+  custom_attribute : CustomAttribute;
+  idempotency_key? : string;
 };
 interface BulkUpsertOrderCustomAttributesRequestUpsertCustomAttribute {
   custom_attribute : CustomAttribute;
@@ -3045,6 +3057,9 @@ export interface BulkUpdateVendorsBody {
 export interface BulkUpsertBookingCustomAttributesBody {
   values : Map<string, BookingCustomAttributeUpsertRequest>[];
 };
+export interface BulkUpsertCustomerCustomAttributesBody {
+  values : Map<string, BulkUpsertCustomerCustomAttributesRequestCustomerCustomAttributeUpsertRequest>[];
+};
 export interface BulkUpsertOrderCustomAttributesBody {
   values : Map<string, BulkUpsertOrderCustomAttributesRequestUpsertCustomAttribute>[];
 };
@@ -3105,6 +3120,10 @@ export interface CreateCustomerBody {
   note? : string;
   birthday? : string;
   tax_ids? : CustomerTaxIds;
+};
+export interface CreateCustomerCustomAttributeDefinitionBody {
+  custom_attribute_definition : CustomAttributeDefinition;
+  idempotency_key? : string;
 };
 export interface CreateDeviceCodeBody {
   idempotency_key : string;
@@ -3334,6 +3353,10 @@ export interface UpdateCustomerBody {
   version? : number;
   tax_ids? : CustomerTaxIds;
 };
+export interface UpdateCustomerCustomAttributeDefinitionBody {
+  custom_attribute_definition : CustomAttributeDefinition;
+  idempotency_key? : string;
+};
 export interface UpdateInvoiceBody {
   invoice : Invoice;
   idempotency_key? : string;
@@ -3387,6 +3410,10 @@ export interface UpsertCatalogObjectBody {
   idempotency_key : string;
   object : CatalogObject;
 };
+export interface UpsertCustomerCustomAttributeBody {
+  custom_attribute : CustomAttribute;
+  idempotency_key? : string;
+};
 export interface UpsertOrderCustomAttributesBody {
   custom_attribute : CustomAttribute;
   idempotency_key? : string;
@@ -3431,6 +3458,13 @@ export interface GetCatalogObjectQueryParams {
   include_related_objects? : boolean;
   catalog_version? : number;
   include_category_path_to_root? : boolean;
+};
+export interface GetCustomerCustomAttributeDefinitionQueryParams {
+  version? : number;
+};
+export interface GetCustomerCustomAttributeQueryParams {
+  with_definition? : boolean;
+  version? : number;
 };
 export interface GetInventoryCountQueryParams {
   location_ids? : string;
@@ -3493,6 +3527,15 @@ export interface ListCatalogQueryParams {
   cursor? : string;
   types? : string;
   catalog_version? : number;
+};
+export interface ListCustomerCustomAttributeDefinitionsQueryParams {
+  limit? : number;
+  cursor? : string;
+};
+export interface ListCustomerCustomAttributesQueryParams {
+  limit? : number;
+  cursor? : string;
+  with_definitions? : boolean;
 };
 export interface ListCustomersQueryParams {
   cursor? : string;
