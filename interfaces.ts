@@ -2897,6 +2897,10 @@ interface TipSettings {
   tip_percentages? : string[];
   smart_tipping? : boolean;
 };
+interface UpdateVendorRequest {
+  idempotency_key ? : string;
+  vendor : Vendor;
+};
 interface Vendor {
   id? : string;
   created_at? : string;
@@ -3000,6 +3004,9 @@ export interface BatchUpsertCatalogObjectsBody {
   idempotency_key : string;
   batches : CatalogObjectBatch[];
 };
+export interface BulkCreateVendorsBody {
+  vendors : Map<string, Vendor>[];
+};
 export interface BulkDeleteBookingCustomAttributesBody {
   values : Map<string, BookingCustomAttributeDeleteRequest>[];
 };
@@ -3012,10 +3019,16 @@ export interface BulkGetBookingsBody {
 export interface BulkGetTeamMemberBookingProfilesBody {
   team_member_ids : string[];
 };
+export interface BulkGetVendorsBody{
+  vendor_ids? : string[];
+};
 export interface BulkSwapPlanBody {
   new_plan_variation_id : string;
   old_plan_variation_id : string;
   location_id : string;
+};
+export interface BulkUpdateVendorsBody {
+  vendors : Map<string, UpdateVendorRequest>[];
 };
 export interface BulkUpsertBookingCustomAttributesBody {
   values : Map<string, BookingCustomAttributeUpsertRequest>[];
@@ -3160,6 +3173,10 @@ export interface CreateTerminalRefundBody {
   idempotency_key : string;
   refund? : TerminalRefund;
 };
+export interface CreateVendorBody {
+  idempotency_key : string;
+  Vendor : Vendor;
+};
 export interface PauseSubscriptionBody {
   pause_effective_date? : string;
   pause_cycle_duration? : number;
@@ -3255,6 +3272,11 @@ export interface SearchTerminalRefundsBody {
   cursor : string;
   limit : number;
 };
+export interface SearchVendorsBody {
+  filter? : SearchVendorsRequestFilter;
+  sort? : SearchVendorsRequestSort;
+  cursor? : string;
+};
 export interface SwapPlanBody {
   new_plan_variation_id : string;
   phases? : Phase[];
@@ -3302,6 +3324,10 @@ export interface UpdatePaymentBody {
 };
 export interface UpdateSubscriptionBody {
   subscription? : Subscription;
+};
+export interface UpdateVendorBody {
+  idempotency_key? : string;
+  vendor : Vendor;
 };
 export interface UpdateBookingCustomAttributeDefinitionBody {
   custom_attribute_definition : CustomAttributeDefinition;

@@ -20,11 +20,14 @@ import type {
   BatchGetCatalogObjectsBody,
   BatchGetOrdersBody,
   BatchUpsertCatalogObjectsBody,
+  BulkCreateVendorsBody,
   BulkDeleteBookingCustomAttributesBody,
   BulkDeleteOrderCustomAttributesBody,
   BulkGetBookingsBody,
   BulkGetTeamMemberBookingProfilesBody,
+  BulkGetVendorsBody,
   BulkSwapPlanBody,
+  BulkUpdateVendorsBody,
   BulkUpsertBookingCustomAttributesBody,
   BulkUpsertOrderCustomAttributesBody,
   CalculateOrderBody,
@@ -51,6 +54,7 @@ import type {
   CreateTerminalActionBody,
   CreateTerminalCheckoutBody,
   CreateTerminalRefundBody,
+  CreateVendorBody,
   DeleteInvoiceQueryParams,
   GetBookingCustomAttributeDefinitionQueryParams,
   GetBookingCustomAttributeQueryParams,
@@ -95,6 +99,7 @@ import type {
   SearchTerminalActionsBody,
   SearchTerminalCheckoutsBody,
   SearchTerminalRefundsBody,
+  SearchVendorsBody,
   SwapPlanBody,
   UpdateBookingBody,
   UpdateBookingCustomAttributeDefinitionBody,
@@ -108,6 +113,7 @@ import type {
   UpdateOrderCustomAttributeDefinitionBody,
   UpdatePaymentBody, 
   UpdateSubscriptionBody,
+  UpdateVendorBody,
   UpsertBookingCustomAttributeBody,
   UpsertCatalogObjectBody,
   UpsertOrderCustomAttributesBody
@@ -145,6 +151,7 @@ export class Square {
   refundsBaseURL : string;
   subscriptionsBaseURL : string;
   terminalBaseURL : string;
+  vendorsBaseURL : string;
   
   constructor(accessToken : string) {
     this.accessToken = accessToken;
@@ -168,6 +175,7 @@ export class Square {
     this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
     this.subscriptionsBaseURL = 'https://connect.squareup.com/v2/subscriptions'
     this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
+    this.vendorsBaseURL = 'https://connect.squareup.com/v2/vendors';
   }
   // Helper methods
   private makeParamsString(options: object): string {
@@ -998,5 +1006,33 @@ export class Square {
     const url = `${this.bookingsBaseURL}/${bookingID}/custom-attributes/${key}`;
     return await this.makeRequest('PUT', url, body);
   }
-
+  // Vendors Methods
+  public async bulkCreateVendors(body : BulkCreateVendorsBody) : Promise<string> {
+    const url = `${this.vendorsBaseURL}/bulk-create`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async bulkGetVendors(body : BulkGetVendorsBody) : Promise<string> {
+    const url = `${this.vendorsBaseURL}/bulk-retrieve`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async bulkUpdateVendors(body : BulkUpdateVendorsBody) : Promise<string> {
+    const url = `${this.vendorsBaseURL}/bulk-update`;
+    return await this.makeRequest('PUT', url, body);
+  }
+  public async createVendor(body : CreateVendorBody) : Promise<string> {
+    const url = `${this.vendorsBaseURL}/create`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async searchVendors(body : SearchVendorsBody) : Promise<string> {
+    const url = `${this.vendorsBaseURL}/search`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async getVendor(vendorID : string) : Promise<string> {
+    const url = `${this.vendorsBaseURL}/${vendorID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async updateVendor(vendorID : string, body : UpdateVendorBody) : Promise<string> {
+    const url = `${this.vendorsBaseURL}/${vendorID}`;
+    return await this.makeRequest('PUT', url, body);
+  }
 }
