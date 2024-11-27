@@ -3375,6 +3375,9 @@ export interface GetBookingCustomAttributeQueryParams {
   with_definition? : boolean;
   version? : number;
 };
+export interface GetCashDrawerShiftsQueryParams {
+  location_id : string;
+};
 export interface GetCatalogObjectQueryParams {
   include_related_objects? : boolean;
   catalog_version? : number;
@@ -3423,6 +3426,19 @@ export interface ListCardsQueryParams {
   include_disabled? : boolean;
   reference_id? : string;
   sort_order? : string;
+};
+export interface ListCashDrawerShiftEventsQueryParams {
+  location_id : string;
+  limit? : number;
+  cursor? : string;
+};
+export interface ListCashDrawerShiftsQueryParams {
+  location_id : string;
+  sort_order? : string;
+  begin_time? : string;
+  end_time? : string;
+  limit? : number;
+  cursor? : string;
 };
 export interface ListCatalogQueryParams {
   cursor? : string;

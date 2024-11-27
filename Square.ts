@@ -58,6 +58,7 @@ import type {
   DeleteInvoiceQueryParams,
   GetBookingCustomAttributeDefinitionQueryParams,
   GetBookingCustomAttributeQueryParams,
+  GetCashDrawerShiftsQueryParams,
   GetCatalogObjectQueryParams,
   GetInventoryCountQueryParams,
   GetOrderCustomAttributeDefinitionQueryParams,
@@ -68,6 +69,8 @@ import type {
   ListBookingCustomAttributesQueryParams,
   ListBookingsQueryParams,
   ListCardsQueryParams,
+  ListCashDrawerShiftEventsQueryParams,
+  ListCashDrawerShiftsQueryParams,
   ListCatalogQueryParams,
   ListDeviceCodesQueryParams,
   ListDevicesQueryParams,
@@ -136,6 +139,7 @@ export class Square {
   bankAccountsBaseURL : string;
   bookingsBaseURL : string;
   cardsBaseURL : string;
+  cashDrawersBaseURL : string;
   catalogBaseURL : string;
   checkoutBaseURL : string;
   devicesBaseURL : string;
@@ -161,6 +165,7 @@ export class Square {
     this.bankAccountsBaseURL = 'https://connect.squareup.com/v2/bank-accounts';
     this.bookingsBaseURL = 'https://connect.squareup.com/v2/bookings';
     this.cardsBaseURL = 'https://connect.squareup.com/v2/cards';
+    this.cashDrawersBaseURL = 'https://connect.squareup.com/v2/cash-drawers';
     this.catalogBaseURL = 'https://connect.squareup.com/v2/catalog';
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
     this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
@@ -1054,5 +1059,21 @@ export class Square {
   public async upsertSnippet(siteID : string, body: UpsertSnippetBody) : Promise<string> {
     const url = `${this.sitesBaseURL}/${siteID}/snippet`;
     return await this.makeRequest('POST', url, body);
+  }
+  //Cash Drawers Methods
+  public async listCashDrawerShifts(params : ListCashDrawerShiftsQueryParams) : Promise<string> {
+    const paramsString = this.makeParamsString(params);
+    const url = `${this.cashDrawersBaseURL}/shifts/${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async getCashDrawerShifts(shiftID : string, params : GetCashDrawerShiftsQueryParams) : Promise<string> {
+    const paramsString = this.makeParamsString(params);
+    const url = `${this.cashDrawersBaseURL}/shifts/${shiftID}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async listCashDrawerShiftEvents(shiftID : string, params : ListCashDrawerShiftEventsQueryParams) : Promise<string> {
+    const paramsString = this.makeParamsString(params);
+    const url = `${this.cashDrawersBaseURL}/shifts/${shiftID}/events${paramsString}`;
+    return await this.makeRequest('GET', url);
   }
 }
