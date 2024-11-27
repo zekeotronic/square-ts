@@ -12,7 +12,9 @@
 +  * ```
    */
 
-import type { 
+import type {
+  AccumulateLoyaltyPointsBody, 
+  AdjustLoyaltyPointsBody,
   BatchChangeInventoryBody,
   BatchDeleteCatalogObjectsBody,
   BatchGetInventoryChangesBody,
@@ -35,6 +37,7 @@ import type {
   BulkUpsertBookingCustomAttributesBody,
   BulkUpsertCustomerCustomAttributesBody,
   BulkUpsertOrderCustomAttributesBody,
+  CalculateLoyaltyPointsBody,
   CalculateOrderBody,
   CancelBookingBody,
   CancelPaymentBody, 
@@ -47,11 +50,15 @@ import type {
   CreateCatalogImageBody,
   CreateCustomerBody,
   CreateCustomerCustomAttributeDefinitionBody,
+  CreateCustomerGroupBody,
   CreateDeviceCodeBody,
   CreateDisputeEvidenceFileBody,
   CreateDisputeEvidenceTextBody,
   CreateInvoiceAttachmentBody,
   CreateInvoiceBody,
+  CreateLoyaltyAccountBody,
+  CreateLoyaltyRewardBody,
+  CreateLoyaltyPromotionBody,
   CreateMobileAuthorizationCodeBody,
   CreateOrderBody,
   CreateOrderCustomAttributeDefinitionBody,
@@ -84,12 +91,15 @@ import type {
   ListCatalogQueryParams,
   ListCustomerCustomAttributeDefinitionsQueryParams,
   ListCustomerCustomAttributesQueryParams,
+  ListCustomerGroupsQueryParams,
   ListCustomersQueryParams,
+  ListCustomerSegmentsQueryParams,
   ListDeviceCodesQueryParams,
   ListDevicesQueryParams,
   ListDisputesParams,
   ListInvoicesQueryParams,
   ListLocationBookingProfilesQueryParams,
+  ListLoyaltyPromotionsQueryParams,
   ListOrderCustomAttributeDefinitionsQueryParams,
   ListOrderCustomAttributesQueryParams,
   ListPaymentLinksQueryParams,
@@ -103,6 +113,7 @@ import type {
   PaymentLink,
   PayOrderBody,
   PublishInvoiceBody,
+  RedeemLoyaltyRewardBody,
   RefundPaymentBody, 
   RegisterApplePayDomainBody,
   ResumeSubscriptionBody,
@@ -111,6 +122,9 @@ import type {
   SearchCatalogObjectsBody,
   SearchCustomersBody,
   SearchInvoicesBody,
+  SearchLoyaltyAccountsBody,
+  SearchLoyaltyEventsBody,
+  SearchLoyaltyRewardsBody,
   SearchOrdersBody,
   SearchSubscriptionsBody,
   SearchTerminalActionsBody,
@@ -123,6 +137,7 @@ import type {
   UpdateCatalogImageBody,
   UpdateCustomerBody,
   UpdateCustomerCustomAttributeDefinitionBody,
+  UpdateCustomerGroupBody,
   UpdateInvoiceBody,
   UpdateItemModifierListsBody,
   UpdateItemTaxesBody,
@@ -166,6 +181,7 @@ export class Square {
   inventoryBaseURL : string;
   invoicesBaseURL : string;
   itemsBaseURL : string;
+  loyaltyBaseURL : string;
   mobileAuthBaseURL : string;
   orderCustomAttributeDefinitionsBaseURL : string;
   orderCustomAttributesBaseURL : string;
@@ -193,6 +209,7 @@ export class Square {
     this.inventoryBaseURL = 'https://connect.squareup.com/v2/inventory';
     this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
+    this.loyaltyBaseURL = 'https://connect.squareup.com/v2/loyalty';
     this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code';
     this.orderCustomAttributeDefinitionsBaseURL = 'https://connect.squareup.com/v2/orders/custom-attribute-definitions'
     this.orderCustomAttributesBaseURL = 'https://connect.squareup.com/v2/orders/custom-attributes'
@@ -1191,4 +1208,106 @@ export class Square {
     const url = `${this.customersBaseURL}/${customerID}/custom-attributes/${key}`;
     return await this.makeRequest(HTTP.POST, url, body);
   };
+  // Customer Groups Methods
+  public async listCustomerGroups(params? : ListCustomerGroupsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.customersBaseURL}/groups${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async createCustomerGroup(body : CreateCustomerGroupBody) : Promise<string> {
+    const url = `${this.customersBaseURL}/groups`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async deleteCustomerGroup(groupID : string) : Promise<string> {
+    const url = `${this.customersBaseURL}/groups/${groupID}`;
+    return await this.makeRequest(HTTP.DELETE, url);
+  }
+  public async getCustomerGroup(groupID : string) : Promise<string> {
+    const url = `${this.customersBaseURL}/groups/${groupID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async updateCustomerGroup(groupID : string, body: UpdateCustomerGroupBody) : Promise<string> {
+    const url = `${this.customersBaseURL}/groups/${groupID}`;
+    return await this.makeRequest(HTTP.PUT, url, body);
+  }
+  // Customer Segments Methods
+  public async listCustomerSegments(params? : ListCustomerSegmentsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.customersBaseURL}/segments${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async getCustomerSegment(segmentID : string) : Promise<string> {
+    const url = `${this.customersBaseURL}/segments/${segmentID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  // Loyalty Methods
+  public async createLoyaltyAccount(body : CreateLoyaltyAccountBody) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/accounts`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async searchLoyaltyAccounts(body : SearchLoyaltyAccountsBody) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/accounts/search`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async getLoyaltyAccount(accoundID : string) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/accounts/${accoundID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async accumulateLoyaltyPoints(accountID : string, body : AccumulateLoyaltyPointsBody) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/accounts/${accountID}/accumulate`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async adjustLoyaltyPoints(accountID : string, body : AdjustLoyaltyPointsBody) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/accounts/${accountID}/adjust`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async searchLoyaltyEvents(body : SearchLoyaltyEventsBody) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/events/search`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async getLoyaltyProgram(programID : string) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/programs/${programID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async calculateLoyaltyPoints(programID : string, body : CalculateLoyaltyPointsBody) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/programs/${programID}/calculate`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async listLoyaltyPromotions(programID : string, params? : ListLoyaltyPromotionsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.loyaltyBaseURL}/programs/${programID}/promotions${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async createLoyaltyPromotion(programID : string, body : CreateLoyaltyPromotionBody) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/programs/${programID}/promotions`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async getLoyaltyPromotion(promotionID : string, programID : string) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/programs/${programID}/promotions/${promotionID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async cancelLoyaltyPromotion(promotionID : string, programID : string) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/programs/${programID}/promotions/${promotionID}/cancel`;
+    return await this.makeRequest(HTTP.POST, url);
+  }
+  public async createLoyaltyReward(body : CreateLoyaltyRewardBody) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/rewards`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async searchLoyaltyRewards(body : SearchLoyaltyRewardsBody) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/rewards/search`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async deleteLoyaltyReward(rewardID : string) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/rewards/${rewardID}`;
+    return await this.makeRequest(HTTP.DELETE, url);
+  }
+  public async getLoyaltyReward(rewardID : string) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/rewards/${rewardID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async redeemLoyaltyReward(rewardID : string, body : RedeemLoyaltyRewardBody) : Promise<string> {
+    const url = `${this.loyaltyBaseURL}/rewards/${rewardID}/redeem`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
 }

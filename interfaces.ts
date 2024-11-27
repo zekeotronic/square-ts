@@ -2975,6 +2975,16 @@ interface WorkweekConfig {
 
 
 // Request Body Interfaces
+export interface AccumulateLoyaltyPointsBody {
+  accumulate_points : LoyaltyEventAccumulatePoints;
+  idempotency_key : string;
+  location_id : string;
+};
+export interface AdjustLoyaltyPointsBody {
+  idempotency_key : string;
+  adjust_points : LoyaltyEventAdjustPoints;
+  allow_negative_balance? : boolean;
+};
 export interface BatchChangeInventoryBody {
   idempotency_key : string;
   changes? : InventoryChange[];
@@ -3063,6 +3073,19 @@ export interface BulkUpsertCustomerCustomAttributesBody {
 export interface BulkUpsertOrderCustomAttributesBody {
   values : Map<string, BulkUpsertOrderCustomAttributesRequestUpsertCustomAttribute>[];
 };
+export interface CalculateLoyaltyPointsBody {
+  order_id? : string;
+  transaction_amount_money? : Money;
+  loyalty_account_id? : string;
+};
+export interface CreateLoyaltyPromotionBody {
+  loyalty_promotion : LoyaltyPromotion;
+  idempotency_key : string;
+};
+export interface CreateLoyaltyRewardBody {
+  reward : LoyaltyReward;
+  idempotency_key : string;
+};
 export interface CalculateOrderBody {
   order : Order;
   proposed_rewards? : OrderReward[];
@@ -3125,6 +3148,10 @@ export interface CreateCustomerCustomAttributeDefinitionBody {
   custom_attribute_definition : CustomAttributeDefinition;
   idempotency_key? : string;
 };
+export interface CreateCustomerGroupBody {
+  idempotency_key? : string;
+  group : CustomerGroup;
+};
 export interface CreateDeviceCodeBody {
   idempotency_key : string;
   device_code : DeviceCode;
@@ -3158,6 +3185,10 @@ export interface CreateOrderBody {
 export interface CreateOrderCustomAttributeDefinitionBody {
   custom_attribute_definition : CustomAttributeDefinition;
   idempotency_key? : string;
+};
+export interface CreateLoyaltyAccountBody {
+  loyalty_account : LoyaltyAccount;
+  idempotency_key : string;
 };
 export interface CreatePaymentBody {
   source_id : string
@@ -3238,6 +3269,10 @@ export interface PublishInvoiceBody {
   version : number;
   idempotency_key? : string;
 };
+export interface RedeemLoyaltyRewardBody {
+  idempotency_key : string;
+  location_id : string;
+};
 export interface RefundPaymentBody {
   idempotency_key : string;
   amount_money : Money;
@@ -3292,6 +3327,21 @@ export interface SearchCustomersBody {
 };
 export interface SearchInvoicesBody {
   query : InvoiceQuery;
+  limit? : number;
+  cursor? : string;
+};
+export interface SearchLoyaltyAccountsBody {
+  query : SearchLoyaltyAccountsRequestLoyaltyAccountQuery;
+  limit? : number;
+  cursor? : string;
+};
+export interface SearchLoyaltyEventsBody {
+  query? :LoyaltyEventQuery;
+  limit? : number;
+  cursor? : string;
+};
+export interface SearchLoyaltyRewardsBody {
+  query? :SearchLoyaltyRewardsRequestLoyaltyRewardQuery;
   limit? : number;
   cursor? : string;
 };
@@ -3413,6 +3463,9 @@ export interface UpsertCatalogObjectBody {
 export interface UpsertCustomerCustomAttributeBody {
   custom_attribute : CustomAttribute;
   idempotency_key? : string;
+};
+export interface UpdateCustomerGroupBody {
+  group : CustomerGroup;
 };
 export interface UpsertOrderCustomAttributesBody {
   custom_attribute : CustomAttribute;
@@ -3537,12 +3590,20 @@ export interface ListCustomerCustomAttributesQueryParams {
   cursor? : string;
   with_definitions? : boolean;
 };
+export interface ListCustomerGroupsQueryParams {
+  cursor? : string;
+  limit? : number;
+};
 export interface ListCustomersQueryParams {
   cursor? : string;
   limit? : number;
   sort_field? : string;
   sort_order? : string;
   count? : boolean;
+};
+export interface ListCustomerSegmentsQueryParams {
+  cursor? : string;
+  limit? : number;
 };
 export interface ListDeviceCodesQueryParams {
   cursor? : string;
@@ -3569,6 +3630,11 @@ export interface ListInvoicesQueryParams {
 export interface ListLocationBookingProfilesQueryParams {
   limit? : number; 
   cursor? : string;
+};
+export interface ListLoyaltyPromotionsQueryParams {
+  status? : string;
+  cursor? : string;
+  list? : string;
 };
 export interface ListOrderCustomAttributeDefinitionsQueryParams {
   visibility_filter? : string;
