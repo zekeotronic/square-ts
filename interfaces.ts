@@ -3004,17 +3004,26 @@ export interface BatchUpsertCatalogObjectsBody {
   idempotency_key : string;
   batches : CatalogObjectBatch[];
 };
+export interface BulkCreateCustomersBody {
+  customers : Map<string, BulkCreateCustomerData>[] ;
+};
 export interface BulkCreateVendorsBody {
   vendors : Map<string, Vendor>[];
 };
 export interface BulkDeleteBookingCustomAttributesBody {
   values : Map<string, BookingCustomAttributeDeleteRequest>[];
 };
+export interface BulkDeleteCustomersBody {
+  customer_ids : string[];
+};
 export interface BulkDeleteOrderCustomAttributesBody {
   values : Map<string, BulkDeleteOrderCustomAttributesRequestDeleteCustomAttribute>[];
 };
 export interface BulkGetBookingsBody {
   booking_ids : string[];
+};
+export interface BulkGetCustomersBody {
+  customer_ids : string[];
 };
 export interface BulkGetTeamMemberBookingProfilesBody {
   team_member_ids : string[];
@@ -3026,6 +3035,9 @@ export interface BulkSwapPlanBody {
   new_plan_variation_id : string;
   old_plan_variation_id : string;
   location_id : string;
+};
+export interface BulkUpdateCustomersBody {
+  customers : Map<string, BulkUpdateCustomerData>[];
 };
 export interface BulkUpdateVendorsBody {
   vendors : Map<string, UpdateVendorRequest>[];
@@ -3079,6 +3091,20 @@ export interface CreateCatalogImageBody {
   object_id? : string;
   image : CatalogObject;
   is_primary? : boolean;
+};
+export interface CreateCustomerBody {
+  idempotency_key? : string;
+  given_name? : string;
+  family_name? : string;
+  company_name? : string;
+  nickname? : string;
+  email_address? : string;
+  address? : Address;
+  phone_number? : string;
+  reference_id? : string;
+  note? : string;
+  birthday? : string;
+  tax_ids? : CustomerTaxIds;
 };
 export interface CreateDeviceCodeBody {
   idempotency_key : string;
@@ -3239,6 +3265,12 @@ export interface SearchCatalogObjectsBody {
   limit? : number;
   include_category_path_to_root? : boolean;
 };
+export interface SearchCustomersBody {
+  cursor? : string;
+  limit? : number;
+  query? : CustomerQuery;
+  count? : boolean;
+};
 export interface SearchInvoicesBody {
   query : InvoiceQuery;
   limit? : number;
@@ -3287,6 +3319,20 @@ export interface UpdateBookingBody {
 };
 export interface UpdateCatalogImageBody {
   idempotency_key : string;
+};
+export interface UpdateCustomerBody {
+  given_name? : string;
+  family_name? : string;
+  company_name? : string;
+  nickname? : string;
+  email_address? : string;
+  address? : Address;
+  phone_number? : string;
+  reference_id? : string;
+  note? : string;
+  birthday? : string;
+  version? : number;
+  tax_ids? : CustomerTaxIds;
 };
 export interface UpdateInvoiceBody {
   invoice : Invoice;
@@ -3365,6 +3411,9 @@ export interface UpsertSnippetBody {
 
 
 // Request Params Interfaces
+export interface DeleteCustomerQueryParams {
+  version? : number;
+};
 export interface DeleteInvoiceQueryParams {
   version? : number;
 };
@@ -3444,6 +3493,13 @@ export interface ListCatalogQueryParams {
   cursor? : string;
   types? : string;
   catalog_version? : number;
+};
+export interface ListCustomersQueryParams {
+  cursor? : string;
+  limit? : number;
+  sort_field? : string;
+  sort_order? : string;
+  count? : boolean;
 };
 export interface ListDeviceCodesQueryParams {
   cursor? : string;

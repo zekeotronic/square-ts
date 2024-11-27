@@ -20,13 +20,17 @@ import type {
   BatchGetCatalogObjectsBody,
   BatchGetOrdersBody,
   BatchUpsertCatalogObjectsBody,
+  BulkCreateCustomersBody,
   BulkCreateVendorsBody,
   BulkDeleteBookingCustomAttributesBody,
+  BulkDeleteCustomersBody,
   BulkDeleteOrderCustomAttributesBody,
   BulkGetBookingsBody,
+  BulkGetCustomersBody,
   BulkGetTeamMemberBookingProfilesBody,
   BulkGetVendorsBody,
   BulkSwapPlanBody,
+  BulkUpdateCustomersBody,
   BulkUpdateVendorsBody,
   BulkUpsertBookingCustomAttributesBody,
   BulkUpsertOrderCustomAttributesBody,
@@ -40,6 +44,7 @@ import type {
   CreateBookingCustomAttributeDefinitionBody,
   CreateCardBody,
   CreateCatalogImageBody,
+  CreateCustomerBody,
   CreateDeviceCodeBody,
   CreateDisputeEvidenceFileBody,
   CreateDisputeEvidenceTextBody,
@@ -55,6 +60,7 @@ import type {
   CreateTerminalCheckoutBody,
   CreateTerminalRefundBody,
   CreateVendorBody,
+  DeleteCustomerQueryParams,
   DeleteInvoiceQueryParams,
   GetBookingCustomAttributeDefinitionQueryParams,
   GetBookingCustomAttributeQueryParams,
@@ -72,6 +78,7 @@ import type {
   ListCashDrawerShiftEventsQueryParams,
   ListCashDrawerShiftsQueryParams,
   ListCatalogQueryParams,
+  ListCustomersQueryParams,
   ListDeviceCodesQueryParams,
   ListDevicesQueryParams,
   ListDisputesParams,
@@ -96,6 +103,7 @@ import type {
   SearchAvailabilityBody,
   SearchCatalogItemsBody,
   SearchCatalogObjectsBody,
+  SearchCustomersBody,
   SearchInvoicesBody,
   SearchOrdersBody,
   SearchSubscriptionsBody,
@@ -107,6 +115,7 @@ import type {
   UpdateBookingBody,
   UpdateBookingCustomAttributeDefinitionBody,
   UpdateCatalogImageBody,
+  UpdateCustomerBody,
   UpdateInvoiceBody,
   UpdateItemModifierListsBody,
   UpdateItemTaxesBody,
@@ -142,6 +151,7 @@ export class Square {
   cashDrawersBaseURL : string;
   catalogBaseURL : string;
   checkoutBaseURL : string;
+  customersBaseURL : string;
   devicesBaseURL : string;
   disputesBaseURL : string;
   inventoryBaseURL : string;
@@ -168,6 +178,7 @@ export class Square {
     this.cashDrawersBaseURL = 'https://connect.squareup.com/v2/cash-drawers';
     this.catalogBaseURL = 'https://connect.squareup.com/v2/catalog';
     this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
+    this.customersBaseURL = 'https://connect.squareup.com/v2/customers';
     this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
     this.devicesBaseURL = 'https://connect.squareup.com/v2/devices';
     this.inventoryBaseURL = 'https://connect.squareup.com/v2/inventory';
@@ -1075,5 +1086,55 @@ export class Square {
     const paramsString = this.makeParamsString(params);
     const url = `${this.cashDrawersBaseURL}/shifts/${shiftID}/events${paramsString}`;
     return await this.makeRequest('GET', url);
+  }
+  // Customers Methods
+  public async listCustomers(params? : ListCustomersQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.customersBaseURL}${paramsString}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async createCustomer(body : CreateCustomerBody) : Promise<string> {
+    return await this.makeRequest('POST', this.customersBaseURL, body);
+  }
+  public async bulkCreateCustomers(body : BulkCreateCustomersBody) : Promise<string> {
+    const url = `${this.customersBaseURL}/bulk-create`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async bulkDeleteCustomers(body : BulkDeleteCustomersBody) : Promise<string> {
+    const url = `${this.customersBaseURL}/bulk-delete`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async bulkGetCustomers(body : BulkGetCustomersBody) : Promise<string> {
+    const url = `${this.customersBaseURL}/bulk-retrieve`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async bulkUpdateCustomers(body : BulkUpdateCustomersBody) : Promise<string> {
+    const url = `${this.customersBaseURL}/bulk-update`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async searchCustomers(body : SearchCustomersBody) : Promise<string> {
+    const url = `${this.customersBaseURL}/search`;
+    return await this.makeRequest('POST', url, body);
+  }
+  public async deleteCustomer(customerID : string, params? : DeleteCustomerQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.customersBaseURL}/${customerID}${paramsString}`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async getCustomer(customerID : string) : Promise<string> {
+    const url = `${this.customersBaseURL}/${customerID}`;
+    return await this.makeRequest('GET', url);
+  }
+  public async updateCustomer(customerID : string, body : UpdateCustomerBody) : Promise<string> {
+    const url = `${this.customersBaseURL}/${customerID}`;
+    return await this.makeRequest('PUT', url, body);
+  }
+  public async removeGroupFromCustomer(customerID : string, groupID : string) : Promise<string> {
+    const url = `${this.customersBaseURL}/${customerID}/groups/${groupID}`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async addGroupToCustomer(customerID : string, groupID : string) : Promise<string> {
+    const url = `${this.customersBaseURL}/${customerID}/groups/${groupID}`;
+    return await this.makeRequest('PUT', url);
   }
 }
