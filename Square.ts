@@ -54,6 +54,8 @@ import type {
   CreateDeviceCodeBody,
   CreateDisputeEvidenceFileBody,
   CreateDisputeEvidenceTextBody,
+  CreateGiftCardActivityBody,
+  CreateGiftCardBody,
   CreateInvoiceAttachmentBody,
   CreateInvoiceBody,
   CreateLoyaltyAccountBody,
@@ -77,10 +79,13 @@ import type {
   GetCatalogObjectQueryParams,
   GetCustomerCustomAttributeDefinitionQueryParams,
   GetCustomerCustomAttributeQueryParams,
+  GetGiftCardFromGANBody,
+  GetGiftCardFromNonceBody,
   GetInventoryCountQueryParams,
   GetOrderCustomAttributeDefinitionQueryParams,
   GetOrderCustomAttributesQueryParams,
   GetSubscriptionQueryParams,
+  LinkCustomerToGiftCardBody,
   ListBankAccountsQueryParams,
   ListBookingCustomAttributeDefinitionsQueryParams,
   ListBookingCustomAttributesQueryParams,
@@ -97,6 +102,8 @@ import type {
   ListDeviceCodesQueryParams,
   ListDevicesQueryParams,
   ListDisputesParams,
+  ListGiftCardActivitiesQueryParams,
+  ListGiftCardsQueryParams,
   ListInvoicesQueryParams,
   ListLocationBookingProfilesQueryParams,
   ListLoyaltyPromotionsQueryParams,
@@ -132,6 +139,7 @@ import type {
   SearchTerminalRefundsBody,
   SearchVendorsBody,
   SwapPlanBody,
+  UnlinkCustomerFromGiftCardBody,
   UpdateBookingBody,
   UpdateBookingCustomAttributeDefinitionBody,
   UpdateCatalogImageBody,
@@ -156,16 +164,7 @@ import type {
 } from './interfaces.ts';
 
 import { HTTP } from './interfaces.ts'
-/**
- * The Square API class
- * @class Square
- * Create a new Square API instance
- * @param {string} accessToken - The access token for the Square API
- * @example
- * ```ts
- * const sq = new Square(accessToken);
- * ```
- */
+
 export class Square {
   accessToken : string;
   applePayBaseURL : string;
@@ -178,6 +177,7 @@ export class Square {
   customersBaseURL : string;
   devicesBaseURL : string;
   disputesBaseURL : string;
+  giftCardsBaseURL : string;
   inventoryBaseURL : string;
   invoicesBaseURL : string;
   itemsBaseURL : string;
@@ -206,6 +206,7 @@ export class Square {
     this.customersBaseURL = 'https://connect.squareup.com/v2/customers';
     this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
     this.devicesBaseURL = 'https://connect.squareup.com/v2/devices';
+    this.giftCardsBaseURL = 'https://connect.squareup.com/v2/gift-cards';
     this.inventoryBaseURL = 'https://connect.squareup.com/v2/inventory';
     this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
@@ -1308,6 +1309,45 @@ export class Square {
   }
   public async redeemLoyaltyReward(rewardID : string, body : RedeemLoyaltyRewardBody) : Promise<string> {
     const url = `${this.loyaltyBaseURL}/rewards/${rewardID}/redeem`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  // Gift Cards Methods
+  public async listGiftCards(params? : ListGiftCardsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.giftCardsBaseURL}${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  };
+  public async createGiftCard(body : CreateGiftCardBody) : Promise<string> {
+    return await this.makeRequest(HTTP.POST, this.giftCardsBaseURL, body);
+  };
+  public async getGiftCardFromGAN(body : GetGiftCardFromGANBody) : Promise<string> {
+    const url = `${this.giftCardsBaseURL}/from-gan`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  };
+  public async getGiftCardFromNonce(body : GetGiftCardFromNonceBody) : Promise<string> {
+    const url = `${this.giftCardsBaseURL}/from-nonce`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  };
+  public async linkCustomerToGiftCard(giftCardID : string, body : LinkCustomerToGiftCardBody) : Promise<string> {
+    const url = `${this.giftCardsBaseURL}/${giftCardID}/link-customer`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  };
+  public async unlinkCustomerFromGiftCard(giftCardID : string, body : UnlinkCustomerFromGiftCardBody) : Promise<string> {
+    const url = `${this.giftCardsBaseURL}/${giftCardID}/unlink-customer`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  };
+  public async getGiftCard(giftCardID : string) : Promise<string> {
+    const url = `${this.giftCardsBaseURL}/${giftCardID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  };
+  // Gift Card Activities Methods
+  public async listGiftCardActivities(params? : ListGiftCardActivitiesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.giftCardsBaseURL}/activities${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async createGiftCardActivity(body : CreateGiftCardActivityBody) : Promise<string> {
+    const url = `${this.giftCardsBaseURL}/activities`;
     return await this.makeRequest(HTTP.POST, url, body);
   }
 }

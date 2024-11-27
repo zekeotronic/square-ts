@@ -1,6 +1,6 @@
 {
   "name": "@shnoice/square",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "license": "MIT",
   "exports": "./Square.ts"
 }

@@ -1236,6 +1236,16 @@ interface FulfillmentShipmentDetails {
   failed_at? : string;
   failure_reason? : string;
 };
+interface GiftCard {
+  id? : string;
+  type : string;
+  gan_source? : string;
+  state? : string;
+  balance_money? : Money;
+  gan? : string;
+  created_at? : string;
+  customer_ids? : string[];
+};
 interface GiftCardActivity {
   id? : string;
   type : string;
@@ -3166,6 +3176,15 @@ export interface CreateDisputeEvidenceTextBody {
   evidence_type : string;
   evidence_text : string;
 };
+export interface CreateGiftCardActivityBody {
+  idempotency_key : string;
+  gift_card_activity : GiftCardActivity
+};
+export interface CreateGiftCardBody {
+  idempotency_key : string;
+  location_id : string;
+  gift_card : GiftCard;
+};
 export interface CreateInvoiceAttachmentBody {
   idempotency_key? : string;
   description? : string;
@@ -3252,6 +3271,15 @@ export interface CreateTerminalRefundBody {
 export interface CreateVendorBody {
   idempotency_key : string;
   Vendor : Vendor;
+};
+export interface GetGiftCardFromGANBody {
+  gan : string;
+};
+export interface GetGiftCardFromNonceBody {
+  nonce : string;
+};
+export interface LinkCustomerToGiftCardBody {
+  customer_id : string;
 };
 export interface PauseSubscriptionBody {
   pause_effective_date? : string;
@@ -3381,6 +3409,9 @@ export interface SearchVendorsBody {
 export interface SwapPlanBody {
   new_plan_variation_id : string;
   phases? : Phase[];
+};
+export interface UnlinkCustomerFromGiftCardBody {
+  customer_id : string;
 };
 export interface UpdateBookingBody {
   idempotency_key? : string;
@@ -3621,6 +3652,23 @@ export interface ListDisputesParams {
   cursor? : string;
   states? : string;
   location_id? : string;
+};
+export interface ListGiftCardActivitiesQueryParams {
+  gift_card_id? : string;
+  type? : string;
+  location_id? : string;
+  begin_time? : string;
+  end_time? : string;
+  limit? : number;
+  cursor? : string;
+  sort_order? : string;
+};
+export interface ListGiftCardsQueryParams {
+  type? : string;
+  state? : string;
+  limit? : number;
+  cursor? : string;
+  customer_id? : string;
 };
 export interface ListInvoicesQueryParams {
   location_id? : string;
