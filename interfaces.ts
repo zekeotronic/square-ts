@@ -3345,6 +3345,9 @@ export interface UpsertOrderCustomAttributesBody {
   custom_attribute : CustomAttribute;
   idempotency_key? : string;
 };
+export interface UpsertSnippetBody {
+  snippet : Snippet;
+};
 
 
 

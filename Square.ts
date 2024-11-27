@@ -116,7 +116,8 @@ import type {
   UpdateVendorBody,
   UpsertBookingCustomAttributeBody,
   UpsertCatalogObjectBody,
-  UpsertOrderCustomAttributesBody
+  UpsertOrderCustomAttributesBody,
+  UpsertSnippetBody
 } from "./interfaces.ts";
 
 /**
@@ -149,6 +150,7 @@ export class Square {
   paymentsBaseURL : string;
   payoutsBaseURL : string;
   refundsBaseURL : string;
+  sitesBaseURL : string;
   subscriptionsBaseURL : string;
   terminalBaseURL : string;
   vendorsBaseURL : string;
@@ -173,6 +175,7 @@ export class Square {
     this.paymentsBaseURL = 'https://connect.squareup.com/v2/payments';
     this.payoutsBaseURL = 'https://connect.squareup.com/v2/payouts';
     this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
+    this.sitesBaseURL = 'https://connect.squareup.com/v2/sites';
     this.subscriptionsBaseURL = 'https://connect.squareup.com/v2/subscriptions'
     this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
     this.vendorsBaseURL = 'https://connect.squareup.com/v2/vendors';
@@ -1034,5 +1037,22 @@ export class Square {
   public async updateVendor(vendorID : string, body : UpdateVendorBody) : Promise<string> {
     const url = `${this.vendorsBaseURL}/${vendorID}`;
     return await this.makeRequest('PUT', url, body);
+  }
+  // Sites Methods
+  public async listSites() : Promise<string> {
+    return await this.makeRequest('GET', this.sitesBaseURL);
+  }
+  // Snippets Methods
+  public async deleteSnippet(siteID : string) : Promise<string> {
+    const url = `${this.sitesBaseURL}/${siteID}/snippet`;
+    return await this.makeRequest('DELETE', url);
+  }
+  public async getSnippet(siteID : string) : Promise<string> {
+    const url = `${this.sitesBaseURL}/${siteID}/snippet`;
+    return await this.makeRequest('GET', url);
+  }
+  public async upsertSnippet(siteID : string, body: UpsertSnippetBody) : Promise<string> {
+    const url = `${this.sitesBaseURL}/${siteID}/snippet`;
+    return await this.makeRequest('POST', url, body);
   }
 }
