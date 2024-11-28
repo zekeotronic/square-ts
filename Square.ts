@@ -13,6 +13,8 @@
    */
 
 import type {
+  CreateLocationBody,
+  UpdateLocationBody,
   AccumulateLoyaltyPointsBody, 
   AdjustLoyaltyPointsBody,
   BatchChangeInventoryBody,
@@ -177,6 +179,23 @@ import type {
   UpdateTeamMemberBody,
   UpdateWageSettingBody,
   ListMerchantsQueryParams,
+  ListMerchantCustomAttributeDefinitionsQueryParams,
+  CreateMerchantCustomAttributeDefinitionBody,
+  GetMerchantCustomAttributeDefinitionQueryParams,
+  UpdateMerchantCustomAttributeDefinitionBody,
+  BulkDeleteMerchantCustomAttributesBody,
+  BulkUpsertMerchantCustomAttributesBody,
+  ListMerchantCustomAttributesQueryParams,
+  UpsertMerchantCustomAttributeBody,
+  ListLocationCustomAttributeDefinitionsQueryParams,
+  CreateLocationCustomAttributeDefinitionBody,
+  GetLocationCustomAttributeDefinitionQueryParams,
+  UpdateLocationCustomAttributeDefinitionBody,
+  BulkDeleteLocationCustomAttributesBody,
+  BulkUpsertLocationCustomAttributesBody,
+  ListLocationCustomAttributesQueryParams,
+  GetLocationCustomAttributeQueryParams,
+  UpsertLocationCustomAttributeBody
 } from './interfaces.ts';
 
 import { HTTP } from './interfaces.ts'
@@ -198,6 +217,7 @@ export class Square {
   invoicesBaseURL : string;
   itemsBaseURL : string;
   laborBaseURL :string;
+  locationsBaseURL : string;
   loyaltyBaseURL : string;
   merchantsBaseURL : string;
   mobileAuthBaseURL : string;
@@ -230,6 +250,7 @@ export class Square {
     this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
     this.laborBaseURL = 'https://connect.squareup.com/v2/labor';
+    this.locationsBaseURL = 'https://connect.squareup.com/v2/locations';
     this.loyaltyBaseURL = 'https://connect.squareup.com/v2/loyalty';
     this.merchantsBaseURL = 'https://connect.squareup.com/v2/merchants';
     this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code';
@@ -1475,33 +1496,115 @@ export class Square {
     return await this.makeRequest(HTTP.GET, url);
   }
   // Merchant Custom Attributes Methods
-  public async listMerchantCustomAttributeDefinitions() : Promise<string> {}
-  public async createMerchantCustomAttributeDefinition() : Promise<string> {}
-  public async deleteMerchantCustomAttributeDefinition() : Promise<string> {}
-  public async getMerchantCustomAttributeDefinition() : Promise<string> {}
-  public async updateMerchantCustomAttributeDefinition() : Promise<string> {}
-  public async bulkDeleteMerchantCustomAttributes() : Promise<string> {}
-  public async bulkUpsertMerchantCustomAttributes() : Promise<string> {}
-  public async listMerchantCustomAttributes() : Promise<string> {}
-  public async deleteMerchantCustomAttribute() : Promise<string> {}
-  public async getMerchantCustomAttribute() : Promise<string> {}
-  public async upsertMerchantCustomAttribute() : Promise<string> {}
+  public async listMerchantCustomAttributeDefinitions(params? : ListMerchantCustomAttributeDefinitionsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.merchantsBaseURL}/custom-attribute-definitions${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async createMerchantCustomAttributeDefinition(body : CreateMerchantCustomAttributeDefinitionBody) : Promise<string> {
+    const url = `${this.merchantsBaseURL}/custom-attribute-definitions`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async deleteMerchantCustomAttributeDefinition(key : string) : Promise<string> {
+    const url = `${this.merchantsBaseURL}/custom-attribute-definitions/${key}`;
+    return await this.makeRequest(HTTP.DELETE, url);
+  }
+  public async getMerchantCustomAttributeDefinition(key : string, params? : GetMerchantCustomAttributeDefinitionQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.merchantsBaseURL}/custom-attribute-definitions/${key}${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async updateMerchantCustomAttributeDefinition(key : string, body : UpdateMerchantCustomAttributeDefinitionBody) : Promise<string> {
+    const url = `${this.merchantsBaseURL}/custom-attribute-definitions/${key}`;
+    return await this.makeRequest(HTTP.PUT, url, body);
+  }
+  public async bulkDeleteMerchantCustomAttributes(body : BulkDeleteMerchantCustomAttributesBody) : Promise<string> {
+    const url = `${this.merchantsBaseURL}/custom-attributes/bulk-delete`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async bulkUpsertMerchantCustomAttributes(body : BulkUpsertMerchantCustomAttributesBody) : Promise<string> {
+    const url = `${this.merchantsBaseURL}/custom-attributes/bulk-upsert`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async listMerchantCustomAttributes(merchantID : string, params? : ListMerchantCustomAttributesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.merchantsBaseURL}/${merchantID}/custom-attributes${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async deleteMerchantCustomAttribute(merchantID : string, key : string) : Promise<string> {
+    const url = `${this.merchantsBaseURL}/${merchantID}/custom-attributes/${key}`;
+    return await this.makeRequest(HTTP.DELETE, url);
+  }
+  public async getMerchantCustomAttribute(merchantID : string, key : string) : Promise<string> {
+    const url = `${this.merchantsBaseURL}/${merchantID}/custom-attributes/${key}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async upsertMerchantCustomAttribute(merchantID : string, key : string, body : UpsertMerchantCustomAttributeBody) : Promise<string> {
+    const url = `${this.merchantsBaseURL}/${merchantID}/custom-attributes/${key}`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
   // Locations Methods
-  public async listLocations() : Promise<string> {}
-  public async createLocation() : Promise<string> {}
-  public async getLocation() : Promise<string> {}
-  public async updateLocation() : Promise<string> {}
+  public async listLocations() : Promise<string> {
+    return await this.makeRequest(HTTP.GET, this.locationsBaseURL);
+  }
+  public async createLocation(body : CreateLocationBody) : Promise<string> {
+    return await this.makeRequest(HTTP.POST, this.locationsBaseURL, body);
+  }
+  public async getLocation(locationID : string) : Promise<string> {
+    const url = `${this.locationsBaseURL}/${locationID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async updateLocation(locationID : string, body : UpdateLocationBody) : Promise<string> {
+    const url = `${this.locationsBaseURL}/${locationID}`;
+    return await this.makeRequest(HTTP.PUT, url, body);
+  }
   // Locations Custom Attributes Methods
-  public async listLocationCustomAttributeDefinitions() : Promise<string> {}
-  public async createLocationCustomAttributeDefinition() : Promise<string> {}
-  public async deleteLocationCustomAttributeDefinition() : Promise<string> {}
-  public async getLocationCustomAttributeDefinition() : Promise<string> {}
-  public async updateLocationCustomAttributeDefinition() : Promise<string> {}
-  public async bulkDeleteLocationCustomAttributes() : Promise<string> {}
-  public async bulkUpsertLocationCustomAttributes() : Promise<string> {}
-  public async listLocationCustomAttributes() : Promise<string> {}
-  public async deleteLocationCustomAttribute() : Promise<string> {}
-  public async getLocationCustomAttribute() : Promise<string> {}
-  public async upsertLocationCustomAttribute() : Promise<string> {}
-
+  public async listLocationCustomAttributeDefinitions(params? : ListLocationCustomAttributeDefinitionsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.locationsBaseURL}/custom-attribute-definitions${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async createLocationCustomAttributeDefinition(body : CreateLocationCustomAttributeDefinitionBody) : Promise<string> {
+    const url = `${this.locationsBaseURL}/custom-attribute-definitions`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async deleteLocationCustomAttributeDefinition(key : string) : Promise<string> {
+    const url = `${this.locationsBaseURL}/custom-attribute-definitions/${key}`;
+    return await this.makeRequest(HTTP.DELETE, url);
+  }
+  public async getLocationCustomAttributeDefinition(key : string, params? : GetLocationCustomAttributeDefinitionQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.locationsBaseURL}/custom-attribute-definitions/${key}${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async updateLocationCustomAttributeDefinition(key : string, body : UpdateLocationCustomAttributeDefinitionBody) : Promise<string> {
+    const url = `${this.locationsBaseURL}/custom-attribute-definitions/${key}`;
+    return await this.makeRequest(HTTP.PUT, url, body);
+  }
+  public async bulkDeleteLocationCustomAttributes(body : BulkDeleteLocationCustomAttributesBody) : Promise<string> {
+    const url = `${this.locationsBaseURL}/custom-attributes/bulk-delete`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async bulkUpsertLocationCustomAttributes(body : BulkUpsertLocationCustomAttributesBody) : Promise<string> {
+    const url = `${this.locationsBaseURL}/custom-attributes/bulk-upsert`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async listLocationCustomAttributes(locationID : string, params? : ListLocationCustomAttributesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.locationsBaseURL}/${locationID}/custom-attributes${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async deleteLocationCustomAttribute(locationID : string, key : string) : Promise<string> {
+    const url = `${this.locationsBaseURL}/${locationID}/custom-attributes/${key}`;
+    return await this.makeRequest(HTTP.DELETE, url);
+  }
+  public async getLocationCustomAttribute(locationID : string, key : string, params? : GetLocationCustomAttributeQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.locationsBaseURL}/${locationID}/custom-attributes/${key}${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async upsertLocationCustomAttribute(locationID : string, key : string, body : UpsertLocationCustomAttributeBody) : Promise<string> {
+    const url = `${this.locationsBaseURL}/${locationID}/custom-attributes/${key}`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
 }

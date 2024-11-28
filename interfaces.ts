@@ -2977,7 +2977,22 @@ interface CreateTeamMemberRequest {
 interface UpdateTeamMemberRequest {
   team_member? : TeamMember;
 };
-
+interface BulkDeleteMerchantCustomAttributesRequestMerchantCustomAttributeDeleteRequest {
+  key? : string;
+};
+interface BulkUpsertMerchantCustomAttributesRequestMerchantCustomAttributeUpsertRequest {
+  merchant_id : string;
+  custom_attribute : CustomAttribute;
+  idempotency_key? : string;
+};
+interface BulkDeleteLocationCustomAttributesRequestLocationCustomAttributeDeleteRequest {
+  key? : string;
+};
+interface BulkUpsertLocationCustomAttributesRequestLocationCustomAttributeUpsertRequest {
+  location_id : string;
+  custom_attribute : CustomAttribute;
+  idempotency_key? : string;
+};
 
 
 
@@ -3813,4 +3828,79 @@ export interface UpdateWageSettingBody {
 };
 export interface ListMerchantsQueryParams {
   cursor? : number;
+};
+
+export interface ListMerchantCustomAttributeDefinitionsQueryParams {
+  visibility_filter? : string;
+  limit? : number;
+  cursor? : string;
+};
+export interface CreateMerchantCustomAttributeDefinitionBody {
+  custom_attribute_definition : CustomAttributeDefinition;
+  idempotency_key? : string;
+};
+export interface GetMerchantCustomAttributeDefinitionQueryParams {
+  version? : number;
+};
+export interface UpdateMerchantCustomAttributeDefinitionBody {
+  custom_attribute_definition : CustomAttributeDefinition;
+  idempotency_key? : string;
+};
+export interface BulkDeleteMerchantCustomAttributesBody {
+  values : Map<string, BulkDeleteMerchantCustomAttributesRequestMerchantCustomAttributeDeleteRequest>[];
+};
+export interface BulkUpsertMerchantCustomAttributesBody {
+  values : Map<string, BulkUpsertMerchantCustomAttributesRequestMerchantCustomAttributeUpsertRequest>[];
+};
+export interface ListMerchantCustomAttributesQueryParams {
+  visibility_filter? : string;
+  limit? : number;
+  cursor? : string;
+  with_definitions? : boolean;
+};
+export interface UpsertMerchantCustomAttributeBody {
+  custom_attribute : CustomAttribute;
+  idempotency_key? : string;
+};
+export interface CreateLocationBody {
+  location : Location;
+};
+export interface UpdateLocationBody {
+  location : Location;
+};
+export interface ListLocationCustomAttributeDefinitionsQueryParams {
+  visibility_filter? : string;
+  limit? : number;
+  cursor? : string;
+};
+export interface CreateLocationCustomAttributeDefinitionBody {
+  custom_attribute_definition : CustomAttributeDefinition;
+  idempotency_key? : string;
+};
+export interface GetLocationCustomAttributeDefinitionQueryParams {
+  version? : number;
+};
+export interface UpdateLocationCustomAttributeDefinitionBody {
+  custom_attribute_definition : CustomAttributeDefinition;
+  idempotency_key? : string;
+};
+export interface BulkDeleteLocationCustomAttributesBody {
+  values : Map<string, BulkDeleteLocationCustomAttributesRequestLocationCustomAttributeDeleteRequest>[];
+};
+export interface BulkUpsertLocationCustomAttributesBody {
+  values : Map<string, BulkUpsertLocationCustomAttributesRequestLocationCustomAttributeUpsertRequest>[];
+};
+export interface ListLocationCustomAttributesQueryParams {
+  visibility_filter? : string;
+  limit? : number;
+  cursor? : string;
+  with_definitions? : boolean;
+};
+export interface GetLocationCustomAttributeQueryParams {
+  with_definition? : boolean;
+  version? : number;
+};
+export interface UpsertLocationCustomAttributeBody {
+  custom_attribute : CustomAttribute;
+  idempotency_key? : string;
 };
