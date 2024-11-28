@@ -655,7 +655,7 @@ export class Square {
   }
   public async createDisputeEvidenceFile(disputeID : string, body : CreateDisputeEvidenceFileBody, filePath : string) : Promise<string> {
     const f = await Deno.readFile(filePath);
-    const file = new Blob([f], { type: 'image/png' });
+    const file = new Blob([f], { type: `image/${filePath.split('.')[filePath.split('.').length - 1]}` });
     const form = new FormData();
     form.append('file', file);
     form.append('request', JSON.stringify(body));
@@ -706,7 +706,7 @@ export class Square {
   }
   public async createInvoiceAttachment(invoiceID : string, body : CreateInvoiceAttachmentBody, filePath : string) : Promise<string> {
     const f = await Deno.readFile(filePath);
-    const file = new Blob([f], { type: 'image/png' });
+    const file = new Blob([f], { type: `image/${filePath.split('.')[filePath.split('.').length - 1]}` });
     const form = new FormData();
     form.append('file', file);
     form.append('request', JSON.stringify(body));
@@ -947,7 +947,7 @@ export class Square {
   }
   public async createCatalogImage(body : CreateCatalogImageBody, filePath : string) : Promise<string> {
     const f = await Deno.readFile(filePath);
-    const file = new Blob([f], { type: 'image/png' });
+    const file = new Blob([f], { type: `image/${filePath.split('.')[filePath.split('.').length - 1]}` });
     const form = new FormData();
     form.append('file', file);
     form.append('request', JSON.stringify(body));
@@ -956,7 +956,7 @@ export class Square {
   }
   public async updateCatalogImage(imageID : string, body : UpdateCatalogImageBody, filePath: string) : Promise<string> {
     const f = await Deno.readFile(filePath);
-    const file = new Blob([f], { type: 'image/png' });
+    const file = new Blob([f], { type: `image/${filePath.split('.')[filePath.split('.').length - 1]}` });
     const form = new FormData();
     form.append('file', file);
     form.append('request', JSON.stringify(body));
