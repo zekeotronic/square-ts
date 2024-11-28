@@ -46,6 +46,7 @@ import type {
   CompletePaymentBody,
   CreateBookingBody,
   CreateBookingCustomAttributeDefinitionBody,
+  CreateBreakTypeBody,
   CreateCardBody,
   CreateCatalogImageBody,
   CreateCustomerBody,
@@ -66,6 +67,7 @@ import type {
   CreateOrderCustomAttributeDefinitionBody,
   CreatePaymentBody, 
   CreatePaymentLinkBody,
+  CreateShiftBody,
   CreateSubscriptionBody,
   CreateTerminalActionBody,
   CreateTerminalCheckoutBody,
@@ -90,6 +92,7 @@ import type {
   ListBookingCustomAttributeDefinitionsQueryParams,
   ListBookingCustomAttributesQueryParams,
   ListBookingsQueryParams,
+  ListBreakTypesQueryParams,
   ListCardsQueryParams,
   ListCashDrawerShiftEventsQueryParams,
   ListCashDrawerShiftsQueryParams,
@@ -116,6 +119,8 @@ import type {
   ListPayoutsQueryParams,
   ListSubscriptionEventsQueryParams,
   ListTeamMemberBookingProfilesQueryParams,
+  ListTeamMemberWagesQueryParams,
+  ListWorkweekConfigsQueryParams,
   PauseSubscriptionBody,
   PaymentLink,
   PayOrderBody,
@@ -133,6 +138,7 @@ import type {
   SearchLoyaltyEventsBody,
   SearchLoyaltyRewardsBody,
   SearchOrdersBody,
+  SearchShiftsBody,
   SearchSubscriptionsBody,
   SearchTerminalActionsBody,
   SearchTerminalCheckoutsBody,
@@ -142,6 +148,7 @@ import type {
   UnlinkCustomerFromGiftCardBody,
   UpdateBookingBody,
   UpdateBookingCustomAttributeDefinitionBody,
+  UpdateBreakTypeBody,
   UpdateCatalogImageBody,
   UpdateCustomerBody,
   UpdateCustomerCustomAttributeDefinitionBody,
@@ -153,14 +160,22 @@ import type {
   UpdateMerchantSettingsBody,
   UpdateOrderBody,
   UpdateOrderCustomAttributeDefinitionBody,
-  UpdatePaymentBody, 
+  UpdatePaymentBody,
+  UpdateShiftBody,
   UpdateSubscriptionBody,
   UpdateVendorBody,
+  UpdateWorkweekConfigBody,
   UpsertBookingCustomAttributeBody,
   UpsertCatalogObjectBody,
   UpsertCustomerCustomAttributeBody,
   UpsertOrderCustomAttributesBody,
-  UpsertSnippetBody
+  UpsertSnippetBody,
+  CreateTeamMemberBody,
+  BulkCreateTeamMembersBody,
+  BulkUpdateTeamMembersBody,
+  SearchTeamMembersBody,
+  UpdateTeamMemberBody,
+  UpdateWageSettingBody,
 } from './interfaces.ts';
 
 import { HTTP } from './interfaces.ts'
@@ -181,6 +196,7 @@ export class Square {
   inventoryBaseURL : string;
   invoicesBaseURL : string;
   itemsBaseURL : string;
+  laborBaseURL :string;
   loyaltyBaseURL : string;
   mobileAuthBaseURL : string;
   orderCustomAttributeDefinitionsBaseURL : string;
@@ -191,6 +207,7 @@ export class Square {
   refundsBaseURL : string;
   sitesBaseURL : string;
   subscriptionsBaseURL : string;
+  teamMembersBaseURL : string;
   terminalBaseURL : string;
   vendorsBaseURL : string;
   
@@ -210,6 +227,7 @@ export class Square {
     this.inventoryBaseURL = 'https://connect.squareup.com/v2/inventory';
     this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
+    this.laborBaseURL = 'https://connect.squareup.com/v2/labor';
     this.loyaltyBaseURL = 'https://connect.squareup.com/v2/loyalty';
     this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code';
     this.orderCustomAttributeDefinitionsBaseURL = 'https://connect.squareup.com/v2/orders/custom-attribute-definitions'
@@ -220,6 +238,7 @@ export class Square {
     this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
     this.sitesBaseURL = 'https://connect.squareup.com/v2/sites';
     this.subscriptionsBaseURL = 'https://connect.squareup.com/v2/subscriptions'
+    this.teamMembersBaseURL = 'https://connect.squareup.com/v2/team-members';
     this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
     this.vendorsBaseURL = 'https://connect.squareup.com/v2/vendors';
   }
@@ -1349,5 +1368,97 @@ export class Square {
   public async createGiftCardActivity(body : CreateGiftCardActivityBody) : Promise<string> {
     const url = `${this.giftCardsBaseURL}/activities`;
     return await this.makeRequest(HTTP.POST, url, body);
+  }
+  // Labor Methods
+  public async listBreakTypes(params? : ListBreakTypesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.laborBaseURL}/break-types${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async createBreakType(body : CreateBreakTypeBody) : Promise<string> {
+    const url = `${this.laborBaseURL}/break-types`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async deleteBreakType(breakTypeID : string) : Promise<string> {
+    const url = `${this.laborBaseURL}/break-types/${breakTypeID}`;
+    return await this.makeRequest(HTTP.DELETE, url);
+  }
+  public async getBreakType(breakTypeID : string) : Promise<string> {
+    const url = `${this.laborBaseURL}/break-types/${breakTypeID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async updateBreakType(breakTypeID : string, body : UpdateBreakTypeBody) : Promise<string> {
+    const url = `${this.laborBaseURL}/break-types/${breakTypeID}`;
+    return await this.makeRequest(HTTP.PUT, url, body);
+  }
+  public async createShift(body : CreateShiftBody) : Promise<string> {
+    const url = `${this.laborBaseURL}/shifts`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async searchShifts(body : SearchShiftsBody) : Promise<string> {
+    const url = `${this.laborBaseURL}/shifts/search`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async deleteShift(shiftID : string) : Promise<string> {
+    const url = `${this.laborBaseURL}/shifts/${shiftID}`;
+    return await this.makeRequest(HTTP.DELETE, url);
+  }
+  public async getShift(shiftID : string) : Promise<string> {
+    const url = `${this.laborBaseURL}/shifts/${shiftID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async updateShift(shiftID : string, body : UpdateShiftBody) : Promise<string> {
+    const url = `${this.laborBaseURL}/shifts/${shiftID}`;
+    return await this.makeRequest(HTTP.PUT, url, body);
+  }
+  public async listTeamMemberWages(params? : ListTeamMemberWagesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.laborBaseURL}/team-member-wages${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async getTeamMemberWage(teamMemberWageID : string) : Promise<string> {
+    const url = `${this.laborBaseURL}/team-member-wages/${teamMemberWageID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async listWorkweekConfigs(params? : ListWorkweekConfigsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.laborBaseURL}/workweek-configs${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async updateWorkweekConfig(workweekConfigID : string, body : UpdateWorkweekConfigBody) : Promise<string> {
+    const url = `${this.laborBaseURL}/workweek-configs/${workweekConfigID}`;
+    return await this.makeRequest(HTTP.PUT, url, body);
+  }
+  // Team Methods
+  public async createTeamMember(body : CreateTeamMemberBody) : Promise<string> {
+    return await this.makeRequest(HTTP.POST, this.teamMembersBaseURL, body);
+  }
+  public async bulkCreateTeamMembers(body : BulkCreateTeamMembersBody) : Promise<string> {
+    const url = `${this.teamMembersBaseURL}/bulk-create`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async bulkUpdateTeamMembers(body : BulkUpdateTeamMembersBody) : Promise<string> {
+    const url = `${this.teamMembersBaseURL}/bulk-update`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async searchTeamMembers(body : SearchTeamMembersBody) : Promise<string> {
+    const url = `${this.teamMembersBaseURL}/search`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async getTeamMember(teamMemberID : string) : Promise<string> {
+    const url = `${this.teamMembersBaseURL}/${teamMemberID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async updateTeamMember(teamMemberID : string, body : UpdateTeamMemberBody) : Promise<string> {
+    const url = `${this.teamMembersBaseURL}/${teamMemberID}`;
+    return await this.makeRequest(HTTP.PUT, url, body);
+  }
+  public async getWageSetting(teamMemberID : string) : Promise<string> {
+    const url = `${this.teamMembersBaseURL}/${teamMemberID}/wage-setting`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async updateWageSetting(teamMemberID : string, body : UpdateWageSettingBody) : Promise<string> {
+    const url = `${this.teamMembersBaseURL}/${teamMemberID}/wage-setting`;
+    return await this.makeRequest(HTTP.PUT, url, body);
   }
 }

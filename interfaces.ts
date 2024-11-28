@@ -2970,6 +2970,13 @@ interface WorkweekConfig {
   created_at? : string;
   updated_at? : string;
 };
+interface CreateTeamMemberRequest {
+  idempotency_key? : string;
+  team_member? : TeamMember;
+};
+interface UpdateTeamMemberRequest {
+  team_member? : TeamMember;
+};
 
 
 
@@ -3103,6 +3110,10 @@ export interface CalculateOrderBody {
 export interface CancelBookingBody {
   idempotency_key? : string;
   booking_version? : number;
+};
+export interface CreateBreakTypeBody {
+  idempotency_key? : string;
+  break_type : BreakType;
 };
 export interface CancelPaymentBody {
   idempotency_key : string;
@@ -3506,22 +3517,6 @@ export interface UpsertSnippetBody {
   snippet : Snippet;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Request Params Interfaces
 export interface DeleteCustomerQueryParams {
   version? : number;
 };
@@ -3762,4 +3757,57 @@ export interface ListTeamMemberBookingProfilesQueryParams {
   limit? : number;
   cursor? : string;
   location_id? : string;
+};
+export interface CreateShiftBody {
+  idempotency_key? : string;
+  shift : Shift;
+};
+export interface ListBreakTypesQueryParams {
+  location_id? : string;
+  limit? : number;
+  cursor? : string;
+};
+export interface ListTeamMemberWagesQueryParams {
+  team_member_id? : string;
+  limit? : number;
+  cursor? : string;
+};
+export interface ListWorkweekConfigsQueryParams {
+  limit? : number;
+  cursor? : string;
+};
+export interface SearchShiftsBody {
+  query? : ShiftQuery;
+  limit? : number;
+  cursor? : string;
+};
+export interface UpdateBreakTypeBody {
+  break_type : BreakType;
+};
+export interface UpdateShiftBody {
+  shift : Shift;
+};
+export interface UpdateWorkweekConfigBody {
+  workweek_config : WorkweekConfig;
+};
+export interface CreateTeamMemberBody {
+  idempotency_key? : string;
+  team_member : TeamMember;
+};
+export interface BulkCreateTeamMembersBody {
+  team_members : Map<string, CreateTeamMemberRequest>[];
+};
+export interface BulkUpdateTeamMembersBody {
+  team_members : Map<string, UpdateTeamMemberRequest>[];
+};
+export interface SearchTeamMembersBody {
+  query? : SearchTeamMembersQuery;
+  limit? : number;
+  cursor? : string;
+};
+export interface UpdateTeamMemberBody {
+  team_member : TeamMember;
+};
+export interface UpdateWageSettingBody {
+  wage_setting : WageSetting;
 };
