@@ -3811,3 +3811,6 @@ export interface UpdateTeamMemberBody {
 export interface UpdateWageSettingBody {
   wage_setting : WageSetting;
 };
+export interface ListMerchantsQueryParams {
+  cursor? : number;
+};

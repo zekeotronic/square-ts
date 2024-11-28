@@ -176,6 +176,7 @@ import type {
   SearchTeamMembersBody,
   UpdateTeamMemberBody,
   UpdateWageSettingBody,
+  ListMerchantsQueryParams,
 } from './interfaces.ts';
 
 import { HTTP } from './interfaces.ts'
@@ -198,6 +199,7 @@ export class Square {
   itemsBaseURL : string;
   laborBaseURL :string;
   loyaltyBaseURL : string;
+  merchantsBaseURL : string;
   mobileAuthBaseURL : string;
   orderCustomAttributeDefinitionsBaseURL : string;
   orderCustomAttributesBaseURL : string;
@@ -229,6 +231,7 @@ export class Square {
     this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
     this.laborBaseURL = 'https://connect.squareup.com/v2/labor';
     this.loyaltyBaseURL = 'https://connect.squareup.com/v2/loyalty';
+    this.merchantsBaseURL = 'https://connect.squareup.com/v2/merchants';
     this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code';
     this.orderCustomAttributeDefinitionsBaseURL = 'https://connect.squareup.com/v2/orders/custom-attribute-definitions'
     this.orderCustomAttributesBaseURL = 'https://connect.squareup.com/v2/orders/custom-attributes'
@@ -1461,4 +1464,44 @@ export class Square {
     const url = `${this.teamMembersBaseURL}/${teamMemberID}/wage-setting`;
     return await this.makeRequest(HTTP.PUT, url, body);
   }
+  // Merchant Methods
+  public async listMerchants(params? : ListMerchantsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.merchantsBaseURL}${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async getMerchant(merchantID : string) : Promise<string> {
+    const url = `${this.merchantsBaseURL}/${merchantID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  // Merchant Custom Attributes Methods
+  public async listMerchantCustomAttributeDefinitions() : Promise<string> {}
+  public async createMerchantCustomAttributeDefinition() : Promise<string> {}
+  public async deleteMerchantCustomAttributeDefinition() : Promise<string> {}
+  public async getMerchantCustomAttributeDefinition() : Promise<string> {}
+  public async updateMerchantCustomAttributeDefinition() : Promise<string> {}
+  public async bulkDeleteMerchantCustomAttributes() : Promise<string> {}
+  public async bulkUpsertMerchantCustomAttributes() : Promise<string> {}
+  public async listMerchantCustomAttributes() : Promise<string> {}
+  public async deleteMerchantCustomAttribute() : Promise<string> {}
+  public async getMerchantCustomAttribute() : Promise<string> {}
+  public async upsertMerchantCustomAttribute() : Promise<string> {}
+  // Locations Methods
+  public async listLocations() : Promise<string> {}
+  public async createLocation() : Promise<string> {}
+  public async getLocation() : Promise<string> {}
+  public async updateLocation() : Promise<string> {}
+  // Locations Custom Attributes Methods
+  public async listLocationCustomAttributeDefinitions() : Promise<string> {}
+  public async createLocationCustomAttributeDefinition() : Promise<string> {}
+  public async deleteLocationCustomAttributeDefinition() : Promise<string> {}
+  public async getLocationCustomAttributeDefinition() : Promise<string> {}
+  public async updateLocationCustomAttributeDefinition() : Promise<string> {}
+  public async bulkDeleteLocationCustomAttributes() : Promise<string> {}
+  public async bulkUpsertLocationCustomAttributes() : Promise<string> {}
+  public async listLocationCustomAttributes() : Promise<string> {}
+  public async deleteLocationCustomAttribute() : Promise<string> {}
+  public async getLocationCustomAttribute() : Promise<string> {}
+  public async upsertLocationCustomAttribute() : Promise<string> {}
+
 }
