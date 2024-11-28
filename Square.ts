@@ -195,13 +195,15 @@ import type {
   BulkUpsertLocationCustomAttributesBody,
   ListLocationCustomAttributesQueryParams,
   GetLocationCustomAttributeQueryParams,
-  UpsertLocationCustomAttributeBody
+  UpsertLocationCustomAttributeBody,
+  SquareEnvironment
 } from './interfaces.ts';
 
 import { HTTP } from './interfaces.ts'
 
 export class Square {
   accessToken : string;
+  environment : string;
   applePayBaseURL : string;
   bankAccountsBaseURL : string;
   bookingsBaseURL : string;
@@ -233,38 +235,39 @@ export class Square {
   terminalBaseURL : string;
   vendorsBaseURL : string;
   
-  constructor(accessToken : string) {
+  constructor(accessToken : string, environment : SquareEnvironment = 'sandbox') {
     this.accessToken = accessToken;
-    this.applePayBaseURL = 'https://connect.squareup.com/v2/apple-pay/domains';
-    this.bankAccountsBaseURL = 'https://connect.squareup.com/v2/bank-accounts';
-    this.bookingsBaseURL = 'https://connect.squareup.com/v2/bookings';
-    this.cardsBaseURL = 'https://connect.squareup.com/v2/cards';
-    this.cashDrawersBaseURL = 'https://connect.squareup.com/v2/cash-drawers';
-    this.catalogBaseURL = 'https://connect.squareup.com/v2/catalog';
-    this.checkoutBaseURL = 'https://connect.squareup.com/v2/online-checkout';
-    this.customersBaseURL = 'https://connect.squareup.com/v2/customers';
-    this.disputesBaseURL = 'https://connect.squareup.com/v2/disputes';
-    this.devicesBaseURL = 'https://connect.squareup.com/v2/devices';
-    this.giftCardsBaseURL = 'https://connect.squareup.com/v2/gift-cards';
-    this.inventoryBaseURL = 'https://connect.squareup.com/v2/inventory';
-    this.invoicesBaseURL = 'https://connect.squareup.com/v2/invoices';
-    this.itemsBaseURL = 'https://connect.squareup.com/v2/catalog/list';
-    this.laborBaseURL = 'https://connect.squareup.com/v2/labor';
-    this.locationsBaseURL = 'https://connect.squareup.com/v2/locations';
-    this.loyaltyBaseURL = 'https://connect.squareup.com/v2/loyalty';
-    this.merchantsBaseURL = 'https://connect.squareup.com/v2/merchants';
-    this.mobileAuthBaseURL = 'https://connect.squareup.com/mobile/authorization-code';
-    this.orderCustomAttributeDefinitionsBaseURL = 'https://connect.squareup.com/v2/orders/custom-attribute-definitions'
-    this.orderCustomAttributesBaseURL = 'https://connect.squareup.com/v2/orders/custom-attributes'
-    this.ordersBaseURL = 'https://connect.squareup.com/v2/orders';
-    this.paymentsBaseURL = 'https://connect.squareup.com/v2/payments';
-    this.payoutsBaseURL = 'https://connect.squareup.com/v2/payouts';
-    this.refundsBaseURL = 'https://connect.squareup.com/v2/refunds';
-    this.sitesBaseURL = 'https://connect.squareup.com/v2/sites';
-    this.subscriptionsBaseURL = 'https://connect.squareup.com/v2/subscriptions'
-    this.teamMembersBaseURL = 'https://connect.squareup.com/v2/team-members';
-    this.terminalBaseURL = 'https://connect.squareup.com/v2/terminals';
-    this.vendorsBaseURL = 'https://connect.squareup.com/v2/vendors';
+    this.environment = environment;
+    this.applePayBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/apple-pay/domains`;
+    this.bankAccountsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/bank-accounts`;
+    this.bookingsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/bookings`;
+    this.cardsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/cards`;
+    this.cashDrawersBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/cash-drawers`;
+    this.catalogBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/catalog`;
+    this.checkoutBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/online-checkout`;
+    this.customersBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/customers`;
+    this.disputesBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/disputes`;
+    this.devicesBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/devices`;
+    this.giftCardsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/gift-cards`;
+    this.inventoryBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/inventory`;
+    this.invoicesBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/invoices`;
+    this.itemsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/catalog/list`;
+    this.laborBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/labor`;
+    this.locationsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/locations`;
+    this.loyaltyBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/loyalty`;
+    this.merchantsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/merchants`;
+    this.mobileAuthBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/mobile/authorization-code`;
+    this.orderCustomAttributeDefinitionsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/orders/custom-attribute-definitions`;
+    this.orderCustomAttributesBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/orders/custom-attributes`;
+    this.ordersBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/orders`;
+    this.paymentsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/payments`;
+    this.payoutsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/payouts`;
+    this.refundsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/refunds`;
+    this.sitesBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/sites`;
+    this.subscriptionsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/subscriptions`;
+    this.teamMembersBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/team-members`;
+    this.terminalBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/terminals`;
+    this.vendorsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/vendors`;
   }
   // Helper methods
   private makeParamsString(options: object): string {

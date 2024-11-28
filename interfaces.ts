@@ -2995,17 +2995,6 @@ interface BulkUpsertLocationCustomAttributesRequestLocationCustomAttributeUpsert
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
 // Request Body Interfaces
 export interface AccumulateLoyaltyPointsBody {
   accumulate_points : LoyaltyEventAccumulatePoints;
@@ -3904,3 +3893,5 @@ export interface UpsertLocationCustomAttributeBody {
   custom_attribute : CustomAttribute;
   idempotency_key? : string;
 };
+
+export type SquareEnvironment = 'production' | 'sandbox';
