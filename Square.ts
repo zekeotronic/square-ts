@@ -360,6 +360,27 @@ export class Square {
     };
     return response;
   }
+  private async makeFormRequest(method : string, url : string, body : FormData) : Promise<string> {
+    const errorMessage = JSON.stringify({
+      error: "Error"
+    });
+    let response;
+    try {
+      response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+          // "Content-Type": "multipart/form-data"
+        },
+        method: method,
+        body: body
+      });
+      response = response.json();
+    } catch (error) {
+      console.log(error);
+      response = errorMessage;
+    }
+    return response;
+  };
   // Payment methods
   /**
    * Lists payments for a Square account
@@ -632,10 +653,14 @@ export class Square {
     const url = `${this.disputesBaseURL}/${disputeID}/evidence`;
     return await this.makeRequest(HTTP.GET, url);
   }
-  // TODO: Add File Upload to createDisputeEvidenceFile
-  public async createDisputeEvidenceFile(disputeID : string, body : CreateDisputeEvidenceFileBody) : Promise<string> {
+  public async createDisputeEvidenceFile(disputeID : string, body : CreateDisputeEvidenceFileBody, filePath : string) : Promise<string> {
+    const f = await Deno.readFile(filePath);
+    const file = new Blob([f], { type: 'image/png' });
+    const form = new FormData();
+    form.append('file', file);
+    form.append('request', JSON.stringify(body));
     const url = `${this.disputesBaseURL}/${disputeID}/evidence-files`;
-    return await this.makeRequest(HTTP.POST, url, body);
+    return await this.makeFormRequest(HTTP.POST, url, form);
   }
   public async createDisputeEvidenceText(disputeID : string, body : CreateDisputeEvidenceTextBody) : Promise<string> {
     const url = `${this.disputesBaseURL}/${disputeID}/evidence-text`;
@@ -679,10 +704,14 @@ export class Square {
     const url = `${this.invoicesBaseURL}/${invoiceID}`;
     return await this.makeRequest(HTTP.PUT, url, body);
   }
-  // TODO: Add File Upload to createInvoiceAttachment
-  public async createInvoiceAttachment(invoiceID : string, body : CreateInvoiceAttachmentBody) : Promise<string> {
+  public async createInvoiceAttachment(invoiceID : string, body : CreateInvoiceAttachmentBody, filePath : string) : Promise<string> {
+    const f = await Deno.readFile(filePath);
+    const file = new Blob([f], { type: 'image/png' });
+    const form = new FormData();
+    form.append('file', file);
+    form.append('request', JSON.stringify(body));
     const url = `${this.invoicesBaseURL}/${invoiceID}/attachments`;
-    return await this.makeRequest(HTTP.POST, url, body);
+    return await this.makeFormRequest(HTTP.POST, url, form);
   }
   public async deleteInvoiceAttachment(invoiceID : string, attachmentID : string) : Promise<string> {
     const url = `${this.invoicesBaseURL}/${invoiceID}/attachments/${attachmentID}`;
@@ -916,15 +945,23 @@ export class Square {
     const url = `${this.catalogBaseURL}/batch-upsert`;
     return await this.makeRequest(HTTP.POST, url, body);
   }
-  // TODO: Add File Upload to createCatalogImage
-  public async createCatalogImage(body : CreateCatalogImageBody) : Promise<string> {
+  public async createCatalogImage(body : CreateCatalogImageBody, filePath : string) : Promise<string> {
+    const f = await Deno.readFile(filePath);
+    const file = new Blob([f], { type: 'image/png' });
+    const form = new FormData();
+    form.append('file', file);
+    form.append('request', JSON.stringify(body));
     const url = `${this.catalogBaseURL}/images`;
-    return await this.makeRequest(HTTP.POST, url, body);
+    return await this.makeFormRequest(HTTP.POST, url, form);
   }
-  // TODO: Add File Upload to updateCatalogImage
-  public async updateCatalogImage(imageID : string, body : UpdateCatalogImageBody) : Promise<string> {
+  public async updateCatalogImage(imageID : string, body : UpdateCatalogImageBody, filePath: string) : Promise<string> {
+    const f = await Deno.readFile(filePath);
+    const file = new Blob([f], { type: 'image/png' });
+    const form = new FormData();
+    form.append('file', file);
+    form.append('request', JSON.stringify(body));
     const url = `${this.catalogBaseURL}/images/${imageID}`;
-    return await this.makeRequest(HTTP.PUT, url, body);
+    return await this.makeFormRequest(HTTP.PUT, url, form);
   }
   public async catalogInfo() : Promise<string> {
     const url = `${this.catalogBaseURL}/info`;
