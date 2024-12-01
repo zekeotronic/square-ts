@@ -106,7 +106,7 @@ import type {
   ListCustomerSegmentsQueryParams,
   ListDeviceCodesQueryParams,
   ListDevicesQueryParams,
-  ListDisputesParams,
+  ListDisputesQueryParams,
   ListGiftCardActivitiesQueryParams,
   ListGiftCardsQueryParams,
   ListInvoicesQueryParams,
@@ -201,6 +201,21 @@ import type {
 
 import { HTTP } from './interfaces.ts'
 
+/**
+ * Square Payments API class
+ * @class Square
+ * @classdesc Class representing Square API
+ * @example
+ * ```ts
+ * import { Square } from "@shnoice/square";
+ * const sq = new Square(accessToken);
+ * ```
+ * @example
+ * ```ts
+ * import { Square } from "@shnoice/square";
+ * const sq = new Square(accessToken, 'production');
+ * ```
+ */
 export class Square {
   accessToken : string;
   environment : string;
@@ -235,6 +250,11 @@ export class Square {
   terminalBaseURL : string;
   vendorsBaseURL : string;
   
+  /**
+   * @constructor
+   * @param {string} accessToken Square access token 
+   * @param {string} [environment='sandbox'] Sandbox or production environment
+   */
   constructor(accessToken : string, environment : SquareEnvironment = 'sandbox') {
     this.accessToken = accessToken;
     this.environment = environment;
@@ -368,8 +388,7 @@ export class Square {
     try {
       response = await fetch(url, {
         headers: {
-          Authorization: `Bearer ${this.accessToken}`,
-          // "Content-Type": "multipart/form-data"
+          Authorization: `Bearer ${this.accessToken}`
         },
         method: method,
         body: body
@@ -387,6 +406,7 @@ export class Square {
    * @async
    * @method listPayments
    * @memberof Square
+   * @param {ListPaymentsQueryParams} [params] Query parameters
    * @returns {Promise<string>} JSON response string
    * @example
    * ```ts
@@ -410,6 +430,7 @@ export class Square {
    * @async
    * @method createPayment
    * @memberof Square
+   * @param {CreatePaymentBody} body Payment body
    * @returns {Promise<string>} JSON response string
    * @example
    * ```ts
@@ -556,7 +577,6 @@ export class Square {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.checkoutBaseURL}/payment-links${paramsString}`;
     return await this.makeRequest(HTTP.GET, url);
-
   }
   public async createPaymentLink(body : CreatePaymentLinkBody) : Promise<string> {
     const url = `${this.checkoutBaseURL}/payment-links`;
@@ -636,7 +656,7 @@ export class Square {
     return await this.makeRequest(HTTP.POST, url);
   }
   // Disputes Methods
-  public async listDisputes(params? : ListDisputesParams) : Promise<string> {
+  public async listDisputes(params? : ListDisputesQueryParams) : Promise<string> {
     const paramsString = params ? this.makeParamsString(params) : '';
     const url = `${this.disputesBaseURL}${paramsString}`;
     return await this.makeRequest(HTTP.GET, url);
