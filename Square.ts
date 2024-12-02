@@ -407,6 +407,18 @@ export class Square {
    * @method listPayments
    * @memberof Square
    * @param {ListPaymentsQueryParams} [params] Query parameters
+   * @param {string} [params.begin_time]
+   * @param {string} [params.end_time]
+   * @param {string} [params.sort_order]
+   * @param {string} [params.cursor]
+   * @param {number} [params.location_id]
+   * @param {string} [params.total]
+   * @param {string} [params.last_4]
+   * @param {string} [params.card_brand]
+   * @param {number} [params.limit]
+   * @param {boolean} [params.is_offline_payment]
+   * @param {string} [params.offline_begin_time] 
+   * @param {string} [params.offline_end_time] 
    * @returns {Promise<string>} JSON response string
    * @example
    * ```ts
@@ -431,6 +443,31 @@ export class Square {
    * @method createPayment
    * @memberof Square
    * @param {CreatePaymentBody} body Payment body
+   * @param {string} body.source_id
+   * @param {string} body.idempotency_key
+   * @param {Money} [body.amount_money
+   * @param {Money} [body.tip_money]
+   * @param {Money} [body.app_fee_money]
+   * @param {string} [body.delay_duration]
+   * @param {string} [body.delay_action]
+   * @param {boolean} [body.autocomplete]
+   * @param {string} [body.order_id]
+   * @param {string} [body.customer_id]
+   * @param {string} [body.location_id]
+   * @param {string} [body.team_member_id]
+   * @param {string} [body.reference_id]
+   * @param {string} [body.verification_token]
+   * @param {boolean} [body.accept_partial_authorization]
+   * @param {string} [body.buyer_email_address]
+   * @param {Address} [body.billing_address]
+   * @param {Address} [body.shipping_address]
+   * @param {string} [body.note]
+   * @param {string} [body.statement_description_identifier]
+   * @param {CashPaymentDetails} [body.cash_details]
+   * @param {ExternalPaymentDetails} [body.external_details]
+   * @param {CustomerDetails} [body.customer_details]
+   * @param {OfflinePaymentDetails} [body.offline_payment_details]
+   * 
    * @returns {Promise<string>} JSON response string
    * @example
    * ```ts
@@ -452,6 +489,8 @@ export class Square {
    * @async
    * @method cancelPaymentByIdempotency
    * @memberof Square
+   * @param {CancelPaymentBody} body Cancel payment body
+   * @param {string} body.idempotency_key
    * @returns {Promise<string>} JSON response string
    * @example
    * ```ts
