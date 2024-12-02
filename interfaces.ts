@@ -8313,5 +8313,12 @@ export interface UpsertLocationCustomAttributeBody {
   custom_attribute : CustomAttribute;
   idempotency_key? : string;
 };
+/**
+ * @interface UpdatePaymentLinkBody
+ * @member {PaymentLink} payment_link
+ */
+export interface UpdatePaymentLinkBody {
+  payment_link : PaymentLink;
+}
 
 export type SquareEnvironment = 'production' | 'sandbox';

@@ -160,6 +160,7 @@ import type {
   UpdateItemTaxesBody,
   UpdateLocationSettingsBody,
   UpdateMerchantSettingsBody,
+  UpdatePaymentLinkBody,
   UpdateOrderBody,
   UpdateOrderCustomAttributeDefinitionBody,
   UpdatePaymentBody,
@@ -629,7 +630,7 @@ export class Square {
     const url = `${this.checkoutBaseURL}/payment-links/${id}`;
     return await this.makeRequest(HTTP.GET, url);
   }
-  public async updatePaymentLink(id : string, body : PaymentLink) : Promise<string> {
+  public async updatePaymentLink(id : string, body : UpdatePaymentLinkBody) : Promise<string> {
     const url = `${this.checkoutBaseURL}/payment-links/${id}`;
     return await this.makeRequest(HTTP.PUT, url, body);
   }
