@@ -14,6 +14,7 @@
 
 import type {
   CreateLocationBody,
+  CancelInvoiceBody,
   UpdateLocationBody,
   AccumulateLoyaltyPointsBody, 
   AdjustLoyaltyPointsBody,
@@ -777,9 +778,9 @@ export class Square {
     const url = `${this.invoicesBaseURL}/${invoiceID}/attachments/${attachmentID}`;
     return await this.makeRequest(HTTP.DELETE, url);
   }
-  public async cancelInvoice(invoiceID : string) : Promise<string> {
+  public async cancelInvoice(invoiceID : string, body : CancelInvoiceBody) : Promise<string> {
     const url = `${this.invoicesBaseURL}/${invoiceID}/cancel`;
-    return await this.makeRequest(HTTP.POST, url);
+    return await this.makeRequest(HTTP.POST, url, body);
   }
   public async publishInvoice(invoiceID : string, body : PublishInvoiceBody) : Promise<string> {
     const url = `${this.invoicesBaseURL}/${invoiceID}/publish`;

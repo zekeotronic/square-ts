@@ -852,3 +852,506 @@ Example:
 ```typescript
 const dismissTerminalRefund = await sq.dismissTerminalRefund('terminal_refund_id0');
 ```
+
+## Disputes
+
+[Source Documentation](https://developer.squareup.com/reference/square/disputes-api)
+
+Use the Disputes API to manage disputes (chargebacks).
+
+A seller has the following options to process a dispute:
+
+- Accept the dispute using the [AcceptDispute](https://developer.squareup.com/reference/square/disputes-api/accept-dispute) endpoint. Square returns the disputed amount from the account balance of the Square account.
+- Challenge the dispute using the [SubmitEvidence](https://developer.squareup.com/reference/square/disputes-api/submit-evidence) endpoint. If the payment was valid, you can contest the disputed payment. You submit supporting evidence you have about the transaction, such as receipts, invoices, email correspondence, proof of delivery, or photos. You upload evidence using the [CreateDisputeEvidenceFile](https://developer.squareup.com/reference/square/disputes-api/create-dispute-evidence-file) endpoint.
+
+The Disputes API also supports other endpoints useful in dispute management.
+
+### List Disputes
+
+[List Disputes API Documentation](https://developer.squareup.com/reference/square/disputes-api/list-disputes)
+
+```typescript
+async listDisputes(params? : ListDisputesQueryParams) : Promise<string>
+```
+
+Returns a list of disputes associated with a particular account.
+
+Permissions: `DISPUTES_READ`
+
+Example:
+
+```typescript
+const disputes = await sq.listDisputes({
+    states: 'INQUIRY_EVIDENCE_REQUIRED',
+});
+```
+
+### Get Dispute
+
+[Get Dispute API Documentation](https://developer.squareup.com/reference/square/disputes-api/retrieve-dispute)
+
+```typescript
+async getDispute(disputeID : string) : Promise<string>
+```
+
+Returns details about a specific dispute.
+
+Permissions: `DISPUTES_READ`
+
+Example:
+
+```typescript
+const dispute = await sq.getDispute('XDgyFu7yo1E2S5lQGGpYn');
+```
+
+### Accept Dispute
+
+[Accept Dispute API Documentation](https://developer.squareup.com/reference/square/disputes-api/accept-dispute)
+
+```typescript
+async acceptDispute(disputeID : string) : Promise<string>
+```
+
+Accepts the loss on a dispute.
+
+Square returns the disputed amount to the cardholder and updates the dispute state to ACCEPTED.
+
+Square debits the disputed amount from the seller’s Square account. If the Square account does not have sufficient funds, Square debits the associated bank account.
+
+Permissions: `DISPUTES_WRITE`
+
+Example:
+
+```typescript
+const acceptDispute = await sq.acceptDispute('XDgyFu7yo1E2S5lQGGpYn');
+```
+
+### List Dispute Evidence
+
+[List Dispute Evidence API Documentation](https://developer.squareup.com/reference/square/disputes-api/list-dispute-evidence)
+
+```typescript
+async listDisputeEvidence(disputeID : string) : Promise<string>
+```
+
+Returns a list of evidence associated with a dispute.
+
+Permissions: `DISPUTES_READ`
+
+Example:
+
+```typescript
+const disputeEvidence = await sq.listDisputeEvidence('bVTprrwk0gygTLZ96VX1oB');
+```
+
+### Create Dispute Evidence File
+
+[Create Dispute Evidence File API Documentation](https://developer.squareup.com/reference/square/disputes-api/create-dispute-evidence-file)
+
+```typescript
+async createDisputeEvidenceFile(disputeID : string, body : CreateDisputeEvidenceFileBody, filePath : string) : Promise<string>
+```
+
+Uploads a file to use as evidence in a dispute challenge.
+
+The endpoint accepts HTTP multipart/form-data file uploads in HEIC, HEIF, JPEG, PDF, PNG, and TIFF formats.
+
+Permissions: `DISPUTES_WRITE`
+
+Example:
+
+```typescript
+const createDisputeEvidenceFile = await sq.createDisputeEvidenceFile('bVTprrwk0gygTLZ96VX1oB', {
+    idempotency_key: 'ed3ee3933d946f1514d505d173c82648',
+    evidence_type: 'GENERIC_EVIDENCE',
+    content_type: 'image/png'
+}, 'path/to/file');
+```
+
+### Create Dispute Evidence Text
+
+[Create Dispute Evidence Text API Documentation](https://developer.squareup.com/reference/square/disputes-api/create-dispute-evidence-text)
+
+```typescript
+async createDisputeEvidenceText(disputeID : string, body : CreateDisputeEvidenceTextBody) : Promise<string>
+```
+
+Uploads text to use as evidence for a dispute challenge.
+
+Permissions: `DISPUTES_WRITE`
+
+Example:
+
+```typescript
+const createDisputeEvidenceText = await sq.createDisputeEvidenceText('bVTprrwk0gygTLZ96VX1oB', {
+    evidence_type: 'TRACKING_NUMBER',
+    content: '1Z8888888888888888',
+    idempotency_key: 'ed3ee3933d946f1514d505d173c82648'
+});
+```
+
+### Delete Dispute Evidence
+
+[Delete Dispute Evidence API Documentation](https://developer.squareup.com/reference/square/disputes-api/delete-dispute-evidence)
+
+```typescript
+async deleteDisputeEvidence(disputeID : string, evidenceID : string) : Promise<string>
+```
+
+Removes specified evidence from a dispute.
+
+Square does not send the bank any evidence that is removed.
+
+Permissions: `DISPUTES_WRITE`
+
+Example:
+
+```typescript
+const deleteDisputeEvidence = await sq.deleteDisputeEvidence('bVTprrwk0gygTLZ96VX1oB', 'CpfnkwGselCwS8QFvxN6');
+```
+
+### Get Dispute Evidence
+
+[Get Dispute Evidence API Documentation](https://developer.squareup.com/reference/square/disputes-api/retrieve-dispute-evidence)
+
+```typescript
+async getDisputeEvidence(disputeID : string, evidenceID : string) : Promise<string>
+```
+
+Returns the metadata for the evidence specified in the request URL path.
+
+You must maintain a copy of any evidence uploaded if you want to reference it later. Evidence cannot be downloaded after you upload it.
+
+Permissions: `DISPUTES_READ`
+
+Example:
+
+```typescript
+const disputeEvidence = await sq.getDisputeEvidence('bVTprrwk0gygTLZ96VX1oB', 'CpfnkwGselCwS8QFvxN6');
+```
+
+### Submit Evidence
+
+[Submit Evidence API Documentation](https://developer.squareup.com/reference/square/disputes-api/submit-evidence)
+
+```typescript
+async submitEvidence(disputeID : string) : Promise<string>
+```
+
+Submits evidence to the cardholder's bank.
+
+The evidence submitted by this endpoint includes evidence uploaded using the [CreateDisputeEvidenceFile](https://developer.squareup.com/reference/square/disputes-api/create-dispute-evidence-file) and [CreateDisputeEvidenceText](https://developer.squareup.com/reference/square/disputes-api/create-dispute-evidence-text) endpoints and evidence automatically provided by Square, when available. Evidence cannot be removed from a dispute after submission.
+
+Permissions: `DISPUTES_WRITE`
+
+Example:
+
+```typescript
+const submitEvidence = await sq.submitEvidence('EAZoK70gX3fyvibecLwIGB');
+```
+
+## Invoices
+
+[Source Documentation](https://developer.squareup.com/reference/square/invoices-api)
+
+Create, configure, and publish invoices for orders that were created using the Orders API.
+
+[Square Invoices](https://squareup.com/invoices) makes it easy for sellers to request and collect payments from their customers. Square notifies customers and processes invoice payments.
+
+Use the Invoices API to create and manage invoices for orders that were created using the Orders API. After you create the invoice and configure its delivery method, payment schedule, and other invoice settings, you can publish the invoice. Depending on the invoice settings, Square can send the invoice to the customer or automatically charge a card on file. Square hosts each invoice on a web page where customers can pay for it.
+
+### List Invoices
+
+[List Invoices API Documentation](https://developer.squareup.com/reference/square/invoices-api/list-invoices)
+
+```typescript
+async listInvoices(params : ListInvoicesQueryParams) : Promise<string>
+```
+Returns a list of invoices for a given location.
+
+The response is paginated. If truncated, the response includes a cursor that you
+use in a subsequent request to retrieve the next set of invoices.
+
+Permissions: `INVOICES_READ`
+
+Example:
+
+```typescript
+const invoices = await sq.listInvoices({
+    location_id: 'LOCATION_ID_1',
+    limit: 10
+});
+```
+
+### Create Invoice
+
+[Create Invoice API Documentation](https://developer.squareup.com/reference/square/invoices-api/create-invoice)
+
+```typescript
+async createInvoice(body : CreateInvoiceBody) : Promise<string>
+```
+
+Creates a draft [invoice](https://developer.squareup.com/reference/square/objects/Invoice) for an order created using the Orders API.
+
+A draft invoice remains in your account and no action is taken. You must publish the invoice before Square can process it (send it to the customer's email address or charge the customer’s card on file).
+
+Permissions: `INVOICES_WRITE`, `ORDERS_WRITE`
+
+Example:
+
+```typescript
+const invoice = await sq.createInvoice({
+    idempotency_key: "cd9e25dc-d9f2-4430-aedb-61605070e95f",
+    invoice: {
+      location_id: "ES0RJRZYEC39A",
+      order_id: "CAISENgvlJ6jLWAzERDzjyHVybY",
+      scheduled_at: "2030-01-13T10:00:00Z",
+      primary_recipient: {
+        customer_id: "JDKYHBWT1D4F8MFH63DBMEN8Y4"
+      },
+      delivery_method: "EMAIL",
+      payment_requests: [
+        {
+          request_type: "BALANCE",
+          due_date: "2030-01-24",
+          tipping_enabled: true,
+          automatic_payment_source: "NONE",
+          reminders: [
+            {
+              message: "Your invoice is due tomorrow",
+              relative_scheduled_days: -1
+            }
+          ]
+        }
+      ],
+      invoice_number: "inv-100",
+      title: "Event Planning Services",
+      description: "We appreciate your business!",
+      accepted_payment_methods: {
+        card: true,
+        square_gift_card: false,
+        bank_account: false,
+        buy_now_pay_later: false,
+        cash_app_pay: false
+      },
+      custom_fields: [
+        {
+          label: "Event Reference Number",
+          value: "Ref. #1234",
+          placement: "ABOVE_LINE_ITEMS"
+        },
+        {
+          label: "Terms of Service",
+          value: "The terms of service are...",
+          placement: "BELOW_LINE_ITEMS"
+        }
+      ],
+      sale_or_service_date: "2030-01-24",
+      store_payment_method_enabled: false
+    }
+  });
+```
+
+### Search Invoices
+
+[Search Invoices API Documentation](https://developer.squareup.com/reference/square/invoices-api/search-invoices)
+
+```typescript
+async searchInvoices(body : SearchInvoicesBody) : Promise<string>
+```
+
+Searches for invoices from a location specified in the filter.
+
+You can optionally specify customers in the filter for whom to retrieve invoices. In the current implementation, you can only specify one location and optionally one customer.
+
+The response is paginated. If truncated, the response includes a `cursor` that you use in a subsequent request to retrieve the next set of invoices.
+
+Permissions: `INVOICES_READ`
+
+Example:
+
+```typescript
+const invoices = await sq.searchInvoices({
+    query: {
+      filter: {
+        location_ids: [
+          "ES0RJRZYEC39A"
+        ],
+        customer_ids: [
+          "JDKYHBWT1D4F8MFH63DBMEN8Y4"
+        ]
+      },
+      sort: {
+        field: "INVOICE_SORT_DATE",
+        order: "DESC"
+      },
+      limit: 100
+    }
+  });
+```
+
+### Delete Invoice
+
+[Delete Invoice API Documentation](https://developer.squareup.com/reference/square/invoices-api/delete-invoice)
+
+```typescript
+async deleteInvoice(invoiceID : string, params? : DeleteInvoiceQueryParams) : Promise<string>
+```
+
+Deletes the specified invoice.
+
+When an invoice is deleted, the associated order status changes to CANCELED. You can only delete a draft invoice (you cannot delete a published invoice, including one that is scheduled for processing).
+
+Permissions: `INVOICES_WRITE`, `ORDERS_WRITE`
+
+Example:
+
+```typescript
+const deleteInvoice = await sq.deleteInvoice('invoice_id0');
+```
+
+### Get Invoice
+
+[Get Invoice API Documentation](https://developer.squareup.com/reference/square/invoices-api/get-invoice)
+
+```typescript
+async getInvoice(invoiceID : string) : Promise<string>
+```
+
+Retrieves an invoice by invoice ID.
+
+Permissions: `INVOICES_READ`
+
+Example:
+
+```typescript
+const invoice = await sq.getInvoice('invoice_id0');
+```
+
+### Update Invoice
+
+[Update Invoice API Documentation](https://developer.squareup.com/reference/square/invoices-api/update-invoice)
+
+```typescript
+async updateInvoice(invoiceID : string, body : UpdateInvoiceBody) : Promise<string>
+```
+
+Updates an invoice.
+
+This endpoint supports sparse updates, so you only need to specify the fields you want to change along with the required `version` field. Some restrictions apply to updating invoices. For example, you cannot change the `order_id` or `location_id` field.
+
+Permissions:`ORDERS_WRITE`, `INVOICES_WRITE`
+
+Example:
+
+```typescript
+const updateInvoice = await sq.updateInvoice('invoice_id0', {
+    idempotency_key: "4ee82288-0910-499e-ab4c-5d0071dad1be",
+    invoice: {
+      payment_requests: [
+        {
+          uid: "2da7964f-f3d2-4f43-81e8-5aa220bf3355",
+          tipping_enabled: false,
+          reminders: null
+        }
+      ],
+      version: 1
+    }
+  });
+```
+
+### Create Invoice Attachment
+
+[Create Invoice Attachment API Documentation](https://developer.squareup.com/reference/square/invoices-api/create-invoice-attachment)
+
+```typescript
+async createInvoiceAttachment(invoiceID : string, body : CreateInvoiceAttachmentBody, filePath : string) : Promise<string>
+```
+
+Uploads a file and attaches it to an invoice.
+
+This endpoint accepts HTTP multipart/form-data file uploads with a JSON `request` part and a `file` part. The `file` part must be a `readable stream` that contains a file in a supported format: GIF, JPEG, PNG, TIFF, BMP, or PDF.
+
+Invoices can have up to 10 attachments with a total file size of 25 MB. Attachments can be added only to invoices in the `DRAFT`, `SCHEDULED`, `UNPAID`, or `PARTIALLY_PAID` state.
+
+Permissions: `INVOICES_WRITE`, `ORDERS_WRITE`
+
+Example:
+
+```typescript
+const invoiceAttachment = await sq.createInvoiceAttachment('invoice_id0', {
+    idempotency_key: "4ee82288-0910-499e-ab4c-5d0071dad1be",
+    description: "Service contract"
+  }, 'path/to/file');
+```
+
+### Delete Invoice Attachment
+
+[Delete Invoice Attachment API Documentation](https://developer.squareup.com/reference/square/invoices-api/delete-invoice-attachment)
+
+```typescript
+async deleteInvoiceAttachment(invoiceID : string, attachmentID : string) : Promise<string>
+```
+
+Removes an attachment from an invoice and permanently deletes the file.
+
+Attachments can be removed only from invoices in the `DRAFT`, `SCHEDULED`, `UNPAID`, or `PARTIALLY_PAID` state.
+
+Permissions: `INVOICES_WRITE`, `ORDERS_WRITE`
+
+Example:
+
+```typescript
+const deletedInvoiceAttachment = await sq.deleteInvoiceAttachment('invoice_id0', 'attachment_id0');
+```
+
+### Cancel Invoice
+
+[Cancel Invoice API Documentation](https://developer.squareup.com/reference/square/invoices-api/cancel-invoice)
+
+```typescript
+async cancelInvoice(invoiceID : string, body : CancelInvoiceBody) : Promise<string>
+```
+
+Cancels an invoice.
+
+The seller cannot collect payments for the canceled invoice.
+
+You cannot cancel an invoice in the `DRAFT` state or in a terminal state: `PAID`, `REFUNDED`, `CANCELED`, or `FAILED`.
+
+Permissions: `INVOICES_WRITE`, `ORDERS_WRITE`
+
+Example:
+
+```typescript
+const canceledInvoice = await sq.cancelInvoice('invoice_id0'{
+  version: 1
+});
+```
+
+### Publish Invoice
+
+[Publish Invoice API Documentation](https://developer.squareup.com/reference/square/invoices-api/publish-invoice)
+
+```typescript
+async publishInvoice(invoiceID : string, body : PublishInvoiceBody) : Promise<string>
+```
+
+Publishes the specified draft invoice.
+
+After an invoice is published, Square follows up based on the invoice configuration. For example, Square sends the invoice to the customer's email address, charges the customer's card on file, or does nothing. Square also makes the invoice available on a Square-hosted invoice page.
+
+The invoice status also changes from `DRAFT` to a status based on the invoice configuration. For example, the status changes to `UNPAID` if Square emails the invoice or `PARTIALLY_PAID` if Square charges a card on file for a portion of the invoice amount.
+
+In addition to the required `ORDERS_WRITE` and `INVOICES_WRITE` permissions, `CUSTOMERS_READ` and `PAYMENTS_WRITE` are required when publishing invoices configured for card-on-file payments.
+
+Permissions: `ORDERS_WRITE`, `INVOICES_WRITE`
+
+Example:
+
+```typescript
+const publishedInvoice = await sq.publishInvoice('invoice_id0', {
+    idempotency_key: "4ee82288-0910-499e-ab4c-5d0071dad1be",
+    version: 1
+  });
+```

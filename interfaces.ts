@@ -8320,5 +8320,12 @@ export interface UpsertLocationCustomAttributeBody {
 export interface UpdatePaymentLinkBody {
   payment_link : PaymentLink;
 }
+/**
+ * @interface CancelInvoiceBody
+ * @member {number} version
+ */
+export interface CancelInvoiceBody {
+  version : number;
+}
 
 export type SquareEnvironment = 'production' | 'sandbox';
