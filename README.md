@@ -502,3 +502,353 @@ const updatePaymentLink = await sq.updatePaymentLink('TY4BWEDJ6AI5MBIV', {
     }
   });
 ```
+
+## Terminal
+
+[Source Documentation](https://developer.squareup.com/reference/square/terminal-api)
+
+Requests a checkout from a paired Square Terminal.
+
+The Terminal API allows you to manage sending and receiving requests and responses from a paired Square Terminal. For a Terminal checkout, refund, or action, you can create a request, check its status, cancel the request, search for in-process requests, and get the results of the request after it is completed. In the current implementation, refunds are only supported for Interac debit cards in Canada.
+
+### Create Terminal action
+
+[Create Terminal action API Documentation](https://developer.squareup.com/reference/square/terminal-api/create-terminal-action)
+
+```typescript
+async createTerminalAction(body : CreateTerminalActionBody) : Promise<string>
+```
+
+Creates a Terminal action request and sends it to the specified device.
+
+Permissions: `PAYMENTS_WRITE`
+
+Example:
+
+```typescript
+const terminalAction = await sq.createTerminalAction({
+    idempotency_key: "thahn-70e75c10-47f7-4ab6-88cc-aaa4076d065e",
+    action: {
+      device_id: "{{DEVICE_ID}}",
+      type: "SAVE_CARD",
+      deadline_duration: "PT5M",
+      save_card_options: {
+        customer_id: "{{CUSTOMER_ID}}",
+        reference_id: "user-id-1"
+      }
+    }
+  });
+```
+
+### Search Terminal Actions
+
+[Search Terminal Actions API Documentation](https://developer.squareup.com/reference/square/terminal-api/search-terminal-actions)
+
+```typescript
+async searchTerminalActions(body : SearchTerminalActionsBody) : Promise<string>
+```
+
+Retrieves a filtered list of Terminal action requests created by the account making the request.
+
+Terminal action requests are available for 30 days.
+
+Permissions: `PAYMENTS_READ`
+
+
+Example:
+
+```typescript
+const terminalActions = await sq.searchTerminalActions({
+    limit: 2,
+    query: {
+      sort: {
+        sort_order: "DESC"
+      },
+      filter: {
+        created_at: {
+          start_at: "2022-04-01T00:00:00.000Z"
+        }
+      }
+    }
+  });
+```
+
+### Get Terminal Action
+
+[Get Terminal Action API Documentation](https://developer.squareup.com/reference/square/terminal-api/get-terminal-action)
+
+```typescript
+async getTerminalAction(actionID : string) : Promise<string>
+```
+
+Retrieves a Terminal action request by action_id.
+
+Terminal action requests are available for 30 days.
+
+Permissions: `PAYMENTS_READ`
+
+Example:
+
+```typescript
+const terminalAction = await sq.getTerminalAction('termapia%3AjveJIAkkAjILHkdCE');
+```
+
+### Cancel Terminal Action
+
+[Cancel Terminal Action API Documentation](https://developer.squareup.com/reference/square/terminal-api/cancel-terminal-action)
+
+```typescript
+async cancelTerminalAction(actionID : string) : Promise<string>
+```
+
+Cancels a Terminal action request if the status of the request permits it.
+
+Permissions: `PAYMENTS_WRITE`
+
+Example:
+
+```typescript
+const cancelTerminalAction = await sq.cancelTerminalAction('termapia%3AjveJIAkkAjILHkdCE');
+```
+
+### Dismiss Terminal Action
+
+[Dismiss Terminal Action API Documentation](https://developer.squareup.com/reference/square/terminal-api/dismiss-terminal-action)
+
+```typescript
+async dismissTerminalAction(actionID : string) : Promise<string>
+```
+
+Dismisses a Terminal action request if the status and type of the request permits it.
+
+See [Link and Dismiss Actions](https://developer.squareup.com/docs/terminal-api/advanced-features/custom-workflows/link-and-dismiss-actions) for more details.
+
+Example:
+
+```typescript
+const dismissTerminalAction = await sq.dismissTerminalAction('termapia%3Aabcdefg1234567');
+```
+
+### Create Terminal Checkout
+
+[Create Terminal Checkout API Documentation](https://developer.squareup.com/reference/square/terminal-api/create-terminal-checkout)
+
+```typescript
+async createTerminalCheckout(body : CreateTerminalCheckoutBody) : Promise<string>
+```
+
+Creates a Terminal checkout request and sends it to the specified device to take a payment for the requested amount.
+
+Permissions: `PAYMENTS_WRITE`
+
+Example:
+
+```typescript
+const terminalCheckout = await sq.createTerminalCheckout({
+    idempotency_key: "28a0c3bc-7839-11ea-bc55-0242ac130003",
+    checkout: {
+      amount_money: {
+        amount: 2610,
+        currency: "USD"
+      },
+      reference_id: "id11572",
+      device_options: {
+        device_id: "dbb5d83a-7838-11ea-bc55-0242ac130003"
+      },
+      note: "A brief note"
+    }
+  });
+```
+
+### Search Terminal Checkouts
+
+[Search Terminal Checkouts API Documentation](https://developer.squareup.com/reference/square/terminal-api/search-terminal-checkouts)
+
+```typescript
+async searchTerminalCheckouts(body : SearchTerminalCheckoutsBody) : Promise<string>
+```
+
+Returns a filtered list of Terminal checkout requests created by the application making the request.
+
+Only Terminal checkout requests created for the merchant scoped to the OAuth token are returned. Terminal checkout requests are available for 30 days.
+
+Permissions: `PAYMENTS_READ`
+
+Example:
+
+```typescript
+const terminalCheckouts = await sq.searchTerminalCheckouts({
+    limit: 2,
+    query: {
+      filter: {
+        status: "COMPLETED"
+      }
+    }
+  });
+```
+
+### Get Terminal Checkout
+
+[Get Terminal Checkout API Documentation](https://developer.squareup.com/reference/square/terminal-api/get-terminal-checkout)
+
+```typescript
+async getTerminalCheckout(checkoutID : string) : Promise<string>
+```
+
+Retrieves a Terminal checkout request by checkout_id.
+
+Terminal checkout requests are available for 30 days.
+
+Permissions: `PAYMENTS_READ`
+
+Example:
+
+```typescript
+const terminalCheckout = await sq.getTerminalCheckout('terchout%3Aabcdefg1234567');
+```
+
+### Cancel Terminal Checkout
+
+[Cancel Terminal Checkout API Documentation](https://developer.squareup.com/reference/square/terminal-api/cancel-terminal-checkout)
+
+```typescript
+async cancelTerminalCheckout(checkoutID : string) : Promise<string>
+```
+
+Cancels a Terminal checkout request if the status of the request permits it.
+
+Permissions: `PAYMENTS_WRITE`
+
+Example:
+
+```typescript
+const cancelTerminalCheckout = await sq.cancelTerminalCheckout('S1yDlPQx7slqO');
+```
+
+### Dismiss Terminal Checkout
+
+[Dismiss Terminal Checkout API Documentation](https://developer.squareup.com/reference/square/terminal-api/dismiss-terminal-checkout)
+
+```typescript
+async dismissTerminalCheckout(checkoutID : string) : Promise<string>
+```
+
+Dismisses a Terminal checkout request if the status and type of the request permits it.
+
+Example:
+
+```typescript
+const dismissTerminalCheckout = await sq.dismissTerminalCheckout('LmZEKbo3SBfqO');
+```
+
+### Create Terminal Refund
+
+[Create Terminal Refund API Documentation](https://developer.squareup.com/reference/square/terminal-api/create-terminal-refund)
+
+```typescript
+async createTerminalRefund(body : CreateTerminalRefundBody) : Promise<string>
+```
+
+Creates a request to refund an Interac payment completed on a Square Terminal.
+
+Refunds for Interac payments on a Square Terminal are supported only for Interac debit cards in Canada. Other refunds for Terminal payments should use the Refunds API. For more information, see [Refunds API](https://developer.squareup.com/reference/square/refunds-api).
+
+Permissions: `PAYMENTS_WRITE`
+
+Example:
+
+```typescript
+const terminalRefund = await sq.createTerminalRefund({
+    idempotency_key: "402a640b-b26f-401f-b406-46f839590c04",
+    refund: {
+      amount_money: {
+        amount: 111,
+        currency: "CAD"
+      },
+      device_id: "f72dfb8e-4d65-4e56-aade-ec3fb8d33291",
+      reason: "Returning items",
+      payment_id: "5O5OvgkcNUhl7JBuINflcjKqUzXZY"
+    }
+  });
+```
+
+### Search Terminal Refunds
+
+[Search Terminal Refunds API Documentation](https://developer.squareup.com/reference/square/terminal-api/search-terminal-refunds)
+
+```typescript
+async searchTerminalRefunds(body : SearchTerminalRefundsBody) : Promise<string>
+```
+
+Retrieves a filtered list of Interac Terminal refund requests created by the seller making the request.
+
+Terminal refund requests are available for 30 days.
+
+Permissions: `PAYMENTS_READ`
+
+Example:
+
+```typescript
+const terminalRefunds = await sq.searchTerminalRefunds({
+    limit: 1,
+    query: {
+      filter: {
+        status: "COMPLETED"
+      }
+    }
+  });
+```
+
+### Get Terminal Refund
+
+[Get Terminal Refund API Documentation](https://developer.squareup.com/reference/square/terminal-api/get-terminal-refund)
+
+```typescript
+async getTerminalRefund(terminalRefundID : string) : Promise<string>
+```
+
+Retrieves an Interac Terminal refund object by ID.
+
+Terminal refund objects are available for 30 days.
+
+Permissions: `PAYMENTS_READ`
+
+Example:
+
+```typescript
+const terminalRefund = await sq.getTerminalRefund('terminal_refund_id0');
+```
+
+### Cancel Terminal Refund
+
+[Cancel Terminal Refund API Documentation](https://developer.squareup.com/reference/square/terminal-api/cancel-terminal-refund)
+
+```typescript
+async cancelTerminalRefund(terminalRefundID : string) : Promise<string>
+```
+
+Cancels an Interac Terminal refund request by refund request ID if the status of the request permits it.
+
+Permissions: `PAYMENTS_WRITE`
+
+Example:
+
+```typescript
+const cancelTerminalRefund = await sq.cancelTerminalRefund('terminal_refund_id0');
+```
+
+### Dismiss Terminal Refund
+
+[Dismiss Terminal Refund API Documentation](https://developer.squareup.com/reference/square/terminal-api/dismiss-terminal-refund)
+
+```typescript
+async dismissTerminalRefund(terminalRefundID : string) : Promise<string>
+```
+
+Dismisses a Terminal refund request if the status and type of the request permits it.
+
+Example:
+
+```typescript
+const dismissTerminalRefund = await sq.dismissTerminalRefund('terminal_refund_id0');
+```
