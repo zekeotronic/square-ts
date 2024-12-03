@@ -1355,3 +1355,110 @@ const publishedInvoice = await sq.publishInvoice('invoice_id0', {
     version: 1
   });
 ```
+
+## Cards
+
+[Source Documentation](https://developer.squareup.com/reference/square/cards-api)
+
+Use the Cards API to save a credit or debit card on file.
+
+You can use the [CreateCard](https://developer.squareup.com/reference/square/cards-api/create-card) endpoint to save a credit or debit card to a Square account. Developers can integrate the Cards API in their application to let Square sellers:
+
+- Save a card that can be charged by any Square seller who uses your application. Your application specifies the organization access token in the `CreateCard` request.
+- Save a card that can be charged by a single Square seller. Your application specifies the access token of the specific seller account in the `CreateCard` request.
+
+The Cards API also supports other endpoints to manage the cards.
+
+### List Cards
+
+[List Cards API Documentation](https://developer.squareup.com/reference/square/cards-api/list-cards)
+
+```typescript
+async listCards(params? : ListCardsQueryParams) : Promise<string>
+```
+
+Retrieves a list of cards owned by the account making the request.
+
+A max of 25 cards will be returned.
+
+Permissions: `PAYMENTS_READ`
+
+Example:
+
+```typescript
+const cards = await sq.listCards({
+    sort_order: 'ASC'
+});
+```
+
+### Create Card
+
+[Create Card API Documentation](https://developer.squareup.com/reference/square/cards-api/create-card)
+
+```typescript
+async createCard(body : CreateCardBody) : Promise<string>
+```
+
+Adds a card on file to an existing merchant.
+
+Permissions: `PAYMENTS_WRITE`
+
+Example:
+
+```typescript
+const card = await sq.createCard({
+    idempotency_key: "4935a656-a929-4792-b97c-8848be85c27c",
+    source_id: "cnon:uIbfJXhXETSP197M3GB",
+    card: {
+      billing_address: {
+        address_line_1: "500 Electric Ave",
+        address_line_2: "Suite 600",
+        locality: "New York",
+        administrative_district_level_1: "NY",
+        postal_code: "10003",
+        country: "US"
+      },
+      cardholder_name: "Amelia Earhart",
+      customer_id: "VDKXEEKPJN48QDG3BGGFAK05P8",
+      reference_id: "user-id-1"
+    }
+  });
+```
+
+### Get Card
+
+[Get Card API Documentation](https://developer.squareup.com/reference/square/cards-api/retrieve-card)
+
+```typescript
+async getCard(cardID : string) : Promise<string>
+```
+
+Retrieves details for a specific Card.
+
+Permissions: `PAYMENTS_READ`
+
+Example:
+
+```typescript
+const card = await sq.getCard('ccof%3AuIbfJXhXETSP197M3GB');
+```
+
+### Disable Card
+
+[Disable Card Documentation](https://developer.squareup.com/reference/square/cards-api/disable-card)
+
+```typescript
+async disableCard(cardID : string) : Promise<string>
+```
+
+Disables the card, preventing any further updates or charges.
+
+Disabling an already disabled card is allowed but has no effect.
+
+Permissions: `PAYMENTS_WRITE`
+
+Example:
+
+```typescript
+const disableCard = await sq.disableCard('ccof%3AuIbfJXhXETSP197M3GB');
+```

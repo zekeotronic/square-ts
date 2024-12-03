@@ -8319,13 +8319,137 @@ export interface UpsertLocationCustomAttributeBody {
  */
 export interface UpdatePaymentLinkBody {
   payment_link : PaymentLink;
-}
+};
 /**
  * @interface CancelInvoiceBody
  * @member {number} version
  */
 export interface CancelInvoiceBody {
   version : number;
-}
-
+};
+/**
+ * @interface AuthorizeQueryParams
+ * @member {string} client_id
+ * @member {string} [scope]
+ * @member {string} [locale]
+ * @member {boolean} [session]
+ * @member {string} [state]
+ * @member {string} [code_challenge]
+ * @member {string} [redirect_uri]
+ */
+export interface AuthorizeQueryParams {
+  client_id : string;
+  scope? : string;
+  locale? : string;
+  session? : boolean;
+  state? : string;
+  code_challenge? : string;
+  redirect_uri? : string;
+};
+/**
+ * @interface RevokeTokenBody
+ * @member {string} [client_id]
+ * @member {string} [access_token]
+ * @member {string} [merchant_id]
+ * @member {boolean} [revoke_only_access_token]
+ */
+export interface RevokeTokenBody {
+  client_id? : string;
+  access_token? : string;
+  merchant_id? : string;
+  revoke_only_access_token? : boolean;
+};
+/**
+ * @interface ObtainTokenBody
+ * @member {string} client_id
+ * @member {string} [client_secret]
+ * @member {string} [code]
+ * @member {string} [redirect_uri]
+ * @member {string} grant_type
+ * @member {string} [refresh_token]
+ * @member {string} [migration_token]
+ * @member {string[]} [scopes]
+ * @member {boolean} [short_lived]
+ * @member {string} [code_verifier]
+ */
+export interface ObtainTokenBody {
+  client_id : string;
+  client_secret? : string;
+  code? : string;
+  redirect_uri? : string;
+  grant_type : string;
+  refresh_token? : string;
+  migration_token? : string;
+  scopes? : string[];
+  short_lived? : boolean;
+  code_verifier? : string;
+};
+/**
+ * @interface ListWebhookEventTypesQueryParams
+ * @member {string} [api_version]
+ */
+export interface ListWebhookEventTypesQueryParams {
+  api_version? : string;
+};
+/**
+ * @interface ListWebhookSubscriptionsQueryParams
+ * @member {string} [cursor]
+ * @member {boolean} [include_disabled]
+ * @member {string} [sort_order]
+ * @member {number} [limit]
+ */
+export interface ListWebhookSubscriptionsQueryParams {
+  cursor? : string;
+  include_disabled? : boolean;
+  sort_order? : string;
+  limit? : number;
+};
+/**
+ * @interface CreateWebhookSubscriptionBody
+ * @member {string} [idempotency_key]
+ * @member {WebhookSubscription} subscription
+ */
+export interface CreateWebhookSubscriptionBody {
+  idempotency_key? : string;
+  subscription : WebhookSubscription;
+};
+/**
+ * @interface UpdateWebhookSubscriptionBody
+ * @member {WebhookSubscription} [subscription]
+ */
+export interface UpdateWebhookSubscriptionBody {
+  subscription? : WebhookSubscription;
+};
+/**
+ * @interface UpdateWebhookSubscriptionSignatureKeyBody
+ * @member {string} [idempotency_key]
+ */
+export interface UpdateWebhookSubscriptionSignatureKeyBody {
+  idempotency_key? : string;
+};
+/**
+ * @interface TestWebhookSubscriptionBody
+ * @member {string} [event_type]
+ */
+export interface TestWebhookSubscriptionBody {
+  event_type? : string;
+};
+/**
+ * @interface SearchEventsBody
+ * @member {string} [cursor]
+ * @member {number} [limit]
+ * @member {SearchEventsQuery} [query]
+ */
+export interface SearchEventsBody {
+  cursor? : string;
+  limit? : number;
+  query? : SearchEventsQuery;
+};
+/**
+ * @interface ListEventTypesQueryParams
+ * @member {string} [api_version]
+ */
+export interface ListEventTypesQueryParams {
+  api_version? : string;
+};
 export type SquareEnvironment = 'production' | 'sandbox';

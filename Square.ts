@@ -125,7 +125,6 @@ import type {
   ListTeamMemberWagesQueryParams,
   ListWorkweekConfigsQueryParams,
   PauseSubscriptionBody,
-  PaymentLink,
   PayOrderBody,
   PublishInvoiceBody,
   RedeemLoyaltyRewardBody,
@@ -198,7 +197,18 @@ import type {
   ListLocationCustomAttributesQueryParams,
   GetLocationCustomAttributeQueryParams,
   UpsertLocationCustomAttributeBody,
-  SquareEnvironment
+  SquareEnvironment,
+  AuthorizeQueryParams,
+  RevokeTokenBody,
+  ObtainTokenBody,
+  ListWebhookEventTypesQueryParams,
+  ListWebhookSubscriptionsQueryParams,
+  CreateWebhookSubscriptionBody,
+  UpdateWebhookSubscriptionBody,
+  UpdateWebhookSubscriptionSignatureKeyBody,
+  TestWebhookSubscriptionBody,
+  SearchEventsBody,
+  ListEventTypesQueryParams
 } from './interfaces.ts';
 
 import { HTTP } from './interfaces.ts'
@@ -220,6 +230,7 @@ import { HTTP } from './interfaces.ts'
  */
 export class Square {
   accessToken : string;
+  clientSecret : string;
   environment : string;
   applePayBaseURL : string;
   bankAccountsBaseURL : string;
@@ -231,6 +242,7 @@ export class Square {
   customersBaseURL : string;
   devicesBaseURL : string;
   disputesBaseURL : string;
+  eventsBaseURL : string;
   giftCardsBaseURL : string;
   inventoryBaseURL : string;
   invoicesBaseURL : string;
@@ -240,6 +252,7 @@ export class Square {
   loyaltyBaseURL : string;
   merchantsBaseURL : string;
   mobileAuthBaseURL : string;
+  oauthBaseURL : string;
   orderCustomAttributeDefinitionsBaseURL : string;
   orderCustomAttributesBaseURL : string;
   ordersBaseURL : string;
@@ -251,14 +264,16 @@ export class Square {
   teamMembersBaseURL : string;
   terminalBaseURL : string;
   vendorsBaseURL : string;
+  webhooksBaseURL : string;
   
   /**
    * @constructor
    * @param {string} accessToken Square access token 
    * @param {string} [environment='sandbox'] Sandbox or production environment
    */
-  constructor(accessToken : string, environment : SquareEnvironment = 'sandbox') {
+  constructor(accessToken : string, clientSecret : string, environment : SquareEnvironment = 'sandbox') {
     this.accessToken = accessToken;
+    this.clientSecret = clientSecret;
     this.environment = environment;
     this.applePayBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/apple-pay/domains`;
     this.bankAccountsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/bank-accounts`;
@@ -270,6 +285,7 @@ export class Square {
     this.customersBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/customers`;
     this.disputesBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/disputes`;
     this.devicesBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/devices`;
+    this.eventsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/events`;
     this.giftCardsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/gift-cards`;
     this.inventoryBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/inventory`;
     this.invoicesBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/invoices`;
@@ -279,6 +295,7 @@ export class Square {
     this.loyaltyBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/loyalty`;
     this.merchantsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/merchants`;
     this.mobileAuthBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/mobile/authorization-code`;
+    this.oauthBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/oauth2`;
     this.orderCustomAttributeDefinitionsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/orders/custom-attribute-definitions`;
     this.orderCustomAttributesBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/orders/custom-attributes`;
     this.ordersBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/orders`;
@@ -290,6 +307,7 @@ export class Square {
     this.teamMembersBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/team-members`;
     this.terminalBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/terminals`;
     this.vendorsBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/vendors`;
+    this.webhooksBaseURL = `https://connect.squareup${this.environment === 'sandbox' ? 'sandbox' : ''}.com/v2/webhooks`;
   }
   // Helper methods
   private makeParamsString(options: object): string {
@@ -402,6 +420,89 @@ export class Square {
     }
     return response;
   };
+  //OAuth Methods
+  public async authorize(params : AuthorizeQueryParams) : Promise<string> {
+    const paramsString = this.makeParamsString(params);
+    const url = `${this.oauthBaseURL}/authorize${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async revokeToken(body : RevokeTokenBody) : Promise<string> {
+    const url = `${this.oauthBaseURL}/revoke`;
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Client ${this.clientSecret}`,
+          "Content-Type": "application/json"
+        },
+        method: HTTP.POST,
+        body: JSON.stringify(body)
+      });
+      return response.json();
+    } catch (error) {
+      console.log(error);
+      return JSON.stringify({error: "Error"});
+    }
+  }
+  public async obtainToken(body : ObtainTokenBody) : Promise<string> {
+    const url = `${this.oauthBaseURL}/token`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async getTokenStatus() : Promise<string> {
+    const url = `${this.oauthBaseURL}/token/status`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  //Webhooks Methods
+  public async listWebhookEventTypes(params? : ListWebhookEventTypesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.webhooksBaseURL}/event-types${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async listWebhookSubscriptions(params? : ListWebhookSubscriptionsQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.webhooksBaseURL}/subscriptions${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async createWebhookSubscription(body : CreateWebhookSubscriptionBody) : Promise<string> {
+    const url = `${this.webhooksBaseURL}/subscriptions`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async deleteWebhookSubscription(subscriptionID : string) : Promise<string> {
+    const url = `${this.webhooksBaseURL}/subscriptions/${subscriptionID}`;
+    return await this.makeRequest(HTTP.DELETE, url);
+  }
+  public async getWebhookSubscription(subscriptionID : string) : Promise<string> {
+    const url = `${this.webhooksBaseURL}/subscriptions/${subscriptionID}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
+  public async updateWebhookSubscription(subscriptionID : string, body : UpdateWebhookSubscriptionBody) : Promise<string> {
+    const url = `${this.webhooksBaseURL}/subscriptions/${subscriptionID}`;
+    return await this.makeRequest(HTTP.PUT, url, body);
+  }
+  public async updateWebhookSubscriptionSignatureKey(subscriptionID : string, body : UpdateWebhookSubscriptionSignatureKeyBody) : Promise<string> {
+    const url = `${this.webhooksBaseURL}/subscriptions/${subscriptionID}/signature-key`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  public async testWebhookSubscription(subscriptionID : string, body : TestWebhookSubscriptionBody) : Promise<string> {
+    const url = `${this.webhooksBaseURL}/subscriptions/${subscriptionID}/test`;
+    return await this.makeRequest(HTTP.POST, url, body);
+  }
+  // Events Methods
+  public async searchEvents(body : SearchEventsBody) : Promise<string> {
+    return await this.makeRequest(HTTP.POST, this.eventsBaseURL, body);
+  }
+  public async disableEvents() : Promise<string> {
+    const url = `${this.eventsBaseURL}/disable`;
+    return await this.makeRequest(HTTP.PUT, url);
+  }
+  public async enableEvents() : Promise<string> {
+    const url = `${this.eventsBaseURL}/enable`;
+    return await this.makeRequest(HTTP.PUT, url);
+  }
+  public async listEventTypes(params? : ListEventTypesQueryParams) : Promise<string> {
+    const paramsString = params ? this.makeParamsString(params) : '';
+    const url = `${this.eventsBaseURL}/types${paramsString}`;
+    return await this.makeRequest(HTTP.GET, url);
+  }
   // Payment methods
   /**
    * Lists payments for a Square account
